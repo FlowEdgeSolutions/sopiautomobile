@@ -6,7 +6,7 @@ import { motion } from 'framer-motion';
 import Image from 'next/image';
 import { 
   Car, Phone, Mail, MapPin, Clock, Shield, Star, 
-  CheckCircle, Award, Users, TrendingUp, 
+  Award, 
   Facebook, Instagram, Twitter 
 } from 'lucide-react';
 
@@ -76,12 +76,7 @@ export default function Home() {
     }
   ];
 
-  const stats = [
-    { number: "2500+", label: "Zufriedene Kunden" },
-    { number: "98%", label: "Weiterempfehlung" },
-    { number: "24h", label: "Durchschnittliche Antwortzeit" },
-    { number: "15+", label: "Jahre Erfahrung" }
-  ];
+
 
   return (
     <main className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50">

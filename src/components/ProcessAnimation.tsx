@@ -15,8 +15,6 @@ interface ProcessStep {
 
 const ProcessAnimation: React.FC = () => {
   const [currentStep, setCurrentStep] = useState(0);
-  const [isPlaying] = useState(true); // Immer auf true
-  const [hasStarted] = useState(true); // Immer auf true
 
   const steps: ProcessStep[] = [
     {

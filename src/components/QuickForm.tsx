@@ -139,7 +139,7 @@ const QuickForm: React.FC = () => {
           message: result.error || 'Ein Fehler ist aufgetreten. Bitte versuchen Sie es erneut.',
         });
       }
-    } catch (error) {
+    } catch {
       setFormState({
         status: 'error',
         message: 'Netzwerkfehler. Bitte überprüfen Sie Ihre Internetverbindung und versuchen Sie es erneut.',
