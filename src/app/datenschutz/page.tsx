@@ -25,13 +25,13 @@ export default function DatenschutzPage() {
         </div>
       </div>
 
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
         <motion.div
           {...fadeInUp}
-          className="bg-white/80 backdrop-blur-sm rounded-3xl shadow-xl p-8 md:p-12"
+          className="bg-white/80 backdrop-blur-sm rounded-2xl sm:rounded-3xl shadow-xl p-4 sm:p-6 md:p-8 lg:p-12"
         >
           {/* Header */}
-          <div className="text-center mb-12">
+          <div className="text-center mb-8 sm:mb-12">
             <motion.div
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}
@@ -40,8 +40,8 @@ export default function DatenschutzPage() {
             >
               <Shield className="text-white" size={28} />
             </motion.div>
-            <h1 className="text-4xl font-bold text-gray-900 mb-4">Datenschutzerklärung</h1>
-            <p className="text-lg text-gray-600">
+            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-4">Datenschutzerklärung</h1>
+            <p className="text-base sm:text-lg text-gray-600">
               Informationen zur Verarbeitung Ihrer personenbezogenen Daten
             </p>
           </div>
@@ -56,16 +56,16 @@ export default function DatenschutzPage() {
             >
               <div className="flex items-center space-x-3 mb-4">
                 <Eye className="text-blue-500" size={24} />
-                <h2 className="text-2xl font-bold text-gray-900">1. Datenschutz auf einen Blick</h2>
+                <h2 className="text-xl sm:text-2xl font-bold text-gray-900">1. Datenschutz auf einen Blick</h2>
               </div>
               <div className="space-y-4 text-gray-700">
-                <h3 className="text-lg font-semibold">Allgemeine Hinweise</h3>
+                <h3 className="text-base sm:text-lg font-semibold">Allgemeine Hinweise</h3>
                 <p>
                   Die folgenden Hinweise geben einen einfachen Überblick darüber, was mit Ihren 
                   personenbezogenen Daten passiert, wenn Sie diese Website besuchen. Personenbezogene 
                   Daten sind alle Daten, mit denen Sie persönlich identifiziert werden können.
                 </p>
-                <h3 className="text-lg font-semibold">Datenerfassung auf dieser Website</h3>
+                <h3 className="text-base sm:text-lg font-semibold">Datenerfassung auf dieser Website</h3>
                 <p>
                   Die Datenverarbeitung auf dieser Website erfolgt durch den Websitebetreiber. 
                   Dessen Kontaktdaten können Sie dem Abschnitt &ldquo;Hinweis zur Verantwortlichen Stelle&rdquo; 
@@ -83,7 +83,7 @@ export default function DatenschutzPage() {
             >
               <div className="flex items-center space-x-3 mb-4">
                 <Users className="text-blue-500" size={24} />
-                <h2 className="text-2xl font-bold text-gray-900">2. Verantwortliche Stelle</h2>
+                <h2 className="text-xl sm:text-2xl font-bold text-gray-900">2. Verantwortliche Stelle</h2>
               </div>
               <div className="text-gray-700">
                 <p className="mb-4">
@@ -116,12 +116,12 @@ export default function DatenschutzPage() {
             >
               <div className="flex items-center space-x-3 mb-4">
                 <Database className="text-green-500" size={24} />
-                <h2 className="text-2xl font-bold text-gray-900">3. Datenerfassung auf dieser Website</h2>
+                <h2 className="text-xl sm:text-2xl font-bold text-gray-900">3. Datenerfassung auf dieser Website</h2>
               </div>
               
               <div className="space-y-6 text-gray-700">
                 <div>
-                  <h3 className="text-lg font-semibold mb-2">Fahrzeugbewertung und Kontaktformular</h3>
+                  <h3 className="text-base sm:text-lg font-semibold mb-2">Fahrzeugbewertung und Kontaktformular</h3>
                   <p className="mb-3">
                     Wenn Sie unser Bewertungsformular nutzen, erheben wir folgende Daten:
                   </p>
@@ -143,7 +143,7 @@ export default function DatenschutzPage() {
                 </div>
 
                 <div>
-                  <h3 className="text-lg font-semibold mb-2">Server-Log-Dateien</h3>
+                  <h3 className="text-base sm:text-lg font-semibold mb-2">Server-Log-Dateien</h3>
                   <p className="mb-3">
                     Der Provider der Seiten erhebt und speichert automatisch Informationen in 
                     so genannten Server-Log-Dateien:
@@ -173,12 +173,12 @@ export default function DatenschutzPage() {
             >
               <div className="flex items-center space-x-3 mb-4">
                 <Mail className="text-green-500" size={24} />
-                <h2 className="text-2xl font-bold text-gray-900">4. E-Mail-Versand und Newsletter</h2>
+                <h2 className="text-xl sm:text-2xl font-bold text-gray-900">4. E-Mail-Versand und Newsletter</h2>
               </div>
               
               <div className="space-y-4 text-gray-700">
                 <div>
-                  <h3 className="text-lg font-semibold mb-2">Automatische E-Mail-Bestätigungen</h3>
+                  <h3 className="text-base sm:text-lg font-semibold mb-2">Automatische E-Mail-Bestätigungen</h3>
                   <p className="text-sm">
                     Nach Übermittlung einer Bewertungsanfrage erhalten Sie automatisch eine 
                     Bestätigungs-E-Mail. Diese dient der Auftragsabwicklung und erfolgt auf 
@@ -187,7 +187,7 @@ export default function DatenschutzPage() {
                 </div>
                 
                 <div>
-                  <h3 className="text-lg font-semibold mb-2">E-Mail-Service-Provider</h3>
+                  <h3 className="text-base sm:text-lg font-semibold mb-2">E-Mail-Service-Provider</h3>
                   <p className="text-sm">
                     Für den E-Mail-Versand nutzen wir externe Dienstleister (z.B. SendGrid, Mailgun). 
                     Diese verarbeiten Ihre Daten ausschließlich in unserem Auftrag und sind 
@@ -206,12 +206,12 @@ export default function DatenschutzPage() {
             >
               <div className="flex items-center space-x-3 mb-4">
                 <Globe className="text-yellow-500" size={24} />
-                <h2 className="text-2xl font-bold text-gray-900">5. Cookies und Tracking</h2>
+                <h2 className="text-xl sm:text-2xl font-bold text-gray-900">5. Cookies und Tracking</h2>
               </div>
               
               <div className="space-y-4 text-gray-700">
                 <div>
-                  <h3 className="text-lg font-semibold mb-2">Cookies</h3>
+                  <h3 className="text-base sm:text-lg font-semibold mb-2">Cookies</h3>
                   <p className="text-sm mb-3">
                     Diese Website verwendet nur technisch notwendige Cookies für den ordnungsgemäßen 
                     Betrieb. Diese Cookies speichern keine personenbezogenen Daten.
@@ -223,7 +223,7 @@ export default function DatenschutzPage() {
                 </div>
 
                 <div>
-                  <h3 className="text-lg font-semibold mb-2">Verzicht auf Tracking</h3>
+                  <h3 className="text-base sm:text-lg font-semibold mb-2">Verzicht auf Tracking</h3>
                   <p className="text-sm">
                     Wir verwenden bewusst keine Tracking-Tools wie Google Analytics oder ähnliche 
                     Dienste, um Ihre Privatsphäre zu schützen.
@@ -241,7 +241,7 @@ export default function DatenschutzPage() {
             >
               <div className="flex items-center space-x-3 mb-4">
                 <Lock className="text-red-500" size={24} />
-                <h2 className="text-2xl font-bold text-gray-900">6. Ihre Rechte</h2>
+                <h2 className="text-xl sm:text-2xl font-bold text-gray-900">6. Ihre Rechte</h2>
               </div>
               
               <div className="space-y-4 text-gray-700">
@@ -249,7 +249,7 @@ export default function DatenschutzPage() {
                   Sie haben folgende Rechte bezüglich Ihrer personenbezogenen Daten:
                 </p>
                 
-                <div className="grid md:grid-cols-2 gap-4">
+                <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
                   <div className="bg-white rounded-xl p-4 border border-red-200">
                     <h4 className="font-semibold text-red-600 mb-2">Auskunftsrecht</h4>
                     <p className="text-sm">
@@ -319,7 +319,7 @@ export default function DatenschutzPage() {
             >
               <div className="flex items-center space-x-3 mb-4">
                 <Shield className="text-purple-500" size={24} />
-                <h2 className="text-2xl font-bold text-gray-900">7. SSL-Verschlüsselung</h2>
+                <h2 className="text-xl sm:text-2xl font-bold text-gray-900">7. SSL-Verschlüsselung</h2>
               </div>
               
               <div className="text-gray-700">
@@ -345,7 +345,7 @@ export default function DatenschutzPage() {
             >
               <div className="flex items-center space-x-3 mb-4">
                 <Lock className="text-purple-500" size={24} />
-                <h2 className="text-2xl font-bold text-gray-900">8. Datensicherheit</h2>
+                <h2 className="text-xl sm:text-2xl font-bold text-gray-900">8. Datensicherheit</h2>
               </div>
               
               <div className="space-y-4 text-gray-700">
@@ -355,7 +355,7 @@ export default function DatenschutzPage() {
                   Zerstörung oder dem Zugriff unberechtigter Personen zu schützen.
                 </p>
                 
-                <div className="grid md:grid-cols-2 gap-4">
+                <div className="grid sm:grid-cols-2 gap-4">
                   <div>
                     <h4 className="font-semibold mb-2">Technische Maßnahmen</h4>
                     <ul className="list-disc pl-6 space-y-1 text-sm">
@@ -388,7 +388,7 @@ export default function DatenschutzPage() {
             >
               <div className="flex items-center space-x-3 mb-4">
                 <FileText className="text-gray-500" size={24} />
-                <h2 className="text-2xl font-bold text-gray-900">9. Änderungen der Datenschutzerklärung</h2>
+                <h2 className="text-xl sm:text-2xl font-bold text-gray-900">9. Änderungen der Datenschutzerklärung</h2>
               </div>
               
               <div className="text-gray-700">
@@ -413,14 +413,14 @@ export default function DatenschutzPage() {
               Stand: {new Date().toLocaleDateString('de-DE')} | 
               Bei Fragen wenden Sie sich gerne an: datenschutz@sopi-automobile.de
             </p>
-            <div className="flex justify-center space-x-6 mt-4">
-              <Link href="/impressum" className="text-blue-600 hover:text-blue-700 text-sm">
+            <div className="flex flex-wrap justify-center gap-4 sm:space-x-6 sm:gap-0 mt-4">
+              <Link href="/impressum" className="text-blue-600 hover:text-blue-700 text-sm px-2 py-1">
                 Impressum
               </Link>
-              <Link href="/agb" className="text-blue-600 hover:text-blue-700 text-sm">
+              <Link href="/agb" className="text-blue-600 hover:text-blue-700 text-sm px-2 py-1">
                 AGB
               </Link>
-              <Link href="/" className="text-blue-600 hover:text-blue-700 text-sm">
+              <Link href="/" className="text-blue-600 hover:text-blue-700 text-sm px-2 py-1">
                 Startseite
               </Link>
             </div>

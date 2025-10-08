@@ -25,13 +25,13 @@ export default function ImpressumPage() {
         </div>
       </div>
 
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
         <motion.div
           {...fadeInUp}
-          className="bg-white/80 backdrop-blur-sm rounded-3xl shadow-xl p-8 md:p-12"
+          className="bg-white/80 backdrop-blur-sm rounded-2xl sm:rounded-3xl shadow-xl p-4 sm:p-6 md:p-8 lg:p-12"
         >
           {/* Header */}
-          <div className="text-center mb-12">
+          <div className="text-center mb-8 sm:mb-12">
             <motion.div
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}
@@ -40,8 +40,8 @@ export default function ImpressumPage() {
             >
               <FileText className="text-white" size={28} />
             </motion.div>
-            <h1 className="text-4xl font-bold text-gray-900 mb-4">Impressum</h1>
-            <p className="text-lg text-gray-600">
+            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-4">Impressum</h1>
+            <p className="text-base sm:text-lg text-gray-600">
               Angaben gemäß § 5 TMG und § 55 RfStV
             </p>
           </div>
@@ -56,7 +56,7 @@ export default function ImpressumPage() {
             >
               <div className="flex items-center space-x-3 mb-4">
                 <Building className="text-red-500" size={24} />
-                <h2 className="text-2xl font-bold text-gray-900">Unternehmen</h2>
+                <h2 className="text-xl sm:text-2xl font-bold text-gray-900">Unternehmen</h2>
               </div>
               <div className="space-y-2 text-gray-700">
                 <p className="text-xl font-semibold text-red-600">Sopi Automobile</p>
@@ -75,7 +75,7 @@ export default function ImpressumPage() {
             >
               <div className="flex items-center space-x-3 mb-4">
                 <User className="text-red-500" size={24} />
-                <h2 className="text-2xl font-bold text-gray-900">Inhaber</h2>
+                <h2 className="text-xl sm:text-2xl font-bold text-gray-900">Inhaber</h2>
               </div>
               <div className="space-y-2 text-gray-700">
                 <p className="font-semibold">Herr Mustafa Sopi</p>
@@ -91,7 +91,7 @@ export default function ImpressumPage() {
             >
               <div className="flex items-center space-x-3 mb-4">
                 <MapPin className="text-red-500" size={24} />
-                <h2 className="text-2xl font-bold text-gray-900">Anschrift</h2>
+                <h2 className="text-xl sm:text-2xl font-bold text-gray-900">Anschrift</h2>
               </div>
               <div className="space-y-1 text-gray-700">
                 <p>Musterstraße 123</p>
@@ -108,7 +108,7 @@ export default function ImpressumPage() {
             >
               <div className="flex items-center space-x-3 mb-4">
                 <Phone className="text-red-500" size={24} />
-                <h2 className="text-2xl font-bold text-gray-900">Kontakt</h2>
+                <h2 className="text-xl sm:text-2xl font-bold text-gray-900">Kontakt</h2>
               </div>
               <div className="space-y-2 text-gray-700">
                 <div className="flex items-center space-x-2">
@@ -132,9 +132,9 @@ export default function ImpressumPage() {
               transition={{ delay: 0.7 }}
               className="bg-gray-50 rounded-2xl p-6"
             >
-              <h2 className="text-2xl font-bold text-gray-900 mb-6">Rechtliche Angaben</h2>
+              <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-6">Rechtliche Angaben</h2>
               
-              <div className="grid md:grid-cols-2 gap-6">
+              <div className="grid sm:grid-cols-2 gap-4 sm:gap-6">
                 <div>
                   <h3 className="font-semibold text-gray-900 mb-2">Umsatzsteuer-ID</h3>
                   <p className="text-gray-700">DE123456789</p>
@@ -176,7 +176,7 @@ export default function ImpressumPage() {
               transition={{ delay: 0.8 }}
               className="border-l-4 border-blue-500 pl-6"
             >
-              <h2 className="text-2xl font-bold text-gray-900 mb-4">
+              <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-4">
                 Verantwortlich für den Inhalt
               </h2>
               <p className="text-gray-700 mb-2">
@@ -197,7 +197,7 @@ export default function ImpressumPage() {
               transition={{ delay: 0.9 }}
               className="bg-blue-50 rounded-2xl p-6"
             >
-              <h2 className="text-2xl font-bold text-gray-900 mb-4">
+              <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-4">
                 EU-Streitschlichtung
               </h2>
               <p className="text-gray-700 mb-4">
@@ -223,7 +223,7 @@ export default function ImpressumPage() {
               transition={{ delay: 1.0 }}
               className="border-l-4 border-green-500 pl-6"
             >
-              <h2 className="text-2xl font-bold text-gray-900 mb-4">
+              <h2 className="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900 mb-4">
                 Verbraucherstreitbeilegung/Universalschlichtungsstelle
               </h2>
               <p className="text-gray-700">
@@ -239,7 +239,7 @@ export default function ImpressumPage() {
               transition={{ delay: 1.1 }}
               className="bg-yellow-50 rounded-2xl p-6"
             >
-              <h2 className="text-2xl font-bold text-gray-900 mb-4">Haftungsausschluss</h2>
+              <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-4">Haftungsausschluss</h2>
               
               <div className="space-y-4 text-gray-700">
                 <div>
@@ -286,14 +286,14 @@ export default function ImpressumPage() {
             <p className="text-sm text-gray-500">
               Stand: {new Date().toLocaleDateString('de-DE')}
             </p>
-            <div className="flex justify-center space-x-6 mt-4">
-              <Link href="/datenschutz" className="text-red-600 hover:text-red-700 text-sm">
+            <div className="flex flex-wrap justify-center gap-4 sm:space-x-6 sm:gap-0 mt-4">
+              <Link href="/datenschutz" className="text-red-600 hover:text-red-700 text-sm px-2 py-1">
                 Datenschutz
               </Link>
-              <Link href="/agb" className="text-red-600 hover:text-red-700 text-sm">
+              <Link href="/agb" className="text-red-600 hover:text-red-700 text-sm px-2 py-1">
                 AGB
               </Link>
-              <Link href="/" className="text-red-600 hover:text-red-700 text-sm">
+              <Link href="/" className="text-red-600 hover:text-red-700 text-sm px-2 py-1">
                 Startseite
               </Link>
             </div>

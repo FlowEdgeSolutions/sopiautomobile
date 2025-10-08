@@ -25,13 +25,13 @@ export default function AGBPage() {
         </div>
       </div>
 
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
         <motion.div
           {...fadeInUp}
-          className="bg-white/80 backdrop-blur-sm rounded-3xl shadow-xl p-8 md:p-12"
+          className="bg-white/80 backdrop-blur-sm rounded-2xl sm:rounded-3xl shadow-xl p-4 sm:p-6 md:p-8 lg:p-12"
         >
           {/* Header */}
-          <div className="text-center mb-12">
+          <div className="text-center mb-8 sm:mb-12">
             <motion.div
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}
@@ -40,10 +40,10 @@ export default function AGBPage() {
             >
               <Scale className="text-white" size={28} />
             </motion.div>
-            <h1 className="text-4xl font-bold text-gray-900 mb-4">
+            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
               Allgemeine Geschäftsbedingungen (AGB)
             </h1>
-            <p className="text-lg text-gray-600">
+            <p className="text-base sm:text-lg text-gray-600">
               Geschäftsbedingungen für den Fahrzeugankauf
             </p>
           </div>
@@ -58,7 +58,7 @@ export default function AGBPage() {
             >
               <div className="flex items-center space-x-3 mb-4">
                 <FileText className="text-green-500" size={24} />
-                <h2 className="text-2xl font-bold text-gray-900">§ 1 Geltungsbereich</h2>
+                <h2 className="text-xl sm:text-2xl font-bold text-gray-900">§ 1 Geltungsbereich</h2>
               </div>
               <div className="space-y-3 text-gray-700 text-sm">
                 <p>
@@ -88,7 +88,7 @@ export default function AGBPage() {
             >
               <div className="flex items-center space-x-3 mb-4">
                 <CheckCircle className="text-green-500" size={24} />
-                <h2 className="text-2xl font-bold text-gray-900">§ 2 Vertragsschluss</h2>
+                <h2 className="text-xl sm:text-2xl font-bold text-gray-900">§ 2 Vertragsschluss</h2>
               </div>
               
               <div className="space-y-4 text-gray-700 text-sm">
@@ -121,7 +121,7 @@ export default function AGBPage() {
             >
               <div className="flex items-center space-x-3 mb-4">
                 <Scale className="text-blue-500" size={24} />
-                <h2 className="text-2xl font-bold text-gray-900">§ 3 Fahrzeugbewertung und Besichtigung</h2>
+                <h2 className="text-xl sm:text-2xl font-bold text-gray-900">§ 3 Fahrzeugbewertung und Besichtigung</h2>
               </div>
               
               <div className="space-y-4 text-gray-700 text-sm">
@@ -152,7 +152,7 @@ export default function AGBPage() {
             >
               <div className="flex items-center space-x-3 mb-4">
                 <AlertTriangle className="text-yellow-500" size={24} />
-                <h2 className="text-2xl font-bold text-gray-900">§ 4 Gewährleistung und Haftung</h2>
+                <h2 className="text-xl sm:text-2xl font-bold text-gray-900">§ 4 Gewährleistung und Haftung</h2>
               </div>
               
               <div className="space-y-4 text-gray-700 text-sm">
@@ -184,7 +184,7 @@ export default function AGBPage() {
             >
               <div className="flex items-center space-x-3 mb-4">
                 <Clock className="text-red-500" size={24} />
-                <h2 className="text-2xl font-bold text-gray-900">§ 5 Zahlung und Abholung</h2>
+                <h2 className="text-xl sm:text-2xl font-bold text-gray-900">§ 5 Zahlung und Abholung</h2>
               </div>
               
               <div className="space-y-4 text-gray-700 text-sm">
@@ -216,7 +216,7 @@ export default function AGBPage() {
             >
               <div className="flex items-center space-x-3 mb-4">
                 <AlertTriangle className="text-red-500" size={24} />
-                <h2 className="text-2xl font-bold text-gray-900">§ 6 Rücktrittsrecht</h2>
+                <h2 className="text-xl sm:text-2xl font-bold text-gray-900">§ 6 Rücktrittsrecht</h2>
               </div>
               
               <div className="space-y-4 text-gray-700 text-sm">
@@ -255,7 +255,7 @@ export default function AGBPage() {
             >
               <div className="flex items-center space-x-3 mb-4">
                 <Shield className="text-purple-500" size={24} />
-                <h2 className="text-2xl font-bold text-gray-900">§ 7 Datenschutz</h2>
+                <h2 className="text-xl sm:text-2xl font-bold text-gray-900">§ 7 Datenschutz</h2>
               </div>
               
               <div className="space-y-3 text-gray-700 text-sm">
@@ -286,7 +286,7 @@ export default function AGBPage() {
             >
               <div className="flex items-center space-x-3 mb-4">
                 <Scale className="text-gray-500" size={24} />
-                <h2 className="text-2xl font-bold text-gray-900">§ 8 Schlussbestimmungen</h2>
+                <h2 className="text-xl sm:text-2xl font-bold text-gray-900">§ 8 Schlussbestimmungen</h2>
               </div>
               
               <div className="space-y-4 text-gray-700 text-sm">
@@ -335,14 +335,14 @@ export default function AGBPage() {
               Diese AGB wurden mit größter Sorgfalt erstellt. Für deren Rechtswirksamkeit 
               übernehmen wir jedoch keine Gewähr.
             </p>
-            <div className="flex justify-center space-x-6">
-              <Link href="/impressum" className="text-green-600 hover:text-green-700 text-sm">
+            <div className="flex flex-wrap justify-center gap-4 sm:space-x-6 sm:gap-0">
+              <Link href="/impressum" className="text-green-600 hover:text-green-700 text-sm px-2 py-1">
                 Impressum
               </Link>
-              <Link href="/datenschutz" className="text-green-600 hover:text-green-700 text-sm">
+              <Link href="/datenschutz" className="text-green-600 hover:text-green-700 text-sm px-2 py-1">
                 Datenschutz
               </Link>
-              <Link href="/" className="text-green-600 hover:text-green-700 text-sm">
+              <Link href="/" className="text-green-600 hover:text-green-700 text-sm px-2 py-1">
                 Startseite
               </Link>
             </div>
