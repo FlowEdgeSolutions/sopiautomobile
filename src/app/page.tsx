@@ -58,25 +58,46 @@ export default function Home() {
 
   const testimonials = [
     {
-      name: "Michael K.",
-      location: "Hattingen",
+      name: "Driton Mazreku",
+      location: "Google Rezension",
       rating: 5,
-      text: "Super schnelle Abwicklung! Trotz Motorschaden einen fairen Preis erhalten.",
-      vehicle: "BMW 3er, 2018"
+      text: "Wir sind seit einiger Zeit Gewerbekunden bei Sopi Automobile und schätzen die zuverlässige Zusammenarbeit sehr. Die Auswahl an Fahrzeugen, die kompetente Beratung..."
     },
     {
-      name: "Sandra M.",
-      location: "Bochum",
+      name: "Sergej Götz",
+      location: "Google Rezension",
       rating: 5,
-      text: "Sehr professionell und ehrlich. Kann Sopi Automobile nur weiterempfehlen!",
-      vehicle: "VW Golf, 2020"
+      text: "Sopi Automobile hat unser Auto mit Motorschaden aufgekauft. Uns wurde ein fairer Preis geboten und die Abwicklung war wirklich professionell und verlief reibungslos."
     },
     {
-      name: "Thomas R.",
-      location: "Essen",
+      name: "Ciho Ka",
+      location: "Google Rezension",
       rating: 5,
-      text: "Unkomplizierte Abholung und faire Bewertung. Gerne wieder!",
-      vehicle: "Audi A4, 2019"
+      text: "Ich wurde freundlich empfangen und die Probefahrt verlief problemlos. Der Verkäufer nahm sich Zeit, um all meine Fragen zu beantworten und zeigte großes Verständnis."
+    },
+    {
+      name: "Sanel Sabani",
+      location: "Google Rezension",
+      rating: 5,
+      text: "Ich habe mir einen kleinen privaten Traum erfüllt und das Erlebnis wurde mir durch die gute Beratung des Personals einfach nur noch schöner gemacht! Sehr empfehlenswert."
+    },
+    {
+      name: "Felix",
+      location: "Google Rezension",
+      rating: 5,
+      text: "Ein super freundlicher junger Mann mit viel Ahnung. Dankeschön."
+    },
+    {
+      name: "Stark Bau Hattingen",
+      location: "Google Rezension",
+      rating: 5,
+      text: "Ich hab mich bei Sopi Automobile direkt wohlgefühlt. Ich wurde gut aufgeklärt und informiert. Weiter so!"
+    },
+    {
+      name: "Kingsley",
+      location: "Google Rezension",
+      rating: 5,
+      text: "Super hilfsbereit, freundlich und fair immer wieder gerne."
     }
   ];
 
@@ -84,6 +105,11 @@ export default function Home() {
 
   return (
     <main className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50">
+      {/* SEO-optimierte Hauptüberschrift (versteckt für Design) */}
+      <h1 className="sr-only">
+        Sopi Automobile Hattingen - Fahrzeugankauf auch mit Motorschaden, Unfallschaden und Getriebeschaden. 
+        Kostenlose Bewertung in 30 Sekunden. Über 2.500 zufriedene Kunden mit 5-Sterne-Bewertungen.
+      </h1>
       {/* Fixierte Navigation */}
       <motion.nav 
         initial={{ y: -100 }}
@@ -111,45 +137,64 @@ export default function Home() {
             </div>
 
             {/* Desktop Navigation */}
-            <div className="hidden lg:flex items-center space-x-6">
-              <a 
-                href="tel:+4923241234567" 
-                className="flex items-center space-x-2 text-gray-700 hover:text-red-600 transition-colors cursor-pointer group min-h-[44px] px-2"
-              >
-                <Phone size={20} className="group-hover:text-red-600" />
-                <span className="text-base font-semibold">02324 123456</span>
-              </a>
+            <div className="hidden lg:flex items-center space-x-4">
+              {/* Kontakt-Gruppe */}
+              <div className="flex items-center space-x-3">
+                <a 
+                  href="tel:+4915756990949" 
+                  className="flex items-center space-x-1 text-gray-700 hover:text-red-600 transition-colors cursor-pointer group min-h-[40px] px-2"
+                >
+                  <Phone size={16} className="group-hover:text-red-600" />
+                  <span className="text-xs font-semibold">Mobil</span>
+                </a>
+                
+                <a 
+                  href="mailto:info@sopiautomobile.de" 
+                  className="flex items-center space-x-1 text-gray-700 hover:text-red-600 transition-colors cursor-pointer group min-h-[40px] px-2"
+                >
+                  <Mail size={16} className="group-hover:text-red-600" />
+                  <span className="text-xs font-semibold">E-Mail</span>
+                </a>
+                
+                <a 
+                  href="https://maps.google.com/maps?q=Bredenscheider+Str.+119,+45527+Hattingen" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="flex items-center space-x-1 text-gray-700 hover:text-red-600 transition-colors cursor-pointer group min-h-[40px] px-2"
+                >
+                  <MapPin size={16} className="group-hover:text-red-600" />
+                  <span className="text-xs font-semibold">Anfahrt</span>
+                </a>
+              </div>
               
-              <a 
-                href="mailto:info@sopi-automobile.de" 
-                className="flex items-center space-x-2 text-gray-700 hover:text-red-600 transition-colors cursor-pointer group min-h-[44px] px-2"
-              >
-                <Mail size={20} className="group-hover:text-red-600" />
-                <span className="text-base font-semibold">info@sopi-automobile.de</span>
-              </a>
+              {/* Kompakte Trennlinie */}
+              <div className="h-6 w-px bg-gray-300"></div>
               
-              <a 
-                href="https://maps.google.com/maps?q=Musterstra%C3%9Fe+123,+45525+Hattingen" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="flex items-center space-x-2 text-gray-700 hover:text-red-600 transition-colors cursor-pointer group min-h-[44px] px-2"
-              >
-                <MapPin size={20} className="group-hover:text-red-600" />
-                <span className="text-base font-semibold">Musterstraße 123, Hattingen</span>
-              </a>
-
-              {/* Desktop Legal Links */}
-              <div className="flex items-center space-x-4 ml-6 pl-6 border-l border-gray-200">
-                <Link href="/impressum" className="text-sm text-gray-600 hover:text-red-600 transition-colors min-h-[44px] flex items-center px-2">
+              {/* Rechtliche Links */}
+              <div className="flex items-center space-x-2">
+                <Link href="/impressum" className="text-xs text-gray-600 hover:text-red-600 transition-colors min-h-[40px] flex items-center px-1 font-medium">
                   Impressum
                 </Link>
-                <Link href="/datenschutz" className="text-sm text-gray-600 hover:text-red-600 transition-colors min-h-[44px] flex items-center px-2">
+                <Link href="/datenschutz" className="text-xs text-gray-600 hover:text-red-600 transition-colors min-h-[40px] flex items-center px-1 font-medium">
                   Datenschutz
                 </Link>
-                <Link href="/agb" className="text-sm text-gray-600 hover:text-red-600 transition-colors min-h-[44px] flex items-center px-2">
+                <Link href="/agb" className="text-xs text-gray-600 hover:text-red-600 transition-colors min-h-[40px] flex items-center px-1 font-medium">
                   AGB
                 </Link>
               </div>
+              
+              {/* Kompakte Trennlinie */}
+              <div className="h-6 w-px bg-gray-300"></div>
+              
+              {/* Kompakter CTA Button */}
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={() => document.querySelector('form')?.scrollIntoView({ behavior: 'smooth' })}
+                className="bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white px-3 py-2 rounded-lg font-semibold text-xs transition-all duration-200 shadow-md hover:shadow-lg min-h-[40px] flex items-center"
+              >
+                Jetzt bewerten
+              </motion.button>
             </div>
 
             {/* Mobile Hamburger Menu Button */}
@@ -207,31 +252,43 @@ export default function Home() {
                   {/* Contact Links */}
                   <div className="space-y-3">
                     <a 
-                      href="tel:+4923241234567" 
+                      href="tel:+4915756990949" 
                       onClick={() => setMobileMenuOpen(false)}
                       className="flex items-center space-x-3 text-gray-700 hover:text-red-600 transition-colors py-3 px-4 rounded-xl hover:bg-red-50 min-h-[48px]"
                     >
                       <Phone size={20} />
                       <div>
-                        <span className="font-semibold block">Anrufen</span>
-                        <span className="text-sm text-gray-500">02324 123456</span>
+                        <span className="font-semibold block">Mobil anrufen</span>
+                        <span className="text-sm text-gray-500">+49 157 56 99 09 49</span>
                       </div>
                     </a>
                     
                     <a 
-                      href="mailto:info@sopi-automobile.de" 
+                      href="tel:+4923249770234"
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="flex items-center space-x-3 text-gray-700 hover:text-red-600 transition-colors py-3 px-4 rounded-xl hover:bg-red-50 min-h-[48px]"
+                    >
+                      <Phone size={20} />
+                      <div>
+                        <span className="font-semibold block">Festnetz anrufen</span>
+                        <span className="text-sm text-gray-500">+49 232 4977 023 416</span>
+                      </div>
+                    </a>
+                    
+                    <a 
+                      href="mailto:info@sopiautomobile.de" 
                       onClick={() => setMobileMenuOpen(false)}
                       className="flex items-center space-x-3 text-gray-700 hover:text-red-600 transition-colors py-3 px-4 rounded-xl hover:bg-red-50 min-h-[48px]"
                     >
                       <Mail size={20} />
                       <div>
                         <span className="font-semibold block">E-Mail schreiben</span>
-                        <span className="text-sm text-gray-500">info@sopi-automobile.de</span>
+                        <span className="text-sm text-gray-500">info@sopiautomobile.de</span>
                       </div>
                     </a>
                     
                     <a 
-                      href="https://maps.google.com/maps?q=Musterstra%C3%9Fe+123,+45525+Hattingen" 
+                      href="https://maps.google.com/maps?q=Bredenscheider+Str.+119,+45527+Hattingen" 
                       target="_blank" 
                       rel="noopener noreferrer"
                       onClick={() => setMobileMenuOpen(false)}
@@ -240,7 +297,7 @@ export default function Home() {
                       <MapPin size={20} />
                       <div>
                         <span className="font-semibold block">Route planen</span>
-                        <span className="text-sm text-gray-500">Musterstraße 123, Hattingen</span>
+                        <span className="text-sm text-gray-500">Bredenscheider Str. 119, Hattingen</span>
                       </div>
                     </a>
                   </div>
@@ -294,9 +351,9 @@ export default function Home() {
       </motion.nav>
 
       {/* Hero Section */}
-      <section className="relative pt-20 sm:pt-24 lg:pt-32 pb-16 overflow-hidden">
+      <section className="relative pt-20 sm:pt-24 lg:pt-32 pb-16 overflow-hidden" role="banner" aria-labelledby="hero-title">
         {/* Background Elements */}
-        <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
           <div className="absolute top-20 left-10 w-72 h-72 bg-blue-200 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-float"></div>
           <div className="absolute bottom-20 right-10 w-72 h-72 bg-red-200 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-float" style={{ animationDelay: '2s' }}></div>
           
@@ -325,10 +382,10 @@ export default function Home() {
               className="inline-flex items-center space-x-2 bg-red-100 text-red-800 px-4 py-2 rounded-full text-sm font-semibold mb-4"
             >
               <Star size={16} />
-              <span>4.8/5 Sterne • 2500+ zufriedene Kunden</span>
+              <span>5,0/5 Sterne • 2500+ zufriedene Kunden</span>
             </motion.div>
 
-            <h1 className="text-responsive-3xl font-bold text-gray-900 leading-tight">
+            <h1 className="text-responsive-3xl font-bold text-gray-900 leading-tight" id="hero-title">
               Verkaufen Sie Ihr{' '}
               <span className="text-red-600">beschädigtes Fahrzeug</span>{' '}
               schnell und unkompliziert
@@ -350,14 +407,14 @@ export default function Home() {
                   className="inline-flex items-center space-x-2 bg-red-100 text-red-800 px-4 py-2 rounded-full text-sm font-semibold"
                 >
                   <Star size={16} />
-                  <span>4.8/5 Sterne • 2500+ zufriedene Kunden</span>
+                  <span>5,0/5 Sterne • 2500+ zufriedene Kunden</span>
                 </motion.div>
 
-                <h1 className="text-responsive-3xl font-bold text-gray-900 leading-tight">
+                <h2 className="text-responsive-3xl font-bold text-gray-900 leading-tight" id="hero-title">
                   Verkaufen Sie Ihr{' '}
                   <span className="text-red-600">beschädigtes Fahrzeug</span>{' '}
                   schnell und unkompliziert
-                </h1>
+                </h2>
               </div>
 
               {/* Prozess Animation */}
@@ -380,13 +437,13 @@ export default function Home() {
       </section>
 
       {/* Features Section */}
-      <section className="py-20 bg-white">
+      <section className="py-20 bg-white" aria-labelledby="features-title">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             {...fadeInUp}
             className="text-center mb-16"
           >
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">
+            <h2 className="text-3xl font-bold text-gray-900 mb-4" id="features-title">
               Warum Sopi Automobile?
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
@@ -419,111 +476,14 @@ export default function Home() {
         </div>
       </section>
 
-      {/* About Section - CEO Vorstellung */}
-      <section className="py-20 bg-gradient-to-br from-blue-50 to-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            {/* Links: CEO Bild */}
-            <motion.div
-              initial={{ opacity: 0, x: -50 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8 }}
-              className="relative"
-            >
-              <div className="relative w-full max-w-md mx-auto">
-                <div className="aspect-square rounded-3xl overflow-hidden shadow-2xl bg-gradient-to-br from-red-500 to-red-600 p-2">
-                  <div className="w-full h-full rounded-2xl overflow-hidden">
-                    <Image
-                      src="/Julian.png"
-                      alt="Julian Mazreku - Gründer und Geschäftsführer von Sopi Automobile"
-                      width={400}
-                      height={400}
-                      className="w-full h-full object-cover object-center"
-                      priority
-                    />
-                  </div>
-                </div>
-                {/* Dekorative Elemente */}
-                <div className="absolute -top-4 -right-4 w-24 h-24 bg-red-200 rounded-full mix-blend-multiply filter blur-xl opacity-70"></div>
-                <div className="absolute -bottom-4 -left-4 w-32 h-32 bg-blue-200 rounded-full mix-blend-multiply filter blur-xl opacity-70"></div>
-              </div>
-            </motion.div>
-
-            {/* Rechts: CEO Info */}
-            <motion.div
-              initial={{ opacity: 0, x: 50 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              className="space-y-6"
-            >
-              <div className="space-y-4">
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ delay: 0.4 }}
-                  className="inline-flex items-center space-x-2 bg-red-100 text-red-800 px-4 py-2 rounded-full text-sm font-semibold"
-                >
-                  <Award size={16} />
-                  <span>Gründer & Geschäftsführer</span>
-                </motion.div>
-
-                <h2 className="text-3xl sm:text-4xl font-bold text-gray-900">
-                  Julian Mazreku
-                </h2>
-                
-                <p className="text-lg text-gray-600 leading-relaxed">
-                  Mit über 15 Jahren Erfahrung in der Automobilbranche ist Julian Mazreku 
-                  der Gründer und Geschäftsführer von Sopi Automobile. Seine Leidenschaft 
-                  für faire Geschäfte und Kundenzufriedenheit macht ihn zum vertrauenswürdigen 
-                  Partner für Ihren Fahrzeugverkauf.
-                </p>
-              </div>
-
-              <div className="grid grid-cols-2 gap-6">
-                <div className="text-center p-4 bg-white/70 rounded-xl border border-gray-200">
-                  <div className="text-2xl font-bold text-red-600 mb-1">15+</div>
-                  <div className="text-sm text-gray-600">Jahre Erfahrung</div>
-                </div>
-                <div className="text-center p-4 bg-white/70 rounded-xl border border-gray-200">
-                  <div className="text-2xl font-bold text-red-600 mb-1">2500+</div>
-                  <div className="text-sm text-gray-600">Zufriedene Kunden</div>
-                </div>
-              </div>
-
-              <div className="flex flex-col sm:flex-row gap-4">
-                <motion.a
-                  href="tel:+4923241234567"
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  className="inline-flex items-center justify-center space-x-2 bg-red-600 hover:bg-red-700 text-white px-6 py-3 rounded-xl font-semibold transition-colors shadow-lg"
-                >
-                  <Phone size={20} />
-                  <span>Direkt anrufen</span>
-                </motion.a>
-                
-                <motion.a
-                  href="mailto:info@sopi-automobile.de"
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  className="inline-flex items-center justify-center space-x-2 bg-white hover:bg-gray-50 text-red-600 border-2 border-red-600 px-6 py-3 rounded-xl font-semibold transition-colors"
-                >
-                  <Mail size={20} />
-                  <span>E-Mail schreiben</span>
-                </motion.a>
-              </div>
-            </motion.div>
-          </div>
-        </div>
-      </section>
-
       {/* Service Gallery Section */}
-      <section className="py-20 bg-white">
+      <section className="py-20 bg-white" aria-labelledby="services-title">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             {...fadeInUp}
             className="text-center mb-16"
           >
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">
+            <h2 className="text-3xl font-bold text-gray-900 mb-4" id="services-title">
               Unser Service in Aktion
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
@@ -542,10 +502,11 @@ export default function Home() {
               <div className="aspect-[4/3] overflow-hidden">
                 <Image
                   src="/abschlepp1.jpg"
-                  alt="Professioneller Abschleppdienst von Sopi Automobile"
+                  alt="Professioneller Abschleppdienst von Sopi Automobile in Hattingen - Fahrzeugabholung vor Ort auch bei Motorschaden"
                   width={400}
                   height={300}
                   className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                  loading="lazy"
                 />
               </div>
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end">
@@ -566,10 +527,11 @@ export default function Home() {
               <div className="aspect-[4/3] overflow-hidden">
                 <Image
                   src="/rangerover_abschlepp.jpg"
-                  alt="Abschleppen eines Range Rover - Auch Luxusfahrzeuge"
+                  alt="Abschleppen eines Range Rover durch Sopi Automobile - Auch Luxusfahrzeuge und Premiummarken werden angekauft"
                   width={400}
                   height={300}
                   className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                  loading="lazy"
                 />
               </div>
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end">
@@ -590,10 +552,11 @@ export default function Home() {
               <div className="aspect-[4/3] overflow-hidden">
                 <Image
                   src="/repar.jpg"
-                  alt="Fahrzeugreparatur in der Werkstatt von Sopi Automobile"
+                  alt="Professionelle Fahrzeugreparatur in der Werkstatt von Sopi Automobile Hattingen - Fachgerechte Instandsetzung"
                   width={400}
                   height={300}
                   className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                  loading="lazy"
                 />
               </div>
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end">
@@ -608,51 +571,183 @@ export default function Home() {
       </section>
 
       {/* Testimonials Section */}
-      <section className="py-20 bg-gradient-to-br from-gray-50 to-blue-50">
+      <section className="py-20 bg-gradient-to-br from-gray-50 to-blue-50" aria-labelledby="testimonials-title">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             {...fadeInUp}
             className="text-center mb-16"
           >
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">
+            <h2 className="text-3xl font-bold text-gray-900 mb-4" id="testimonials-title">
               Das sagen unsere Kunden
             </h2>
+            <div className="flex items-center justify-center space-x-2 mb-4">
+              <div className="flex space-x-1">
+                {[...Array(5)].map((_, i) => (
+                  <Star key={i} className="text-yellow-400 fill-current" size={20} />
+                ))}
+              </div>
+              <span className="text-xl font-bold text-gray-900">5,0/5</span>
+              <span className="text-gray-600">• Google Bewertungen</span>
+            </div>
             <p className="text-xl text-gray-600">
-              Über 2.500 zufriedene Kunden vertrauen bereits auf unseren Service
+              Authentische Bewertungen unserer zufriedenen Kunden
             </p>
           </motion.div>
 
-          <motion.div
-            variants={staggerChildren}
-            initial="initial"
-            animate="animate"
-            className="grid md:grid-cols-3 gap-8"
-          >
-            {testimonials.map((testimonial, index) => (
-              <motion.div
-                key={index}
-                variants={fadeInUp}
-                whileHover={{ y: -5 }}
-                className="bg-white/80 backdrop-blur-sm p-6 rounded-2xl shadow-lg border border-gray-100"
-              >
-                <div className="flex items-center mb-4">
-                  <div className="flex space-x-1">
-                    {[...Array(testimonial.rating)].map((_, i) => (
+          {/* Horizontaler Bewertungs-Slider */}
+          <div className="relative overflow-hidden">
+            {/* Kontinuierlicher horizontaler Scroll */}
+            <motion.div
+              className="flex space-x-6 py-8"
+              animate={{
+                x: [0, -100 * testimonials.length]
+              }}
+              transition={{
+                duration: 30,
+                repeat: Infinity,
+                ease: "linear"
+              }}
+            >
+              {/* Testimonials doppelt rendern für nahtlosen Loop */}
+              {[...testimonials, ...testimonials].map((testimonial, index) => (
+                <motion.div
+                  key={index}
+                  className="flex-shrink-0 w-96 bg-white/90 backdrop-blur-sm rounded-2xl shadow-xl border border-gray-100 p-6 hover:shadow-2xl transition-shadow duration-300"
+                  whileHover={{ y: -5, scale: 1.02 }}
+                >
+                  {/* Google Badge */}
+                  <div className="flex items-center mb-4">
+                    <div className="bg-gray-100 rounded-full px-3 py-1 shadow-sm">
+                      <div className="flex items-center space-x-2">
+                        <div className="w-4 h-4 bg-gradient-to-r from-blue-500 via-red-500 via-yellow-500 to-green-500 rounded-sm flex items-center justify-center">
+                          <span className="text-white text-xs font-bold">G</span>
+                        </div>
+                        <span className="text-xs font-medium text-gray-600">Google</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Sterne */}
+                  <div className="flex items-center space-x-1 mb-4">
+                    {[...Array(5)].map((_, i) => (
                       <Star key={i} className="text-yellow-400 fill-current" size={16} />
                     ))}
                   </div>
-                  <span className="ml-2 text-sm text-gray-600">{testimonial.rating}/5</span>
-                </div>
-                <blockquote className="text-gray-700 mb-4 italic">
-                  &ldquo;{testimonial.text}&rdquo;
-                </blockquote>
-                <div className="border-t pt-4">
-                  <div className="font-semibold text-gray-900">{testimonial.name}</div>
-                  <div className="text-sm text-gray-600">{testimonial.location} • {testimonial.vehicle}</div>
-                </div>
-              </motion.div>
-            ))}
+
+                  {/* Bewertungstext */}
+                  <blockquote className="text-gray-800 text-sm leading-relaxed mb-4 italic min-h-[80px]">
+                    &ldquo;{testimonial.text}&rdquo;
+                  </blockquote>
+
+                  {/* Kunden-Info */}
+                  <div className="flex items-center space-x-3 pt-4 border-t border-gray-100">
+                    <div className="w-10 h-10 bg-gradient-to-br from-red-500 to-red-600 rounded-full flex items-center justify-center flex-shrink-0">
+                      <span className="text-white text-sm font-bold">
+                        {testimonial.name.charAt(0)}
+                      </span>
+                    </div>
+                    <div>
+                      <h4 className="font-semibold text-gray-900 text-sm">
+                        {testimonial.name}
+                      </h4>
+                      <p className="text-xs text-gray-500">
+                        Google Bewertung
+                      </p>
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
+            </motion.div>
+
+            {/* Gradient Overlays für smooth Edges */}
+            <div className="absolute inset-y-0 left-0 w-16 bg-gradient-to-r from-gray-50 to-transparent pointer-events-none z-10"></div>
+            <div className="absolute inset-y-0 right-0 w-16 bg-gradient-to-l from-gray-50 to-transparent pointer-events-none z-10"></div>
+          </div>
+        </div>
+      </section>
+
+      {/* FAQ Section für SEO */}
+      <section className="py-20 bg-white" aria-labelledby="faq-title">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div
+            {...fadeInUp}
+            className="text-center mb-16"
+          >
+            <h2 className="text-3xl font-bold text-gray-900 mb-4" id="faq-title">
+              Häufig gestellte Fragen
+            </h2>
+            <p className="text-xl text-gray-600">
+              Alles was Sie über den Fahrzeugankauf bei Sopi Automobile wissen müssen
+            </p>
           </motion.div>
+
+          <div className="space-y-8">
+            <motion.div
+              {...fadeInUp}
+              className="bg-gray-50 rounded-2xl p-6"
+            >
+              <h3 className="text-xl font-bold text-gray-900 mb-3">
+                Kaufen Sie auch Fahrzeuge mit Motorschaden?
+              </h3>
+              <p className="text-gray-700 leading-relaxed">
+                Ja, wir kaufen alle Fahrzeuge - auch mit Motorschaden, Unfallschaden oder Getriebeschaden. 
+                Unser Expertenteam bewertet jeden Wagen fair und bietet Ihnen einen angemessenen Preis, 
+                unabhängig vom Zustand.
+              </p>
+            </motion.div>
+
+            <motion.div
+              {...fadeInUp}
+              className="bg-gray-50 rounded-2xl p-6"
+            >
+              <h3 className="text-xl font-bold text-gray-900 mb-3">
+                Wie schnell erhalte ich ein Angebot?
+              </h3>
+              <p className="text-gray-700 leading-relaxed">
+                Nach dem Ausfüllen unseres 30-Sekunden-Formulars erhalten Sie innerhalb von 24 Stunden 
+                ein unverbindliches Angebot. Bei dringenden Anfragen können wir auch schneller reagieren.
+              </p>
+            </motion.div>
+
+            <motion.div
+              {...fadeInUp}
+              className="bg-gray-50 rounded-2xl p-6"
+            >
+              <h3 className="text-xl font-bold text-gray-900 mb-3">
+                Ist die Fahrzeugbewertung wirklich kostenlos?
+              </h3>
+              <p className="text-gray-700 leading-relaxed">
+                Ja, die Bewertung Ihres Fahrzeugs ist 100% kostenlos und unverbindlich. 
+                Sie gehen keinerlei Verpflichtungen ein und können unser Angebot in Ruhe prüfen.
+              </p>
+            </motion.div>
+
+            <motion.div
+              {...fadeInUp}
+              className="bg-gray-50 rounded-2xl p-6"
+            >
+              <h3 className="text-xl font-bold text-gray-900 mb-3">
+                Holen Sie das Fahrzeug auch bei mir ab?
+              </h3>
+              <p className="text-gray-700 leading-relaxed">
+                Selbstverständlich! Wir bieten einen kostenlosen Abholservice in Hattingen und Umgebung. 
+                Auch nicht fahrbereite Fahrzeuge holen wir mit unserem Abschleppdienst direkt bei Ihnen ab.
+              </p>
+            </motion.div>
+
+            <motion.div
+              {...fadeInUp}
+              className="bg-gray-50 rounded-2xl p-6"
+            >
+              <h3 className="text-xl font-bold text-gray-900 mb-3">
+                Welche Fahrzeugmarken kaufen Sie an?
+              </h3>
+              <p className="text-gray-700 leading-relaxed">
+                Wir kaufen alle gängigen Fahrzeugmarken: Volkswagen, BMW, Mercedes-Benz, Audi, Opel, Ford, 
+                Toyota, Renault und viele weitere. Auch Luxusfahrzeuge und Oldtimer nehmen wir gerne in Zahlung.
+              </p>
+            </motion.div>
+          </div>
         </div>
       </section>
 
@@ -685,12 +780,12 @@ export default function Home() {
               <div className="flex items-center space-x-4 text-red-100">
                 <div className="flex items-center space-x-1">
                   <Phone size={16} />
-                  <span>02324 123456</span>
+                  <span>+49 157 56 99 09 49</span>
                 </div>
                 <div className="text-red-200">oder</div>
                 <div className="flex items-center space-x-1">
                   <Mail size={16} />
-                  <span>info@sopi-automobile.de</span>
+                  <span>info@sopiautomobile.de</span>
                 </div>
               </div>
             </div>
@@ -723,6 +818,25 @@ export default function Home() {
                 Ihr vertrauensvoller Partner für den Ankauf von Fahrzeugen 
                 aller Art - auch mit Schäden.
               </p>
+              
+              {/* Kleines Gründer-Bild und Info im Footer */}
+              <div className="flex items-center space-x-3 pt-3 border-t border-gray-800">
+                <div className="w-10 h-10 rounded-full overflow-hidden bg-gradient-to-br from-red-500 to-red-600 p-0.5 flex-shrink-0">
+                  <div className="w-full h-full rounded-full overflow-hidden">
+                    <Image
+                      src="/Julian.png"
+                      alt="Julian Mazreku"
+                      width={40}
+                      height={40}
+                      className="w-full h-full object-cover object-center"
+                    />
+                  </div>
+                </div>
+                <div>
+                  <p className="text-xs text-gray-400">Gründer & Geschäftsführer</p>
+                  <p className="text-xs text-gray-300 font-medium">Julian Mazreku</p>
+                </div>
+              </div>
             </div>
 
             {/* Contact */}
@@ -731,15 +845,19 @@ export default function Home() {
               <div className="space-y-2 text-sm text-gray-300">
                 <div className="flex items-center space-x-2">
                   <Phone size={16} />
-                  <span>02324 123456</span>
+                  <span>Mobil: +49 157 56 99 09 49</span>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <Phone size={16} />
+                  <span>Festnetz: +49 232 4977 023 416</span>
                 </div>
                 <div className="flex items-center space-x-2">
                   <Mail size={16} />
-                  <span>info@sopi-automobile.de</span>
+                  <span>info@sopiautomobile.de</span>
                 </div>
                 <div className="flex items-start space-x-2">
                   <MapPin size={16} className="mt-1 flex-shrink-0" />
-                  <span>Musterstraße 123<br />45525 Hattingen</span>
+                  <span>Bredenscheider Str. 119<br />45527 Hattingen</span>
                 </div>
               </div>
             </div>
@@ -760,9 +878,9 @@ export default function Home() {
             <div className="space-y-4">
               <h4 className="text-lg font-semibold">Rechtliches</h4>
               <ul className="space-y-2 text-sm text-gray-300">
-                <li><a href="#" className="hover:text-white transition-colors">Impressum</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">Datenschutz</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">AGB</a></li>
+                <li><Link href="/impressum" className="hover:text-white transition-colors">Impressum</Link></li>
+                <li><Link href="/datenschutz" className="hover:text-white transition-colors">Datenschutz</Link></li>
+                <li><Link href="/agb" className="hover:text-white transition-colors">AGB</Link></li>
               </ul>
               
               <div className="space-y-2">

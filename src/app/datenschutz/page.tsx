@@ -92,12 +92,13 @@ export default function DatenschutzPage() {
                 <div className="bg-white rounded-xl p-4 border border-blue-200">
                   <p className="font-semibold">Sopi Automobile</p>
                   <p>Herr Mustafa Sopi</p>
-                  <p>Musterstraße 123</p>
+                  <p>Bredenscheider Str. 119</p>
                   <p>45525 Hattingen</p>
                   <p>Deutschland</p>
                   <br />
-                  <p>Telefon: 02324 123456</p>
-                  <p>E-Mail: info@sopi-automobile.de</p>
+                  <p>Mobil: +49 157 56 99 09 49</p>
+                  <p>Festnetz: +49 232 4977 023 416</p>
+                  <p>E-Mail: info@sopiautomobile.de</p>
                 </div>
                 <p className="mt-4 text-sm">
                   Verantwortliche Stelle ist die natürliche oder juristische Person, die allein oder 
@@ -304,7 +305,7 @@ export default function DatenschutzPage() {
                   <p className="text-sm">
                     E-Mail: datenschutz@sopi-automobile.de<br />
                     Telefon: 02324 123456<br />
-                    Post: Sopi Automobile, Musterstraße 123, 45525 Hattingen
+                    Post: Sopi Automobile, Bredenscheider Str. 119, 45527 Hattingen
                   </p>
                 </div>
               </div>
@@ -411,7 +412,7 @@ export default function DatenschutzPage() {
           >
             <p className="text-sm text-gray-500">
               Stand: {new Date().toLocaleDateString('de-DE')} | 
-              Bei Fragen wenden Sie sich gerne an: datenschutz@sopi-automobile.de
+                  Bei Fragen wenden Sie sich gerne an: datenschutz@sopiautomobile.de
             </p>
             <div className="flex flex-wrap justify-center gap-4 sm:space-x-6 sm:gap-0 mt-4">
               <Link href="/impressum" className="text-blue-600 hover:text-blue-700 text-sm px-2 py-1">

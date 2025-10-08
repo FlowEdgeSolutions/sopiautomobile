@@ -94,8 +94,8 @@ export default function ImpressumPage() {
                 <h2 className="text-xl sm:text-2xl font-bold text-gray-900">Anschrift</h2>
               </div>
               <div className="space-y-1 text-gray-700">
-                <p>Musterstraße 123</p>
-                <p>45525 Hattingen</p>
+                <p>Bredenscheider Str. 119</p>
+                <p>45527 Hattingen</p>
                 <p>Deutschland</p>
               </div>
             </motion.section>
@@ -113,11 +113,15 @@ export default function ImpressumPage() {
               <div className="space-y-2 text-gray-700">
                 <div className="flex items-center space-x-2">
                   <Phone size={16} />
-                  <span>Telefon: 02324 123456</span>
+                  <span>Mobil: +49 157 56 99 09 49</span>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <Phone size={16} />
+                  <span>Festnetz: +49 232 4977 023 416</span>
                 </div>
                 <div className="flex items-center space-x-2">
                   <Mail size={16} />
-                  <span>E-Mail: info@sopi-automobile.de</span>
+                  <span>E-Mail: info@sopiautomobile.de</span>
                 </div>
                 <p className="text-sm text-gray-600 mt-2">
                   Geschäftszeiten: Mo-Fr 08:00-18:00 Uhr, Sa 09:00-14:00 Uhr
@@ -181,8 +185,8 @@ export default function ImpressumPage() {
               </h2>
               <p className="text-gray-700 mb-2">
                 <strong>Herr Julian Mazreku</strong><br />
-                Musterstraße 123<br />
-                45525 Hattingen<br />
+                Bredenscheider Str. 119<br />
+                45527 Hattingen<br />
                 Deutschland
               </p>
               <p className="text-sm text-gray-600">

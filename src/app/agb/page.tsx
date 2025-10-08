@@ -64,7 +64,7 @@ export default function AGBPage() {
                 <p>
                   (1) Diese Allgemeinen Geschäftsbedingungen (nachfolgend &ldquo;AGB&rdquo;) gelten für alle 
                   Geschäftsbeziehungen zwischen Sopi Automobile, Herr Mustafa Sopi, 
-                  Musterstraße 123, 45525 Hattingen (nachfolgend &ldquo;Unternehmen&rdquo;) und seinen Kunden 
+                  Bredenscheider Str. 119, 45527 Hattingen (nachfolgend &ldquo;Unternehmen&rdquo;) und seinen Kunden 
                   (nachfolgend &ldquo;Verkäufer&rdquo; oder &ldquo;Kunde&rdquo;).
                 </p>
                 <p>
@@ -314,9 +314,10 @@ export default function AGBPage() {
                   <p>
                     Sopi Automobile<br />
                     Herr Mustafa Sopi<br />
-                    Musterstraße 123, 45525 Hattingen<br />
-                    Telefon: 02324 123456<br />
-                    E-Mail: info@sopi-automobile.de
+                    Bredenscheider Str. 119, 45527 Hattingen<br />
+                    Mobil: +49 157 56 99 09 49<br />
+                    Festnetz: +49 232 4977 023 416<br />
+                    E-Mail: info@sopiautomobile.de
                   </p>
                 </div>
               </div>

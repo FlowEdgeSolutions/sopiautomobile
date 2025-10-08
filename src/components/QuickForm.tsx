@@ -240,6 +240,26 @@ const QuickForm: React.FC = () => {
           }
         </p>
 
+        {/* Motivierender 30-Sekunden Text nur bei Fahrzeugdaten */}
+        {currentStep === 'vehicle' && (
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3 }}
+            className="bg-green-50 border border-green-200 rounded-xl p-3 mb-4"
+          >
+            <div className="flex items-center justify-center space-x-2 text-green-700">
+              <Clock size={16} className="text-green-600" />
+              <span className="text-sm font-semibold">
+                ⚡ In nur 30 Sekunden zur kostenlosen Bewertung!
+              </span>
+            </div>
+            <p className="text-xs text-green-600 text-center mt-1">
+              Schnell ausfüllen • Sofort Angebot erhalten • Kostenlos & unverbindlich
+            </p>
+          </motion.div>
+        )}
+
         {/* Fortschrittsbalken */}
         <div className="w-full bg-gray-200 rounded-full h-2 mb-6">
           <motion.div
