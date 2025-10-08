@@ -299,16 +299,50 @@ export default function Home() {
         <div className="absolute inset-0 pointer-events-none">
           <div className="absolute top-20 left-10 w-72 h-72 bg-blue-200 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-float"></div>
           <div className="absolute bottom-20 right-10 w-72 h-72 bg-red-200 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-float" style={{ animationDelay: '2s' }}></div>
+          
+          {/* Hero Background Image */}
+          <div className="absolute inset-0 z-0">
+            <Image
+              src="/full.jpg"
+              alt="Sopi Automobile Werkstatt Hintergrund"
+              fill
+              className="object-cover opacity-5"
+              priority={false}
+            />
+          </div>
         </div>
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+          {/* Mobile Header - Überschrift über Formular */}
+          <motion.div
+            {...fadeInUp}
+            className="lg:hidden mb-8 text-center"
+          >
+            <motion.div
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.2 }}
+              className="inline-flex items-center space-x-2 bg-red-100 text-red-800 px-4 py-2 rounded-full text-sm font-semibold mb-4"
+            >
+              <Star size={16} />
+              <span>4.8/5 Sterne • 2500+ zufriedene Kunden</span>
+            </motion.div>
+
+            <h1 className="text-responsive-3xl font-bold text-gray-900 leading-tight">
+              Verkaufen Sie Ihr{' '}
+              <span className="text-red-600">beschädigtes Fahrzeug</span>{' '}
+              schnell und unkompliziert
+            </h1>
+          </motion.div>
+
           <div className="grid lg:grid-cols-2 gap-8 items-start">
-            {/* Mobile: Formular zuerst, Desktop: Links Content + Animation */}
+            {/* Mobile: Prozess-Animation, Desktop: Links Content + Animation */}
             <motion.div
               {...fadeInUp}
               className="space-y-6 order-2 lg:order-1"
             >
-              <div className="space-y-4">
+              {/* Desktop Header - nur auf Desktop sichtbar */}
+              <div className="space-y-4 hidden lg:block">
                 <motion.div
                   initial={{ opacity: 0, scale: 0.8 }}
                   animate={{ opacity: 1, scale: 1 }}
@@ -332,7 +366,7 @@ export default function Home() {
               </div>
             </motion.div>
 
-            {/* Mobile: Formular zuerst, Desktop: Rechts Formular */}
+            {/* Mobile: Formular nach Header, Desktop: Rechts Formular */}
             <motion.div
               initial={{ opacity: 0, x: 50 }}
               animate={{ opacity: 1, x: 0 }}
@@ -382,6 +416,194 @@ export default function Home() {
               </motion.div>
             ))}
           </motion.div>
+        </div>
+      </section>
+
+      {/* About Section - CEO Vorstellung */}
+      <section className="py-20 bg-gradient-to-br from-blue-50 to-gray-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            {/* Links: CEO Bild */}
+            <motion.div
+              initial={{ opacity: 0, x: -50 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8 }}
+              className="relative"
+            >
+              <div className="relative w-full max-w-md mx-auto">
+                <div className="aspect-square rounded-3xl overflow-hidden shadow-2xl bg-gradient-to-br from-red-500 to-red-600 p-2">
+                  <div className="w-full h-full rounded-2xl overflow-hidden">
+                    <Image
+                      src="/Julian.png"
+                      alt="Julian Mazreku - Gründer und Geschäftsführer von Sopi Automobile"
+                      width={400}
+                      height={400}
+                      className="w-full h-full object-cover object-center"
+                      priority
+                    />
+                  </div>
+                </div>
+                {/* Dekorative Elemente */}
+                <div className="absolute -top-4 -right-4 w-24 h-24 bg-red-200 rounded-full mix-blend-multiply filter blur-xl opacity-70"></div>
+                <div className="absolute -bottom-4 -left-4 w-32 h-32 bg-blue-200 rounded-full mix-blend-multiply filter blur-xl opacity-70"></div>
+              </div>
+            </motion.div>
+
+            {/* Rechts: CEO Info */}
+            <motion.div
+              initial={{ opacity: 0, x: 50 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+              className="space-y-6"
+            >
+              <div className="space-y-4">
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: 0.4 }}
+                  className="inline-flex items-center space-x-2 bg-red-100 text-red-800 px-4 py-2 rounded-full text-sm font-semibold"
+                >
+                  <Award size={16} />
+                  <span>Gründer & Geschäftsführer</span>
+                </motion.div>
+
+                <h2 className="text-3xl sm:text-4xl font-bold text-gray-900">
+                  Julian Mazreku
+                </h2>
+                
+                <p className="text-lg text-gray-600 leading-relaxed">
+                  Mit über 15 Jahren Erfahrung in der Automobilbranche ist Julian Mazreku 
+                  der Gründer und Geschäftsführer von Sopi Automobile. Seine Leidenschaft 
+                  für faire Geschäfte und Kundenzufriedenheit macht ihn zum vertrauenswürdigen 
+                  Partner für Ihren Fahrzeugverkauf.
+                </p>
+              </div>
+
+              <div className="grid grid-cols-2 gap-6">
+                <div className="text-center p-4 bg-white/70 rounded-xl border border-gray-200">
+                  <div className="text-2xl font-bold text-red-600 mb-1">15+</div>
+                  <div className="text-sm text-gray-600">Jahre Erfahrung</div>
+                </div>
+                <div className="text-center p-4 bg-white/70 rounded-xl border border-gray-200">
+                  <div className="text-2xl font-bold text-red-600 mb-1">2500+</div>
+                  <div className="text-sm text-gray-600">Zufriedene Kunden</div>
+                </div>
+              </div>
+
+              <div className="flex flex-col sm:flex-row gap-4">
+                <motion.a
+                  href="tel:+4923241234567"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="inline-flex items-center justify-center space-x-2 bg-red-600 hover:bg-red-700 text-white px-6 py-3 rounded-xl font-semibold transition-colors shadow-lg"
+                >
+                  <Phone size={20} />
+                  <span>Direkt anrufen</span>
+                </motion.a>
+                
+                <motion.a
+                  href="mailto:info@sopi-automobile.de"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="inline-flex items-center justify-center space-x-2 bg-white hover:bg-gray-50 text-red-600 border-2 border-red-600 px-6 py-3 rounded-xl font-semibold transition-colors"
+                >
+                  <Mail size={20} />
+                  <span>E-Mail schreiben</span>
+                </motion.a>
+              </div>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
+      {/* Service Gallery Section */}
+      <section className="py-20 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div
+            {...fadeInUp}
+            className="text-center mb-16"
+          >
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">
+              Unser Service in Aktion
+            </h2>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              Von der Abholung bis zur Reparatur - wir kümmern uns um alles rund um Ihr Fahrzeug.
+            </p>
+          </motion.div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {/* Abschlepp-Service */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.1 }}
+              className="group relative overflow-hidden rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300"
+            >
+              <div className="aspect-[4/3] overflow-hidden">
+                <Image
+                  src="/abschlepp1.jpg"
+                  alt="Professioneller Abschleppdienst von Sopi Automobile"
+                  width={400}
+                  height={300}
+                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                />
+              </div>
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end">
+                <div className="p-6 text-white">
+                  <h3 className="text-xl font-bold mb-2">Abschleppdienst</h3>
+                  <p className="text-sm opacity-90">Professionelle Abholung vor Ort</p>
+                </div>
+              </div>
+            </motion.div>
+
+            {/* Range Rover Abschlepp */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              className="group relative overflow-hidden rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300"
+            >
+              <div className="aspect-[4/3] overflow-hidden">
+                <Image
+                  src="/rangerover_abschlepp.jpg"
+                  alt="Abschleppen eines Range Rover - Auch Luxusfahrzeuge"
+                  width={400}
+                  height={300}
+                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                />
+              </div>
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end">
+                <div className="p-6 text-white">
+                  <h3 className="text-xl font-bold mb-2">Luxusfahrzeuge</h3>
+                  <p className="text-sm opacity-90">Auch hochwertige Fahrzeuge</p>
+                </div>
+              </div>
+            </motion.div>
+
+            {/* Reparatur-Service */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.3 }}
+              className="group relative overflow-hidden rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300"
+            >
+              <div className="aspect-[4/3] overflow-hidden">
+                <Image
+                  src="/repar.jpg"
+                  alt="Fahrzeugreparatur in der Werkstatt von Sopi Automobile"
+                  width={400}
+                  height={300}
+                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                />
+              </div>
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end">
+                <div className="p-6 text-white">
+                  <h3 className="text-xl font-bold mb-2">Reparatur-Service</h3>
+                  <p className="text-sm opacity-90">Professionelle Werkstatt</p>
+                </div>
+              </div>
+            </motion.div>
+          </div>
         </div>
       </section>
 

@@ -21,7 +21,7 @@ const ProcessAnimation: React.FC = () => {
       id: 1,
       icon: FileText,
       title: "Daten eingeben",
-      description: "Fahrzeugdaten in 2 Minuten erfassen",
+      description: "Fahrzeugdaten in 30 Sekunden erfassen",
       color: "from-blue-400 to-blue-600",
       details: [
         "Marke & Modell angeben",
@@ -229,7 +229,7 @@ const ProcessAnimation: React.FC = () => {
       >
         <div className="grid grid-cols-3 gap-4 text-center">
           <div>
-            <div className="text-2xl font-bold text-blue-600">2 Min</div>
+            <div className="text-2xl font-bold text-blue-600">30 Sek</div>
             <div className="text-xs text-gray-600">Erfassung</div>
           </div>
           <div>

@@ -78,7 +78,7 @@ export default function ImpressumPage() {
                 <h2 className="text-xl sm:text-2xl font-bold text-gray-900">Inhaber</h2>
               </div>
               <div className="space-y-2 text-gray-700">
-                <p className="font-semibold">Herr Mustafa Sopi</p>
+                <p className="font-semibold">Herr Julian Mazreku</p>
                 <p>Geschäftsführer und Inhaber</p>
               </div>
             </motion.section>
@@ -180,7 +180,7 @@ export default function ImpressumPage() {
                 Verantwortlich für den Inhalt
               </h2>
               <p className="text-gray-700 mb-2">
-                <strong>Herr Mustafa Sopi</strong><br />
+                <strong>Herr Julian Mazreku</strong><br />
                 Musterstraße 123<br />
                 45525 Hattingen<br />
                 Deutschland

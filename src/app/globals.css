@@ -151,6 +151,40 @@ textarea {
   transition: all 0.2s ease-in-out;
 }
 
+/* Placeholder Styles - Hellgrau für bessere Sichtbarkeit */
+input::placeholder,
+textarea::placeholder {
+  color: #9CA3AF !important; /* gray-400 */
+  opacity: 1;
+}
+
+/* Placeholder for different browsers */
+input::-webkit-input-placeholder {
+  color: #9CA3AF !important;
+  opacity: 1;
+}
+
+input::-moz-placeholder {
+  color: #9CA3AF !important;
+  opacity: 1;
+}
+
+input:-ms-input-placeholder {
+  color: #9CA3AF !important;
+  opacity: 1;
+}
+
+input::-ms-input-placeholder {
+  color: #9CA3AF !important;
+  opacity: 1;
+}
+
+/* Suchfeld-Placeholder */
+.search-input::placeholder {
+  color: #9CA3AF !important;
+  opacity: 1;
+}
+
 input[type="text"]:focus,
 input[type="email"]:focus,
 input[type="tel"]:focus,
