@@ -382,7 +382,7 @@ export default function Home() {
               className="inline-flex items-center space-x-2 bg-red-100 text-red-800 px-4 py-2 rounded-full text-sm font-semibold mb-4"
             >
               <Star size={16} />
-              <span>5,0/5 Sterne • 2500+ zufriedene Kunden</span>
+              <span>4,8/5 Sterne • 2500+ zufriedene Kunden</span>
             </motion.div>
 
             <h1 className="text-responsive-3xl font-bold text-gray-900 leading-tight" id="hero-title">
@@ -407,7 +407,7 @@ export default function Home() {
                   className="inline-flex items-center space-x-2 bg-red-100 text-red-800 px-4 py-2 rounded-full text-sm font-semibold"
                 >
                   <Star size={16} />
-                  <span>5,0/5 Sterne • 2500+ zufriedene Kunden</span>
+                  <span>4,8/5 Sterne • 2500+ zufriedene Kunden</span>
                 </motion.div>
 
                 <h2 className="text-responsive-3xl font-bold text-gray-900 leading-tight" id="hero-title">
@@ -586,7 +586,7 @@ export default function Home() {
                   <Star key={i} className="text-yellow-400 fill-current" size={20} />
                 ))}
               </div>
-              <span className="text-xl font-bold text-gray-900">5,0/5</span>
+              <span className="text-xl font-bold text-gray-900">4,8/5</span>
               <span className="text-gray-600">• Google Bewertungen</span>
             </div>
             <p className="text-xl text-gray-600">

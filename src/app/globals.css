@@ -250,18 +250,18 @@ button:active {
 /* Responsive Design */
 @media (max-width: 640px) {
   .text-responsive-xl {
+    font-size: 1.25rem;
+    line-height: 1.75rem;
+  }
+  
+  .text-responsive-2xl {
     font-size: 1.5rem;
     line-height: 2rem;
   }
   
-  .text-responsive-2xl {
+  .text-responsive-3xl {
     font-size: 1.875rem;
     line-height: 2.25rem;
-  }
-  
-  .text-responsive-3xl {
-    font-size: 2.25rem;
-    line-height: 2.5rem;
   }
 }
 
