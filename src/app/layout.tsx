@@ -56,7 +56,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Sopi Automobile - #1 Fahrzeugankauf in Hattingen | Auch mit Schäden",
     description: "🚗 Verkaufen Sie Ihr Auto schnell & unkompliziert! ✅ Kostenlose Bewertung in 30 Sek ✅ Faire Preise ✅ 5★ Google Bewertungen ✅ Über 2.500 zufriedene Kunden in Hattingen & Umgebung.",
-    url: "https://sopi-automobile.de",
+    url: "https://www.sopiautomobile.de/",
     siteName: "Sopi Automobile",
     locale: "de_DE",
     type: "website",
@@ -105,11 +105,11 @@ export default function RootLayout({
   const localBusinessSchema = {
     "@context": "https://schema.org",
     "@type": "LocalBusiness",
-    "@id": "https://sopi-automobile.de/#organization",
+    "@id": "https://www.sopiautomobile.de//#organization",
     "name": "Sopi Automobile",
     "alternateName": ["Sopi Automobile Hattingen", "Fahrzeugankauf Hattingen"],
     "description": "Professioneller Fahrzeugankauf in Hattingen - auch mit Motorschaden, Unfallschaden oder Getriebeschaden. Kostenlose Bewertung und faire Preise.",
-    "url": "https://sopi-automobile.de",
+    "url": "https://www.sopiautomobile.de/",
     "telephone": "+4915756990949",
     "email": "info@sopiautomobile.de",
     "founder": {
@@ -159,8 +159,8 @@ export default function RootLayout({
       "Mo-Fr 08:00-18:00",
       "Sa 09:00-14:00"
     ],
-    "image": "https://sopi-automobile.de/logoSopi.png",
-    "logo": "https://sopi-automobile.de/logoSopi.png",
+    "image": "https://www.sopiautomobile.de//logoSopi.png",
+    "logo": "https://www.sopiautomobile.de//logoSopi.png",
     "sameAs": [
       "https://www.google.com/maps/place/Sopi+Automobile",
       "https://www.facebook.com/SopiAutomobile",
@@ -236,19 +236,19 @@ export default function RootLayout({
   const websiteSchema = {
     "@context": "https://schema.org",
     "@type": "WebSite",
-    "@id": "https://sopi-automobile.de/#website",
-    "url": "https://sopi-automobile.de",
+    "@id": "https://www.sopiautomobile.de//#website",
+    "url": "https://www.sopiautomobile.de/",
     "name": "Sopi Automobile",
     "description": "Fahrzeugankauf in Hattingen - auch mit Schäden. Kostenlose Bewertung, faire Preise, schnelle Abholung.",
     "publisher": {
-      "@id": "https://sopi-automobile.de/#organization"
+      "@id": "https://www.sopiautomobile.de//#organization"
     },
     "potentialAction": [
       {
         "@type": "SearchAction",
         "target": {
           "@type": "EntryPoint",
-          "urlTemplate": "https://sopi-automobile.de/?q={search_term_string}"
+          "urlTemplate": "https://www.sopiautomobile.de//?q={search_term_string}"
         },
         "query-input": "required name=search_term_string"
       }
@@ -279,9 +279,9 @@ export default function RootLayout({
         <meta name="ICBM" content="51.399, 7.184" />
         
         {/* Hreflang für internationale SEO */}
-        <link rel="alternate" hrefLang="de" href="https://sopi-automobile.de/" />
-        <link rel="alternate" hrefLang="de-DE" href="https://sopi-automobile.de/" />
-        <link rel="alternate" hrefLang="x-default" href="https://sopi-automobile.de/" />
+        <link rel="alternate" hrefLang="de" href="https://www.sopiautomobile.de//" />
+        <link rel="alternate" hrefLang="de-DE" href="https://www.sopiautomobile.de//" />
+        <link rel="alternate" hrefLang="x-default" href="https://www.sopiautomobile.de//" />
         
         {/* DNS Prefetch für Performance */}
         <link rel="dns-prefetch" href="//fonts.googleapis.com" />

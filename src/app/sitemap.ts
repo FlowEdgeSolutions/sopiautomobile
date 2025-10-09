@@ -1,7 +1,7 @@
 import { MetadataRoute } from 'next'
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = 'https://sopi-automobile.de'
+  const baseUrl = 'https://www.sopiautomobile.de/'
   const currentDate = new Date().toISOString()
 
   return [

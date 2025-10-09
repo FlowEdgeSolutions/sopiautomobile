@@ -14,7 +14,7 @@ export default function robots(): MetadataRoute.Robots {
         disallow: ['/api/', '/admin/'],
       },
     ],
-    sitemap: 'https://sopi-automobile.de/sitemap.xml',
-    host: 'https://sopi-automobile.de',
+    sitemap: 'https://www.sopiautomobile.de//sitemap.xml',
+    host: 'https://www.sopiautomobile.de/',
   }
 }
