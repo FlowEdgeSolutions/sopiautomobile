@@ -98,7 +98,7 @@ export default function DatenschutzPage() {
                   <br />
                   <p>Mobil: +49 157 56 99 09 49</p>
                   <p>Festnetz: +49 232 4977 023 416</p>
-                  <p>E-Mail: info@sopiautomobile.de</p>
+                  <p>E-Mail: verkauf@sopiautomobile.de.de</p>
                 </div>
                 <p className="mt-4 text-sm">
                   Verantwortliche Stelle ist die natürliche oder juristische Person, die allein oder 

@@ -176,11 +176,7 @@ const QuickForm: React.FC = () => {
           <div className="space-y-3">
             <h3 className="text-2xl font-bold text-gray-900">Anfrage erhalten!</h3>
             <p className="text-gray-600">{formState.message}</p>
-            {formState.leadId && (
-              <p className="text-sm text-gray-500">
-                Referenz-ID: <span className="font-mono">{formState.leadId.slice(0, 8)}</span>
-              </p>
-            )}
+            {/* Referenz-ID entfernt für bessere UX */}
           </div>
 
           <div className="bg-green-50 rounded-xl p-4">
@@ -382,7 +378,7 @@ const QuickForm: React.FC = () => {
                                   placeholder="Marke suchen..."
                                   value={brandSearchTerm}
                                   onChange={(e) => setBrandSearchTerm(e.target.value)}
-                                  className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 search-input"
+                                  className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 search-input text-gray-900"
                                   autoFocus
                                 />
                               </div>
@@ -390,14 +386,14 @@ const QuickForm: React.FC = () => {
                             
                             {/* Marken Liste */}
                             <div className="max-h-48 overflow-y-auto">
-                              {filteredBrands.length > 0 ? (
+                                  {filteredBrands.length > 0 ? (
                                 filteredBrands.map((brand, index) => (
                                   <button
                                     key={brand}
                                     type="button"
                                     onClick={() => handleBrandSelect(brand)}
-                                    className={`w-full px-4 py-3 text-left hover:bg-red-50 transition-colors ${
-                                      index < 10 ? 'font-semibold text-red-600' : 'text-gray-700'
+                                    className={`w-full px-4 py-2.5 text-left hover:bg-red-50 transition-colors text-sm sm:text-base ${
+                                      index < 10 ? 'font-medium text-red-600' : 'text-gray-700'
                                     } ${
                                       selectedBrand === brand ? 'bg-red-100 text-red-700' : ''
                                     }`}
@@ -433,7 +429,7 @@ const QuickForm: React.FC = () => {
                         required: 'Modell ist erforderlich',
                         minLength: { value: 1, message: 'Modell erforderlich' }
                       })}
-                      className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-colors ${
+                      className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-colors text-gray-900 ${
                         errors.model ? 'border-red-300 bg-red-50' : 'border-gray-300 bg-white'
                       }`}
                       placeholder="z.B. 3er"
@@ -456,7 +452,7 @@ const QuickForm: React.FC = () => {
                         min: { value: 1950, message: 'Jahr muss ab 1950 sein' },
                         max: { value: new Date().getFullYear() + 1, message: 'Ungültiges Jahr' }
                       })}
-                      className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-colors ${
+                      className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-colors text-gray-900 ${
                         errors.year ? 'border-red-300 bg-red-50' : 'border-gray-300 bg-white'
                       }`}
                       placeholder="2020"
@@ -477,7 +473,7 @@ const QuickForm: React.FC = () => {
                         min: { value: 0, message: 'Muss 0 oder höher sein' },
                         max: { value: 2000000, message: 'Zu hoher Kilometerstand' }
                       })}
-                      className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-colors ${
+                      className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-colors text-gray-900 ${
                         errors.mileage ? 'border-red-300 bg-red-50' : 'border-gray-300 bg-white'
                       }`}
                       placeholder="150000"
@@ -488,27 +484,30 @@ const QuickForm: React.FC = () => {
                   </div>
                 </div>
 
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Zustand *
-                  </label>
-                  <select
-                    {...register('condition', { required: 'Bitte wählen Sie einen Zustand' })}
-                    className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-colors ${
-                      errors.condition ? 'border-red-300 bg-red-50' : 'border-gray-300 bg-white'
-                    }`}
-                  >
-                    <option value="">Fahrzeugzustand auswählen...</option>
-                    {vehicleConditions.map((condition) => (
-                      <option key={condition.value} value={condition.value}>
-                        {condition.label}
-                      </option>
-                    ))}
-                  </select>
-                  {errors.condition && (
-                    <p className="mt-1 text-xs text-red-600">{errors.condition.message}</p>
-                  )}
-                </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Zustand *
+                    </label>
+                    <div className="relative">
+                      <select
+                        {...register('condition', { required: 'Bitte wählen Sie einen Zustand' })}
+                        className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-colors appearance-none bg-white text-gray-900 ${
+                          errors.condition ? 'border-red-300 bg-red-50' : 'border-gray-300'
+                        }`}
+                      >
+                        <option value="">Fahrzeugzustand auswählen...</option>
+                        {vehicleConditions.map((condition) => (
+                          <option key={condition.value} value={condition.value}>
+                            {condition.label}
+                          </option>
+                        ))}
+                      </select>
+                      <ChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none" size={20} />
+                    </div>
+                    {errors.condition && (
+                      <p className="mt-1 text-xs text-red-600">{errors.condition.message}</p>
+                    )}
+                  </div>
               </div>
 
               {/* Weiter Button */}
@@ -562,7 +561,7 @@ const QuickForm: React.FC = () => {
                       required: 'Name ist erforderlich',
                       minLength: { value: 2, message: 'Mindestens 2 Zeichen' }
                     })}
-                    className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-colors ${
+                    className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-colors text-gray-900 ${
                       errors.name ? 'border-red-300 bg-red-50' : 'border-gray-300 bg-white'
                     }`}
                     placeholder="Max Mustermann"
@@ -585,7 +584,7 @@ const QuickForm: React.FC = () => {
                         message: 'Ungültige E-Mail-Adresse'
                       }
                     })}
-                    className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-colors ${
+                    className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-colors text-gray-900 ${
                       errors.email ? 'border-red-300 bg-red-50' : 'border-gray-300 bg-white'
                     }`}
                     placeholder="max@email.de"
@@ -608,7 +607,7 @@ const QuickForm: React.FC = () => {
                         message: 'Ungültige Telefonnummer (min. 10 Zeichen)'
                       }
                     })}
-                    className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-colors ${
+                    className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-colors text-gray-900 ${
                       errors.phone ? 'border-red-300 bg-red-50' : 'border-gray-300 bg-white'
                     }`}
                     placeholder="0123 456789"

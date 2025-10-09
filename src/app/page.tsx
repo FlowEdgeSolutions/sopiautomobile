@@ -150,7 +150,7 @@ export default function Home() {
                 </a>
                 
                 <a 
-                  href="mailto:info@sopiautomobile.de" 
+                  href="mailto:verkauf@sopiautomobile.de.de" 
                   className="flex items-center space-x-1 text-gray-700 hover:text-red-600 transition-colors cursor-pointer group min-h-[40px] px-2"
                 >
                   <Mail size={16} className="group-hover:text-red-600" />
@@ -279,14 +279,14 @@ export default function Home() {
                     </a>
                     
                     <a 
-                      href="mailto:info@sopiautomobile.de" 
+                      href="mailto:verkauf@sopiautomobile.de.de" 
                       onClick={() => setMobileMenuOpen(false)}
                       className="flex items-center space-x-3 text-gray-700 hover:text-red-600 transition-colors py-3 px-4 rounded-xl hover:bg-red-50 min-h-[48px]"
                     >
                       <Mail size={20} />
                       <div>
                         <span className="font-semibold block">E-Mail schreiben</span>
-                        <span className="text-sm text-gray-500">info@sopiautomobile.de</span>
+                        <span className="text-sm text-gray-500">verkauf@sopiautomobile.de.de</span>
                       </div>
                     </a>
                     
@@ -788,7 +788,7 @@ export default function Home() {
                 <div className="text-red-200">oder</div>
                 <div className="flex items-center space-x-1">
                   <Mail size={16} />
-                  <span>info@sopiautomobile.de</span>
+                  <span>verkauf@sopiautomobile.de.de</span>
                 </div>
               </div>
             </div>
@@ -856,7 +856,7 @@ export default function Home() {
                 </div>
                 <div className="flex items-center space-x-2">
                   <Mail size={16} />
-                  <span>info@sopiautomobile.de</span>
+                  <span>verkauf@sopiautomobile.de.de</span>
                 </div>
                 <div className="flex items-start space-x-2">
                   <MapPin size={16} className="mt-1 flex-shrink-0" />

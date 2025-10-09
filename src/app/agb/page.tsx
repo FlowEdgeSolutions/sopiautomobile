@@ -317,7 +317,7 @@ export default function AGBPage() {
                     Bredenscheider Str. 119, 45527 Hattingen<br />
                     Mobil: +49 157 56 99 09 49<br />
                     Festnetz: +49 232 4977 023 416<br />
-                    E-Mail: info@sopiautomobile.de
+                    E-Mail: verkauf@sopiautomobile.de.de
                   </p>
                 </div>
               </div>

@@ -158,30 +158,60 @@ textarea::placeholder {
   opacity: 1;
 }
 
+/* Mobile-optimierte Eingabefelder */
+@media (max-width: 768px) {
+  input[type="text"],
+  input[type="email"],
+  input[type="tel"],
+  input[type="number"],
+  select {
+    color: #111827 !important;
+    font-size: 16px;
+    min-height: 44px;
+  }
+  
+  /* Dunklere Platzhalter für mobile Sichtbarkeit */
+  input::placeholder {
+    color: #4B5563 !important;
+    opacity: 1;
+  }
+  
+  /* Marken-Dropdown mobile Optimierung */
+  .brand-dropdown-item {
+    font-size: 14px;
+    padding: 10px 16px;
+  }
+  
+  /* Select-Styling für mobile Geräte */
+  select {
+    background-image: none;
+  }
+}
+
 /* Placeholder for different browsers */
 input::-webkit-input-placeholder {
-  color: #9CA3AF !important;
+  color: #4B5563 !important;
   opacity: 1;
 }
 
 input::-moz-placeholder {
-  color: #9CA3AF !important;
+  color: #4B5563 !important;
   opacity: 1;
 }
 
 input:-ms-input-placeholder {
-  color: #9CA3AF !important;
+  color: #4B5563 !important;
   opacity: 1;
 }
 
 input::-ms-input-placeholder {
-  color: #9CA3AF !important;
+  color: #4B5563 !important;
   opacity: 1;
 }
 
 /* Suchfeld-Placeholder */
 .search-input::placeholder {
-  color: #9CA3AF !important;
+  color: #4B5563 !important;
   opacity: 1;
 }
 

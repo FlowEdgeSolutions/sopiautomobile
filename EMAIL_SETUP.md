@@ -35,7 +35,7 @@
    FROM_EMAIL=Sopi Automobile <noreply@sopiautomobile.de>
 
    # Empfänger für Unternehmens-Benachrichtigungen
-   COMPANY_EMAIL=info@sopiautomobile.de
+   COMPANY_EMAIL=verkauf@sopiautomobile.de.de
 
    # Optional: Weitere Empfänger (kommagetrennt)
    CC_EMAILS=manager@sopiautomobile.de,verkauf@sopiautomobile.de

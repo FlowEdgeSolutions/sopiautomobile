@@ -88,7 +88,7 @@ Das Projekt kann auch auf anderen Next.js-kompatiblen Hosting-Anbietern deployed
 
 **Sopi Automobile**
 - Telefon: 02324 123456
-- E-Mail: info@sopiautomobile.de
+- E-Mail: verkauf@sopiautomobile.de.de
 - Adresse: Musterstraße 123, 45525 Hattingen
 
 ## 📄 Lizenz

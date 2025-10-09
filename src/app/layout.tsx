@@ -111,7 +111,7 @@ export default function RootLayout({
     "description": "Professioneller Fahrzeugankauf in Hattingen - auch mit Motorschaden, Unfallschaden oder Getriebeschaden. Kostenlose Bewertung und faire Preise.",
     "url": "https://www.sopiautomobile.de/",
     "telephone": "+4915756990949",
-    "email": "info@sopiautomobile.de",
+    "email": "verkauf@sopiautomobile.de.de",
     "founder": {
       "@type": "Person",
       "name": "Julian Mazreku",

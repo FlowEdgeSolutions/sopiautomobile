@@ -121,7 +121,7 @@ export default function ImpressumPage() {
                 </div>
                 <div className="flex items-center space-x-2">
                   <Mail size={16} />
-                  <span>E-Mail: info@sopiautomobile.de</span>
+                  <span>E-Mail: verkauf@sopiautomobile.de.de</span>
                 </div>
                 <p className="text-sm text-gray-600 mt-2">
                   Geschäftszeiten: Mo-Fr 08:00-18:00 Uhr, Sa 09:00-14:00 Uhr

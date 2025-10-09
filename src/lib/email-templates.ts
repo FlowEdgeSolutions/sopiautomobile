@@ -138,7 +138,7 @@ export function getCustomerEmailTemplate(leadData: LeadData): { subject: string;
         <div class="contact-info">
           <h3 style="margin-top: 0;">📞 Bei Fragen erreichen Sie uns</h3>
           <div class="contact-item"><strong>Telefon:</strong> 02324 123456</div>
-          <div class="contact-item"><strong>E-Mail:</strong> info@sopiautomobile.de</div>
+          <div class="contact-item"><strong>E-Mail:</strong> verkauf@sopiautomobile.de.de</div>
           <div class="contact-item"><strong>Adresse:</strong> Musterstraße 123, 45525 Hattingen</div>
         </div>
 
