@@ -24,8 +24,8 @@ Eine moderne Next.js Website für Sopi Automobile in Hattingen - spezialisiert a
 
 1. Repository klonen:
    ```bash
-   git clone https://github.com/IHR_USERNAME/sopi-automobile-website.git
-   cd sopi-automobile-website
+   git clone https://github.com/IHR_USERNAME/sopiautomobile-website.git
+   cd sopiautomobile-website
    ```
 
 2. Dependencies installieren:
@@ -88,7 +88,7 @@ Das Projekt kann auch auf anderen Next.js-kompatiblen Hosting-Anbietern deployed
 
 **Sopi Automobile**
 - Telefon: 02324 123456
-- E-Mail: info@sopi-automobile.de
+- E-Mail: info@sopiautomobile.de
 - Adresse: Musterstraße 123, 45525 Hattingen
 
 ## 📄 Lizenz

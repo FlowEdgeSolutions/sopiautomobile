@@ -205,7 +205,7 @@ async function sendEmails(leadData: ProcessedLeadData): Promise<void> {
     const companyTemplate = getCompanyEmailTemplate(leadData);
     const companyEmail = await resend.emails.send({
       from: process.env.FROM_EMAIL || 'onboarding@resend.dev',
-      to: [process.env.COMPANY_EMAIL || 'info@sopi-automobile.de'],
+      to: [process.env.COMPANY_EMAIL || 'info@sopiautomobile.de'],
       subject: companyTemplate.subject,
       html: companyTemplate.html,
     });

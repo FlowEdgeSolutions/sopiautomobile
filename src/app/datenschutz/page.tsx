@@ -303,7 +303,7 @@ export default function DatenschutzPage() {
                 <div className="bg-white rounded-xl p-4 border border-red-200">
                   <h4 className="font-semibold text-red-600 mb-2">Kontakt für Datenschutzanfragen</h4>
                   <p className="text-sm">
-                    E-Mail: datenschutz@sopi-automobile.de<br />
+                    E-Mail: datenschutz@sopiautomobile.de<br />
                     Telefon: 02324 123456<br />
                     Post: Sopi Automobile, Bredenscheider Str. 119, 45527 Hattingen
                   </p>

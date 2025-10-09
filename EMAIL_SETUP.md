@@ -10,7 +10,7 @@
 ### 2. Domain hinzufügen (Empfohlen)
 1. Loggen Sie sich in Resend ein
 2. Gehen Sie zu "Domains" → "Add Domain"
-3. Fügen Sie Ihre Domain hinzu (z.B. `sopi-automobile.de`)
+3. Fügen Sie Ihre Domain hinzu (z.B. `sopiautomobile.de`)
 4. Folgen Sie den DNS-Anweisungen zur Verifikation
 
 ### 3. API-Key erstellen
@@ -32,13 +32,13 @@
    RESEND_API_KEY=re_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
    # Absender-E-Mail (muss verifiziert sein)
-   FROM_EMAIL=Sopi Automobile <noreply@sopi-automobile.de>
+   FROM_EMAIL=Sopi Automobile <noreply@sopiautomobile.de>
 
    # Empfänger für Unternehmens-Benachrichtigungen
-   COMPANY_EMAIL=info@sopi-automobile.de
+   COMPANY_EMAIL=info@sopiautomobile.de
 
    # Optional: Weitere Empfänger (kommagetrennt)
-   CC_EMAILS=manager@sopi-automobile.de,verkauf@sopi-automobile.de
+   CC_EMAILS=manager@sopiautomobile.de,verkauf@sopiautomobile.de
    ```
 
 ## 📧 E-Mail-Funktionen
@@ -66,19 +66,19 @@ Für professionelle E-Mails sollten Sie Ihre eigene Domain verwenden:
 
 1. **DNS-Records hinzufügen:**
    ```
-   TXT _resend.sopi-automobile.de "resend-verify=xxxxxx"
-   CNAME resend.sopi-automobile.de "resend.cname.target"
+   TXT _resend.sopiautomobile.de "resend-verify=xxxxxx"
+   CNAME resend.sopiautomobile.de "resend.cname.target"
    ```
 
 2. **E-Mail-Adressen aktualisieren:**
    ```env
-   FROM_EMAIL=Sopi Automobile <noreply@sopi-automobile.de>
-   COMPANY_EMAIL=leads@sopi-automobile.de
+   FROM_EMAIL=Sopi Automobile <noreply@sopiautomobile.de>
+   COMPANY_EMAIL=leads@sopiautomobile.de
    ```
 
 ### Mehrere Benachrichtigungs-Empfänger
 ```env
-CC_EMAILS=verkauf@sopi-automobile.de,manager@sopi-automobile.de,buchhaltung@sopi-automobile.de
+CC_EMAILS=verkauf@sopiautomobile.de,manager@sopiautomobile.de,buchhaltung@sopiautomobile.de
 ```
 
 ### Webhook-Integration (Optional)
