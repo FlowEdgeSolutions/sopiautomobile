@@ -323,9 +323,14 @@ async function sendEmails(leadData: ProcessedLeadData): Promise<void> {
       console.log('\n📤 Calling Resend API for customer email (CONFIRMATION)...');
       const customerEmailStart = Date.now();
       
+      // CC-Empfänger für Kunden-E-Mail hinzufügen
+      const customerCcRecipients = ['flowedgesolution@gmail.com'];  // Temporär bis Domain verifiziert
+      console.log('Customer email CC recipients:', customerCcRecipients);
+      
       customerEmailResult = await resend.emails.send({
         from: fromEmail,
         to: [leadData.contact.email],
+        cc: customerCcRecipients,  // Verkaufs-E-Mail im CC
         subject: customerTemplate.subject,
         html: customerTemplate.html,
       });
@@ -337,11 +342,13 @@ async function sendEmails(leadData: ProcessedLeadData): Promise<void> {
       
       if (customerEmailResult.data?.id) {
         console.log('✅ Customer email sent successfully with ID:', customerEmailResult.data.id);
+        console.log('CC sent to:', customerCcRecipients.join(', '));
       } else if (customerEmailResult.error) {
         console.log('⚠️ Customer email failed (non-critical):', customerEmailResult.error.message);
         console.log('Reason: Customer emails are optional until domain is verified');
       } else {
         console.log('✅ Customer email sent (no ID returned)');
+        console.log('CC sent to:', customerCcRecipients.join(', '));
       }
     } else {
       console.log('⏭️ Skipping customer email - domain not verified and recipient not authorized');
