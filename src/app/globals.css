@@ -232,6 +232,63 @@ button:active {
   animation: bounce 0.6s ease-in-out;
 }
 
+/* Accessibility Features */
+.accessibility-panel {
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* High Contrast Mode */
+.high-contrast {
+  filter: contrast(150%) brightness(90%);
+}
+
+.high-contrast * {
+  transition: none !important;
+}
+
+/* Focus indicators for accessibility */
+*:focus {
+  outline: 2px solid #3B82F6;
+  outline-offset: 2px;
+}
+
+.high-contrast *:focus {
+  outline: 3px solid #000 !important;
+  outline-offset: 3px;
+}
+
+/* Scroll to top button animation */
+@keyframes slideUp {
+  from {
+    transform: translateY(100px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.scroll-to-top {
+  animation: slideUp 0.3s ease-out;
+}
+
+/* Logo hover effects */
+.logo-hover:hover {
+  transform: scale(1.05);
+  transition: transform 0.2s ease-in-out;
+}
+
+/* Reduced motion for accessibility */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
 @keyframes bounce {
   0%, 20%, 53%, 80%, 100% {
     transform: translate3d(0, 0, 0);

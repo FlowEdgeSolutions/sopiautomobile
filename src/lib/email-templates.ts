@@ -50,13 +50,13 @@ export function getCustomerEmailTemplate(leadData: LeadData): { subject: string;
           .vehicle-summary { background: white; padding: 20px; border-radius: 8px; border-left: 4px solid #dc2626; margin: 20px 0; }
           .summary-item { margin: 8px 0; }
           .summary-label { font-weight: 600; color: #374151; }
-          .next-steps { background: linear-gradient(135deg, #ecfdf5, #f0fdf4); border: 2px solid #10b981; padding: 25px; border-radius: 12px; margin: 25px 0; }
-          .steps-grid { display: grid; grid-template-columns: 1fr; gap: 20px; margin-top: 20px; }
-          .step-item { background: white; padding: 20px; border-radius: 10px; box-shadow: 0 2px 8px rgba(16, 185, 129, 0.1); border-left: 4px solid #10b981; position: relative; }
-          .step-number { position: absolute; top: -10px; left: 20px; background: #10b981; color: white; width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 18px; font-weight: bold; box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3); }
-          .step-content { margin-left: 10px; }
-          .step-title { font-weight: 700; color: #065f46; font-size: 16px; margin-bottom: 5px; }
-          .step-description { color: #374151; font-size: 14px; line-height: 1.5; }
+          .next-steps { background: linear-gradient(135deg, #ecfdf5, #f0fdf4); border: 1px solid #10b981; padding: 20px; border-radius: 10px; margin: 20px 0; }
+          .steps-grid { display: grid; grid-template-columns: 1fr; gap: 12px; margin-top: 15px; }
+          .step-item { background: white; padding: 15px; border-radius: 8px; box-shadow: 0 1px 4px rgba(16, 185, 129, 0.08); border-left: 3px solid #10b981; }
+          .step-number { display: inline-block; color: #10b981; font-size: 18px; font-weight: bold; margin-right: 10px; }
+          .step-content { display: inline-block; vertical-align: top; }
+          .step-title { font-weight: 600; color: #065f46; font-size: 15px; margin-bottom: 3px; }
+          .step-description { color: #374151; font-size: 13px; line-height: 1.4; }
           .contact-info { background: #1f2937; color: white; padding: 20px; border-radius: 8px; text-align: center; }
           .contact-item { margin: 5px 0; }
           .footer { text-align: center; color: #6b7280; font-size: 12px; margin-top: 30px; }
@@ -96,28 +96,28 @@ export function getCustomerEmailTemplate(leadData: LeadData): { subject: string;
             <h3 style="margin-top: 0; color: #059669; text-align: center;">🚀 Nächste Schritte</h3>
             <div class="steps-grid">
               <div class="step-item">
-                <div class="step-number">1</div>
+                <span class="step-number">1</span>
                 <div class="step-content">
                   <div class="step-title">Prüfung Ihrer Angaben</div>
                   <div class="step-description">Unsere Experten prüfen Ihre Fahrzeugdaten sorgfältig (2-4 Stunden)</div>
                 </div>
               </div>
               <div class="step-item">
-                <div class="step-number">2</div>
+                <span class="step-number">2</span>
                 <div class="step-content">
                   <div class="step-title">Anruf unseres Experten</div>
                   <div class="step-description">Persönliche Beratung und Rückfragen (innerhalb 24h)</div>
                 </div>
               </div>
               <div class="step-item">
-                <div class="step-number">3</div>
+                <span class="step-number">3</span>
                 <div class="step-content">
                   <div class="step-title">Individuelle Bewertung & faires Angebot</div>
                   <div class="step-description">Transparente Kalkulation basierend auf aktuellen Marktpreisen</div>
                 </div>
               </div>
               <div class="step-item">
-                <div class="step-number">4</div>
+                <span class="step-number">4</span>
                 <div class="step-content">
                   <div class="step-title">Bei Einverständnis: Kostenlose Abholung</div>
                   <div class="step-description">Bequeme Abholung direkt vor Ort, alle Formalitäten inklusive</div>

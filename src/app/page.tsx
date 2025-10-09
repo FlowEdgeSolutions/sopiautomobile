@@ -2,6 +2,7 @@
 
 import QuickForm from '../components/QuickForm';
 import ProcessAnimation from '../components/ProcessAnimation';
+import NavigationFeatures from '../components/NavigationFeatures';
 import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -119,8 +120,8 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16 sm:h-20 lg:h-24">
             {/* Logo */}
-            <div className="flex items-center space-x-2 sm:space-x-4">
-              <div className="w-12 h-12 sm:w-16 sm:h-16 lg:w-20 lg:h-20 relative flex items-center justify-center">
+            <Link href="/" className="flex items-center space-x-2 sm:space-x-4 cursor-pointer group">
+              <div className="w-12 h-12 sm:w-16 sm:h-16 lg:w-20 lg:h-20 relative flex items-center justify-center group-hover:scale-105 transition-transform duration-200">
                 <Image
                   src="/logoSopi.png"
                   alt="Sopi Automobile Logo"
@@ -131,10 +132,10 @@ export default function Home() {
                 />
               </div>
               <div className="hidden sm:block">
-                <h1 className="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900">Sopi Automobile</h1>
+                <h1 className="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900 group-hover:text-red-600 transition-colors duration-200">Sopi Automobile</h1>
                 <p className="text-xs sm:text-sm text-gray-600 font-medium">Fahrzeugankauf Hattingen</p>
               </div>
-            </div>
+            </Link>
 
             {/* Desktop Navigation */}
             <div className="hidden lg:flex items-center space-x-4">
@@ -245,8 +246,10 @@ export default function Home() {
                 <div className="px-4 py-6 space-y-4">
                   {/* Mobile Company Info */}
                   <div className="sm:hidden mb-6 pb-4 border-b border-gray-100">
-                    <h2 className="text-lg font-bold text-gray-900 mb-1">Sopi Automobile</h2>
-                    <p className="text-sm text-gray-600">Fahrzeugankauf Hattingen</p>
+                    <Link href="/" onClick={() => setMobileMenuOpen(false)} className="block">
+                      <h2 className="text-lg font-bold text-gray-900 mb-1 hover:text-red-600 transition-colors">Sopi Automobile</h2>
+                      <p className="text-sm text-gray-600">Fahrzeugankauf Hattingen</p>
+                    </Link>
                   </div>
 
                   {/* Contact Links */}
@@ -899,6 +902,9 @@ export default function Home() {
           </div>
         </div>
       </footer>
+      
+      {/* Navigation Features */}
+      <NavigationFeatures />
     </main>
   );
 }
