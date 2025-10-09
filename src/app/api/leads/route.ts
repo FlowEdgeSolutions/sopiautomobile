@@ -56,71 +56,106 @@ const phoneRegex = /^[\+]?[\d\s\-\(\)]{10,}$/;
 const resend = new Resend(process.env.RESEND_API_KEY);
 
 export async function POST(request: NextRequest) {
+  console.log('\n🚀 === LEAD API REQUEST STARTED ===');
+  console.log('Timestamp:', new Date().toISOString());
+  console.log('Request URL:', request.url);
+  console.log('Request method:', request.method);
+  console.log('User-Agent:', request.headers.get('user-agent'));
+  console.log('Content-Type:', request.headers.get('content-type'));
+  
   try {
+    console.log('\n📋 PARSING REQUEST DATA...');
     const data: LeadData = await request.json();
+    console.log('Raw request data:', JSON.stringify(data, null, 2));
 
     // 1. Honeypot-Prüfung (Spam-Schutz)
+    console.log('\n🍯 HONEYPOT CHECK...');
     if (data.website && data.website.trim() !== '') {
-      console.log('Honeypot triggered:', data.website);
+      console.log('❌ HONEYPOT TRIGGERED:', data.website);
       return NextResponse.json({ error: 'Invalid request' }, { status: 400 });
     }
+    console.log('✅ Honeypot check passed');
+
+    console.log('\n🔍 VALIDATING INPUT DATA...');
 
     // 2. Grundlegende Validierung
+    console.log('Validating vehicle brand:', data.vehicle?.brand);
     if (!data.vehicle?.brand || data.vehicle.brand.trim().length < 2) {
+      console.log('❌ VALIDATION FAILED: Brand too short or missing');
       return NextResponse.json({ 
         error: 'Fahrzeugmarke ist erforderlich (min. 2 Zeichen)' 
       }, { status: 400 });
     }
 
+    console.log('Validating vehicle model:', data.vehicle?.model);
     if (!data.vehicle?.model || data.vehicle.model.trim().length < 1) {
+      console.log('❌ VALIDATION FAILED: Model missing');
       return NextResponse.json({ 
         error: 'Fahrzeugmodell ist erforderlich' 
       }, { status: 400 });
     }
 
+    console.log('Validating vehicle year:', data.vehicle?.firstRegistrationYear);
     if (!data.vehicle?.firstRegistrationYear || 
         data.vehicle.firstRegistrationYear < 1950 || 
         data.vehicle.firstRegistrationYear > new Date().getFullYear() + 1) {
+      console.log('❌ VALIDATION FAILED: Invalid year');
       return NextResponse.json({ 
         error: 'Gültiges Erstzulassungsjahr erforderlich' 
       }, { status: 400 });
     }
 
+    console.log('Validating vehicle mileage:', data.vehicle?.mileageKm);
     if (!data.vehicle?.mileageKm || data.vehicle.mileageKm < 0 || data.vehicle.mileageKm > 2000000) {
+      console.log('❌ VALIDATION FAILED: Invalid mileage');
       return NextResponse.json({ 
         error: 'Gültiger Kilometerstand erforderlich (0-2.000.000 km)' 
       }, { status: 400 });
     }
 
+    console.log('Validating contact name:', data.contact?.name);
     if (!data.contact?.name || data.contact.name.trim().length < 2) {
+      console.log('❌ VALIDATION FAILED: Name too short');
       return NextResponse.json({ 
         error: 'Name ist erforderlich (min. 2 Zeichen)' 
       }, { status: 400 });
     }
 
+    console.log('Validating contact email:', data.contact?.email);
     if (!data.contact?.email || !emailRegex.test(data.contact.email)) {
+      console.log('❌ VALIDATION FAILED: Invalid email format');
       return NextResponse.json({ 
         error: 'Gültige E-Mail-Adresse erforderlich' 
       }, { status: 400 });
     }
 
+    console.log('Validating contact phone:', data.contact?.phone);
     if (!data.contact?.phone || !phoneRegex.test(data.contact.phone)) {
+      console.log('❌ VALIDATION FAILED: Invalid phone format');
       return NextResponse.json({ 
         error: 'Gültige Telefonnummer erforderlich (min. 10 Zeichen)' 
       }, { status: 400 });
     }
 
+    console.log('Validating consent:', data.meta?.consent);
     if (!data.meta?.consent) {
+      console.log('❌ VALIDATION FAILED: Consent not given');
       return NextResponse.json({ 
         error: 'Zustimmung zur Datenschutzerklärung ist erforderlich' 
       }, { status: 400 });
     }
+    
+    console.log('✅ ALL VALIDATIONS PASSED');
 
     // 3. Lead-ID generieren
+    console.log('\n🎫 GENERATING LEAD ID...');
     const leadId = crypto.randomUUID();
     const timestamp = new Date().toISOString();
+    console.log('Generated Lead ID:', leadId);
+    console.log('Timestamp:', timestamp);
 
     // 4. Lead-Daten aufbereiten
+    console.log('\n📝 PROCESSING LEAD DATA...');
     const leadPayload = {
       id: leadId,
       timestamp,
@@ -145,38 +180,61 @@ export async function POST(request: NextRequest) {
             'Unknown'
       }
     };
+    
+    console.log('Processed lead payload:', JSON.stringify(leadPayload, null, 2));
 
     // 5. Webhook-Integration (falls konfiguriert)
+    console.log('\n🔗 WEBHOOK INTEGRATION CHECK...');
+    console.log('WEBHOOK_URL configured:', !!process.env.WEBHOOK_URL);
     if (process.env.WEBHOOK_URL) {
+      console.log('Webhook URL:', process.env.WEBHOOK_URL);
       try {
+        console.log('Sending to webhook...');
         await sendToWebhook(leadPayload);
-        console.log('Lead sent to webhook:', leadId);
+        console.log('✅ Lead sent to webhook successfully:', leadId);
       } catch (webhookError) {
-        console.error('Webhook error:', webhookError);
+        console.error('❌ Webhook error:', webhookError);
         // Webhook-Fehler sollten die Lead-Annahme nicht blockieren
       }
+    } else {
+      console.log('⏭️ Skipping webhook - not configured');
     }
 
     // 6. E-Mail-Benachrichtigungen senden
+    console.log('\n📧 EMAIL NOTIFICATIONS...');
+    console.log('RESEND_API_KEY configured:', !!process.env.RESEND_API_KEY);
     try {
+      console.log('Starting email sending process...');
       await sendEmails(leadPayload);
-      console.log('Email notifications sent:', leadId);
+      console.log('✅ Email notifications sent successfully:', leadId);
     } catch (emailError) {
-      console.error('Email error:', emailError);
+      console.error('❌ Email error:', emailError);
       // E-Mail-Fehler sollten die Lead-Annahme nicht blockieren
     }
 
     // 7. Erfolgsantwort
-    console.log('Lead processed successfully:', leadId);
-    return NextResponse.json({
+    console.log('\n✅ === LEAD PROCESSING COMPLETED SUCCESSFULLY ===');
+    console.log('Lead ID:', leadId);
+    console.log('Processing time:', new Date().toISOString());
+    
+    const successResponse = {
       success: true,
       message: 'Ihre Anfrage wurde erfolgreich übermittelt. Wir melden uns binnen 24 Stunden bei Ihnen.',
       leadId,
       estimatedResponseTime: '24 Stunden'
-    });
+    };
+    
+    console.log('Success response:', JSON.stringify(successResponse, null, 2));
+    return NextResponse.json(successResponse);
 
   } catch (error) {
-    console.error('API error:', error);
+    console.error('\n❌ === LEAD PROCESSING FAILED ===');
+    console.error('Error details:', error);
+    console.error('Error type:', typeof error);
+    console.error('Error message:', error instanceof Error ? error.message : 'Unknown error');
+    console.error('Error stack:', error instanceof Error ? error.stack : 'No stack trace');
+    console.error('Timestamp:', new Date().toISOString());
+    
     return NextResponse.json({ 
       error: 'Ein unerwarteter Fehler ist aufgetreten. Bitte versuchen Sie es erneut.' 
     }, { status: 500 });
@@ -184,42 +242,46 @@ export async function POST(request: NextRequest) {
 }
 
 async function sendEmails(leadData: ProcessedLeadData): Promise<void> {
+  console.log('\n📧 === EMAIL SENDING PROCESS STARTED ===');
+  console.log('Lead ID:', leadData.id);
+  console.log('Strategy: Company email first (critical), then customer email (confirmation)');
+  
+  // Umgebungsvariablen prüfen
+  console.log('\n🔑 ENVIRONMENT VARIABLES CHECK:');
+  console.log('RESEND_API_KEY configured:', !!process.env.RESEND_API_KEY);
+  console.log('RESEND_API_KEY length:', process.env.RESEND_API_KEY?.length || 0);
+  console.log('FROM_EMAIL:', process.env.FROM_EMAIL);
+  console.log('COMPANY_EMAIL:', process.env.COMPANY_EMAIL);
+  console.log('CC_EMAILS:', process.env.CC_EMAILS);
+  
   if (!process.env.RESEND_API_KEY) {
-    console.warn('RESEND_API_KEY nicht konfiguriert - E-Mails werden nicht versendet');
+    console.warn('❌ RESEND_API_KEY nicht konfiguriert - E-Mails werden nicht versendet');
     return;
   }
 
   try {
-    console.log('Sending emails for lead:', leadData.id);
-    
-    // Für Produktions-E-Mails verwende eigene Domain, sonst Resend-Domain
+    // E-Mail-Konfiguration bestimmen
+    console.log('\n⚙️ EMAIL CONFIGURATION:');
     const fromEmail = process.env.FROM_EMAIL?.includes('sopiautomobile.de') 
       ? 'Sopi Automobile <onboarding@resend.dev>'  // Fallback bis Domain verifiziert
       : (process.env.FROM_EMAIL || 'Sopi Automobile <onboarding@resend.dev>');
     
-    console.log('FROM_EMAIL:', fromEmail);
+    console.log('Selected FROM_EMAIL:', fromEmail);
+    console.log('Using custom domain:', fromEmail.includes('sopiautomobile.de'));
     
-    // 1. Dankes-E-Mail an den Interessenten
-    const customerTemplate = getCustomerEmailTemplate(leadData);
-    console.log('Sending customer email to:', leadData.contact.email);
-    
-    const customerEmail = await resend.emails.send({
-      from: fromEmail,
-      to: [leadData.contact.email],
-      subject: customerTemplate.subject,
-      html: customerTemplate.html,
-    });
-    
-    console.log('Customer email response:', customerEmail);
-    console.log('Customer email sent:', customerEmail.data?.id || 'Success (no ID)');
-
-    // 2. Benachrichtigungs-E-Mail an das Unternehmen
+    // 🚨 PRIORITÄT 1: Firmen-Benachrichtigung (KRITISCH)
+    console.log('\n🏢 === COMPANY EMAIL PROCESS (PRIORITY 1) ===');
     const companyTemplate = getCompanyEmailTemplate(leadData);
+    console.log('Company email template generated');
+    console.log('Company email subject:', companyTemplate.subject);
+    console.log('Company email HTML length:', companyTemplate.html.length);
     
-    // Verwende temporär registrierte E-Mail bis Domain verifiziert ist
-    const companyRecipients = ['flowedgesolution@gmail.com'];
+    // Empfänger-Liste erstellen
+    const companyRecipients = ['flowedgesolution@gmail.com'];  // Temporär bis Domain verifiziert
+    console.log('Company email recipients:', companyRecipients);
     
-    console.log('Sending company email to:', companyRecipients);
+    console.log('\n📤 Calling Resend API for company email (CRITICAL)...');
+    const companyEmailStart = Date.now();
     
     const companyEmail = await resend.emails.send({
       from: fromEmail,
@@ -228,45 +290,126 @@ async function sendEmails(leadData: ProcessedLeadData): Promise<void> {
       html: companyTemplate.html,
     });
     
-    console.log('Company email response:', companyEmail);
-    console.log('Company email sent:', companyEmail.data?.id || 'Success (no ID)');
+    const companyEmailTime = Date.now() - companyEmailStart;
+    console.log('Company email API call completed in:', companyEmailTime + 'ms');
+    console.log('Company email response status:', companyEmail.error ? 'ERROR' : 'SUCCESS');
+    console.log('Company email response:', JSON.stringify(companyEmail, null, 2));
     
-    // Nur kritische Fehler werfen (Company Email)
-    if (companyEmail.error) {
-      console.error('Company email error:', companyEmail.error);
-      throw new Error(`Company email failed: ${companyEmail.error.message}`);
+    if (companyEmail.data?.id) {
+      console.log('✅ Company email sent successfully with ID:', companyEmail.data.id);
+    } else if (companyEmail.error) {
+      console.log('❌ Company email failed:', companyEmail.error.message);
+      // Firmen-E-Mail Fehler sind KRITISCH
+      throw new Error(`CRITICAL: Company email failed: ${companyEmail.error.message}`);
+    } else {
+      console.log('✅ Company email sent (no ID returned)');
+    }
+
+    // ✨ PRIORITÄT 2: Kunden-Bestätigung (NICE-TO-HAVE)
+    console.log('\n👤 === CUSTOMER EMAIL PROCESS (PRIORITY 2) ===');
+    const customerTemplate = getCustomerEmailTemplate(leadData);
+    console.log('Customer email template generated');
+    console.log('Customer email subject:', customerTemplate.subject);
+    console.log('Customer email HTML length:', customerTemplate.html.length);
+    console.log('Customer email recipient:', leadData.contact.email);
+    
+    // Kunden-E-Mail nur senden wenn möglich (nicht kritisch)
+    const canSendToCustomer = !fromEmail.includes('onboarding@resend.dev') || 
+                              leadData.contact.email === 'flowedgesolution@gmail.com';
+    
+    let customerEmailResult = null;
+    
+    if (canSendToCustomer) {
+      console.log('\n📤 Calling Resend API for customer email (CONFIRMATION)...');
+      const customerEmailStart = Date.now();
+      
+      customerEmailResult = await resend.emails.send({
+        from: fromEmail,
+        to: [leadData.contact.email],
+        subject: customerTemplate.subject,
+        html: customerTemplate.html,
+      });
+      
+      const customerEmailTime = Date.now() - customerEmailStart;
+      console.log('Customer email API call completed in:', customerEmailTime + 'ms');
+      console.log('Customer email response status:', customerEmailResult.error ? 'ERROR' : 'SUCCESS');
+      console.log('Customer email response:', JSON.stringify(customerEmailResult, null, 2));
+      
+      if (customerEmailResult.data?.id) {
+        console.log('✅ Customer email sent successfully with ID:', customerEmailResult.data.id);
+      } else if (customerEmailResult.error) {
+        console.log('⚠️ Customer email failed (non-critical):', customerEmailResult.error.message);
+        console.log('Reason: Customer emails are optional until domain is verified');
+      } else {
+        console.log('✅ Customer email sent (no ID returned)');
+      }
+    } else {
+      console.log('⏭️ Skipping customer email - domain not verified and recipient not authorized');
+      console.log('Customer will receive confirmation once domain is verified');
     }
     
-    // Customer Email Fehler nur loggen, nicht werfen
-    if (customerEmail.error) {
-      console.warn('Customer email warning:', customerEmail.error);
-    }
+    console.log('\n📊 EMAIL SENDING SUMMARY:');
+    console.log('🏢 Company notification:', companyEmail.error ? '❌ FAILED' : '✅ SUCCESS');
+    console.log('👤 Customer confirmation:', canSendToCustomer ? 
+      (customerEmailResult?.error ? '⚠️ FAILED (non-critical)' : '✅ SUCCESS') : 
+      '⏭️ SKIPPED (domain not verified)');
+    
+    console.log('\n✅ === EMAIL SENDING PROCESS COMPLETED ===');
     
   } catch (error) {
-    console.error('Resend email error:', error);
+    console.error('\n❌ === EMAIL SENDING PROCESS FAILED ===');
+    console.error('Email error details:', error);
+    console.error('Error type:', typeof error);
+    console.error('Error message:', error instanceof Error ? error.message : 'Unknown error');
     throw error;
   }
 }
 
 async function sendToWebhook(leadData: ProcessedLeadData): Promise<boolean> {
-  if (!process.env.WEBHOOK_URL) return false;
-
-  const response = await fetch(process.env.WEBHOOK_URL, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'User-Agent': 'SopiAutomobile-LeadSystem/1.0',
-      ...(process.env.WEBHOOK_SECRET && {
-        'Authorization': `Bearer ${process.env.WEBHOOK_SECRET}`
-      })
-    },
-    body: JSON.stringify(leadData),
-  });
-
-  if (!response.ok) {
-    throw new Error(`Webhook failed: ${response.status} ${response.statusText}`);
+  console.log('\n🔗 === WEBHOOK SENDING PROCESS ===');
+  console.log('WEBHOOK_URL:', process.env.WEBHOOK_URL);
+  console.log('WEBHOOK_SECRET configured:', !!process.env.WEBHOOK_SECRET);
+  
+  if (!process.env.WEBHOOK_URL) {
+    console.log('⏭️ No webhook URL configured, skipping...');
+    return false;
   }
 
+  console.log('Preparing webhook payload...');
+  const webhookPayload = JSON.stringify(leadData);
+  console.log('Webhook payload size:', webhookPayload.length, 'bytes');
+  
+  const headers = {
+    'Content-Type': 'application/json',
+    'User-Agent': 'SopiAutomobile-LeadSystem/1.0',
+    ...(process.env.WEBHOOK_SECRET && {
+      'Authorization': `Bearer ${process.env.WEBHOOK_SECRET}`
+    })
+  };
+  
+  console.log('Webhook headers:', Object.keys(headers));
+  console.log('\n📤 Sending webhook request...');
+  
+  const webhookStart = Date.now();
+  
+  const response = await fetch(process.env.WEBHOOK_URL, {
+    method: 'POST',
+    headers,
+    body: webhookPayload,
+  });
+  
+  const webhookTime = Date.now() - webhookStart;
+  console.log('Webhook request completed in:', webhookTime + 'ms');
+  console.log('Webhook response status:', response.status, response.statusText);
+  
+  if (!response.ok) {
+    console.error('❌ Webhook failed with status:', response.status);
+    const errorText = await response.text();
+    console.error('Webhook error response:', errorText);
+    throw new Error(`Webhook failed: ${response.status} ${response.statusText}`);
+  }
+  
+  console.log('✅ Webhook sent successfully');
   return true;
 }
 
