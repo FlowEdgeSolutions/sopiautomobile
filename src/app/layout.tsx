@@ -13,7 +13,7 @@ export const metadata: Metadata = {
   title: "Sopi Automobile - Fahrzeugankauf mit Schaden in Hattingen | Kostenlose Bewertung",
   description: "🚗 Verkaufen Sie Ihr Auto mit Motorschaden, Unfallschaden oder Getriebeschaden bei Sopi Automobile Hattingen. ✅ Kostenlose Bewertung in 30 Sekunden ✅ Faire Preise ✅ Schnelle Abholung. Über 2.500 zufriedene Kunden!",
   keywords: "Fahrzeugankauf Hattingen, Auto verkaufen Motorschaden, Unfallwagen ankauf, Fahrzeug mit Schaden verkaufen, Autoankauf Bochum, Getriebeschaden verkaufen, Fahrzeugbewertung kostenlos, Auto Totalschaden verkaufen, PKW Ankauf NRW, Sopi Automobile",
-  authors: [{ name: "Julian Mazreku", url: "https://sopi-automobile.de" }],
+  authors: [{ name: "Julian Mazreku", url: "https://sopiautomobile.de" }],
   creator: "Sopi Automobile - Julian Mazreku",
   publisher: "Sopi Automobile",
   category: "Automotive",
@@ -23,7 +23,7 @@ export const metadata: Metadata = {
     address: false,
     telephone: false,
   },
-  metadataBase: new URL('https://sopi-automobile.de'),
+  metadataBase: new URL('https://sopiautomobile.de'),
   alternates: {
     canonical: '/',
     languages: {
