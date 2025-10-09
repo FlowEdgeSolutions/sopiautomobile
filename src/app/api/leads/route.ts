@@ -190,27 +190,57 @@ async function sendEmails(leadData: ProcessedLeadData): Promise<void> {
   }
 
   try {
+    console.log('Sending emails for lead:', leadData.id);
+    
+    // Für Produktions-E-Mails verwende eigene Domain, sonst Resend-Domain
+    const fromEmail = process.env.FROM_EMAIL?.includes('sopiautomobile.de') 
+      ? 'Sopi Automobile <onboarding@resend.dev>'  // Fallback bis Domain verifiziert
+      : (process.env.FROM_EMAIL || 'Sopi Automobile <onboarding@resend.dev>');
+    
+    console.log('FROM_EMAIL:', fromEmail);
+    
     // 1. Dankes-E-Mail an den Interessenten
     const customerTemplate = getCustomerEmailTemplate(leadData);
+    console.log('Sending customer email to:', leadData.contact.email);
+    
     const customerEmail = await resend.emails.send({
-      from: process.env.FROM_EMAIL || 'onboarding@resend.dev',
+      from: fromEmail,
       to: [leadData.contact.email],
       subject: customerTemplate.subject,
       html: customerTemplate.html,
     });
     
-    console.log('Customer email sent:', customerEmail.data?.id);
+    console.log('Customer email response:', customerEmail);
+    console.log('Customer email sent:', customerEmail.data?.id || 'Success (no ID)');
 
     // 2. Benachrichtigungs-E-Mail an das Unternehmen
     const companyTemplate = getCompanyEmailTemplate(leadData);
+    
+    // Verwende temporär registrierte E-Mail bis Domain verifiziert ist
+    const companyRecipients = ['flowedgesolution@gmail.com'];
+    
+    console.log('Sending company email to:', companyRecipients);
+    
     const companyEmail = await resend.emails.send({
-      from: process.env.FROM_EMAIL || 'onboarding@resend.dev',
-      to: [process.env.COMPANY_EMAIL || 'verkauf@sopiautomobile.de.de'],
+      from: fromEmail,
+      to: companyRecipients,
       subject: companyTemplate.subject,
       html: companyTemplate.html,
     });
     
-    console.log('Company email sent:', companyEmail.data?.id);
+    console.log('Company email response:', companyEmail);
+    console.log('Company email sent:', companyEmail.data?.id || 'Success (no ID)');
+    
+    // Nur kritische Fehler werfen (Company Email)
+    if (companyEmail.error) {
+      console.error('Company email error:', companyEmail.error);
+      throw new Error(`Company email failed: ${companyEmail.error.message}`);
+    }
+    
+    // Customer Email Fehler nur loggen, nicht werfen
+    if (customerEmail.error) {
+      console.warn('Customer email warning:', customerEmail.error);
+    }
     
   } catch (error) {
     console.error('Resend email error:', error);
