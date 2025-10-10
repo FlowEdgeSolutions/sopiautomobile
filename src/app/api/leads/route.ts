@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import crypto from 'crypto';
-import { Resend } from 'resend';
+import { sendMultipleEmails, validateSendGridConfig } from '../../../lib/email-sendgrid';
 import { getCustomerEmailTemplate, getCompanyEmailTemplate } from '../../../lib/email-templates';
 import { insertLead } from '../../../lib/db-mongodb';
 
@@ -53,8 +53,8 @@ const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 // Phone validation regex (Deutsche Telefonnummern)
 const phoneRegex = /^[\+]?[\d\s\-\(\)]{10,}$/;
 
-// Resend-Client initialisieren
-const resend = new Resend(process.env.RESEND_API_KEY);
+// SendGrid ist jetzt der primäre E-Mail-Service
+// const resend = new Resend(process.env.RESEND_API_KEY);
 
 export async function POST(request: NextRequest) {
   console.log('\n🚀 === LEAD API REQUEST STARTED ===');
@@ -253,19 +253,20 @@ export async function POST(request: NextRequest) {
 }
 
 async function sendEmails(leadData: ProcessedLeadData): Promise<void> {
-  console.log('\n📧 === EMAIL SENDING PROCESS STARTED ===');
+  console.log('\n📧 === EMAIL SENDING PROCESS STARTED (SendGrid) ===');
   console.log('Lead ID:', leadData.id);
-  console.log('Strategy: Customer confirmation + Company notification');
+  console.log('Strategy: Customer confirmation + Company notification via SendGrid');
   
   // Umgebungsvariablen prüfen
   console.log('\n🔑 ENVIRONMENT VARIABLES CHECK:');
-  console.log('RESEND_API_KEY configured:', !!process.env.RESEND_API_KEY);
-  console.log('RESEND_API_KEY length:', process.env.RESEND_API_KEY?.length || 0);
+  console.log('SENDGRID_API_KEY configured:', !!process.env.SENDGRID_API_KEY);
   console.log('FROM_EMAIL:', process.env.FROM_EMAIL);
   console.log('COMPANY_EMAIL:', process.env.COMPANY_EMAIL);
   
-  if (!process.env.RESEND_API_KEY) {
-    console.warn('❌ RESEND_API_KEY nicht konfiguriert - E-Mails werden nicht versendet');
+  // SendGrid-Konfiguration validieren
+  const configValidation = validateSendGridConfig();
+  if (!configValidation.valid) {
+    console.warn('❌ SendGrid nicht korrekt konfiguriert:', configValidation.error);
     return;
   }
 
@@ -273,84 +274,68 @@ async function sendEmails(leadData: ProcessedLeadData): Promise<void> {
     // E-Mail-Konfiguration bestimmen
     console.log('\n⚙️ EMAIL CONFIGURATION:');
     
-    // ✅ KORRIGIERTE LOGIK: Verwende die konfigurierte FROM_EMAIL direkt
-    const fromEmail = process.env.FROM_EMAIL || 'Sopi Automobile <onboarding@resend.dev>';
+    const fromEmail = process.env.FROM_EMAIL || 'noreply@sopiautomobile.de';
     const companyEmail = process.env.COMPANY_EMAIL || 'Julianmazreku4@outlook.de';
     
     console.log('Selected FROM_EMAIL:', fromEmail);
     console.log('Selected COMPANY_EMAIL:', companyEmail);
-    console.log('Using custom domain:', fromEmail.includes('sopiautomobile.de'));
     
-    // 👤 Kunden-Bestätigung senden
-    console.log('\n👤 === CUSTOMER EMAIL PROCESS ===');
+    // 👤 Kunden-Bestätigung vorbereiten
+    console.log('\n👤 === CUSTOMER EMAIL PREPARATION ===');
     const customerTemplate = getCustomerEmailTemplate(leadData);
     console.log('Customer email template generated');
     console.log('Customer email subject:', customerTemplate.subject);
-    console.log('Customer email HTML length:', customerTemplate.html.length);
     console.log('Customer email recipient:', leadData.contact.email);
     
-    // ✅ VEREINFACHTE LOGIK: Versuche immer E-Mail zu senden
-    console.log('\n📤 Calling Resend API for customer email...');
-    const customerEmailStart = Date.now();
-    
-    const customerEmailResult = await resend.emails.send({
-      from: fromEmail,
-      to: leadData.contact.email,
-      subject: customerTemplate.subject,
-      html: customerTemplate.html,
-    });
-    
-    const customerEmailTime = Date.now() - customerEmailStart;
-    console.log('Customer email API call completed in:', customerEmailTime + 'ms');
-    console.log('Customer email response status:', customerEmailResult.error ? 'ERROR' : 'SUCCESS');
-    console.log('Customer email response:', JSON.stringify(customerEmailResult, null, 2));
-    
-    if (customerEmailResult.data?.id) {
-      console.log('✅ Customer email sent successfully with ID:', customerEmailResult.data.id);
-    } else if (customerEmailResult.error) {
-      console.log('❌ Customer email failed:', customerEmailResult.error.message);
-      console.warn('⚠️ Email sending failed, but lead processing continues');
-      // Fehler loggen, aber nicht den gesamten Prozess stoppen
-    } else {
-      console.log('✅ Customer email sent (no ID returned)');
-    }
-    
-    // 🏢 Unternehmens-Benachrichtigung senden
-    console.log('\n🏢 === COMPANY NOTIFICATION EMAIL PROCESS ===');
+    // 🏢 Unternehmens-Benachrichtigung vorbereiten
+    console.log('\n🏢 === COMPANY NOTIFICATION EMAIL PREPARATION ===');
     const companyTemplate = getCompanyEmailTemplate(leadData);
     console.log('Company email template generated');
     console.log('Company email subject:', companyTemplate.subject);
-    console.log('Company email HTML length:', companyTemplate.html.length);
     console.log('Company email recipient:', companyEmail);
     
-    console.log('\n📤 Calling Resend API for company notification...');
-    const companyEmailStart = Date.now();
+    // 📧 E-Mails parallel versenden
+    console.log('\n📤 Sending emails via SendGrid...');
+    const emailStart = Date.now();
     
-    const companyEmailResult = await resend.emails.send({
-      from: fromEmail,
-      to: companyEmail,
-      subject: companyTemplate.subject,
-      html: companyTemplate.html,
-    });
+    const emailResults = await sendMultipleEmails([
+      {
+        to: leadData.contact.email,
+        from: fromEmail,
+        subject: customerTemplate.subject,
+        html: customerTemplate.html
+      },
+      {
+        to: companyEmail,
+        from: fromEmail,
+        subject: companyTemplate.subject,
+        html: companyTemplate.html
+      }
+    ]);
     
-    const companyEmailTime = Date.now() - companyEmailStart;
-    console.log('Company email API call completed in:', companyEmailTime + 'ms');
-    console.log('Company email response status:', companyEmailResult.error ? 'ERROR' : 'SUCCESS');
-    console.log('Company email response:', JSON.stringify(companyEmailResult, null, 2));
+    const emailTime = Date.now() - emailStart;
+    console.log('SendGrid emails completed in:', emailTime + 'ms');
     
-    if (companyEmailResult.data?.id) {
-      console.log('✅ Company notification email sent successfully with ID:', companyEmailResult.data.id);
-    } else if (companyEmailResult.error) {
-      console.log('❌ Company notification email failed:', companyEmailResult.error.message);
-      console.warn('⚠️ Company email sending failed, but lead processing continues');
-      // Fehler loggen, aber nicht den gesamten Prozess stoppen
+    // Ergebnisse verarbeiten
+    const [customerResult, companyResult] = emailResults;
+    
+    if (customerResult.success) {
+      console.log('✅ Customer email sent successfully with Message ID:', customerResult.messageId);
     } else {
-      console.log('✅ Company notification email sent (no ID returned)');
+      console.log('❌ Customer email failed:', customerResult.error);
+      console.warn('⚠️ Customer email sending failed, but lead processing continues');
+    }
+    
+    if (companyResult.success) {
+      console.log('✅ Company notification email sent successfully with Message ID:', companyResult.messageId);
+    } else {
+      console.log('❌ Company notification email failed:', companyResult.error);
+      console.warn('⚠️ Company email sending failed, but lead processing continues');
     }
     
     console.log('\n📊 EMAIL SENDING SUMMARY:');
-    console.log('👤 Customer confirmation: ✅ ATTEMPTED');
-    console.log('🏢 Company notification: ✅ ATTEMPTED');
+    console.log('👤 Customer confirmation: ' + (customerResult.success ? '✅ SUCCESS' : '❌ FAILED'));
+    console.log('🏢 Company notification: ' + (companyResult.success ? '✅ SUCCESS' : '❌ FAILED'));
     
     console.log('\n✅ === EMAIL SENDING PROCESS COMPLETED ===');
     
