@@ -64,8 +64,13 @@ export function getCustomerEmailTemplate(leadData: LeadData): { subject: string;
       </head>
       <body>
         <div class="header">
-          <div class="logo">🚗 Sopi Automobile</div>
-          <div class="tagline">Fahrzeugankauf Hattingen</div>
+          <div style="display: flex; align-items: center; justify-content: center; margin-bottom: 10px;">
+            <img src="https://sopiautomobile.de/logoSopi.png" alt="Sopi Automobile Logo" width="60" height="60" style="margin-right: 15px;">
+            <div>
+              <div class="logo">Sopi Automobile</div>
+              <div class="tagline">Fahrzeugankauf Hattingen</div>
+            </div>
+          </div>
         </div>
 
         <div class="content">
@@ -167,92 +172,84 @@ export function getCompanyEmailTemplate(leadData: LeadData): { subject: string; 
   const timestamp = new Date(leadData.timestamp).toLocaleString('de-DE');
 
   return {
-    subject: `🚗 Neue Fahrzeugankauf-Anfrage - ${leadData.vehicle.brand} ${leadData.vehicle.model}`,
+    subject: `Neue Fahrzeugankauf-Anfrage - ${leadData.vehicle.brand} ${leadData.vehicle.model}`,
     html: `
       <!DOCTYPE html>
       <html>
       <head>
         <meta charset="utf-8">
         <title>Neue Fahrzeugankauf-Anfrage</title>
-        <style>
-          body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; line-height: 1.6; color: #333; max-width: 700px; margin: 0 auto; padding: 20px; }
-          .header { background: linear-gradient(135deg, #1f2937, #374151); color: white; padding: 25px; border-radius: 12px; text-align: center; margin-bottom: 25px; }
-          .alert { background: #fef3c7; border: 1px solid #f59e0b; color: #92400e; padding: 15px; border-radius: 8px; margin-bottom: 25px; font-weight: 500; }
-          .section { background: #f9fafb; padding: 25px; border-radius: 8px; margin-bottom: 20px; }
-          .section h3 { margin-top: 0; color: #1f2937; border-bottom: 2px solid #dc2626; padding-bottom: 8px; }
-          .data-grid { display: grid; grid-template-columns: 1fr 2fr; gap: 10px; }
-          .data-label { font-weight: 600; color: #374151; }
-          .data-value { color: #1f2937; }
-          .contact-actions { background: #ecfdf5; border: 1px solid #10b981; padding: 20px; border-radius: 8px; margin: 20px 0; }
-          .contact-button { background: #10b981; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; display: inline-block; margin: 5px 10px 5px 0; font-weight: 500; }
-          .priority { background: #fef2f2; border: 1px solid #fca5a5; color: #991b1b; padding: 15px; border-radius: 8px; margin: 15px 0; }
-          .meta-info { background: #f3f4f6; border: 1px solid #d1d5db; padding: 15px; border-radius: 6px; font-size: 12px; color: #6b7280; }
-        </style>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
       </head>
-      <body>
-        <div class="header">
-          <h1 style="margin: 0;">🚨 Neue Fahrzeugankauf-Anfrage</h1>
+      <body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; line-height: 1.6; color: #333; max-width: 700px; margin: 0 auto; padding: 20px; background-color: #f9fafb;">
+        <div style="background: linear-gradient(135deg, #1f2937, #374151); color: white; padding: 25px; border-radius: 12px; text-align: center; margin-bottom: 25px;">
+          <div style="display: flex; align-items: center; justify-content: center; margin-bottom: 10px;">
+            <img src="https://sopiautomobile.de/logoSopi.png" alt="Sopi Automobile Logo" width="50" height="50" style="margin-right: 15px;">
+            <h1 style="margin: 0;">Neue Fahrzeugankauf-Anfrage</h1>
+          </div>
           <p style="margin: 10px 0 0 0; opacity: 0.9;">Lead-ID: ${leadData.id.slice(0, 8).toUpperCase()}</p>
         </div>
 
-        <div class="alert">
+        <div style="background: #fef3c7; border: 1px solid #f59e0b; color: #92400e; padding: 15px; border-radius: 8px; margin-bottom: 25px; font-weight: 500;">
           ⏰ <strong>Sofortige Bearbeitung erforderlich!</strong> Kunde erwartet Rückmeldung binnen 24h.
         </div>
 
-        <div class="section">
-          <h3>🚗 Fahrzeugdaten</h3>
-          <div class="data-grid">
-            <div class="data-label">Marke:</div>
-            <div class="data-value"><strong>${leadData.vehicle.brand}</strong></div>
-            <div class="data-label">Modell:</div>
-            <div class="data-value"><strong>${leadData.vehicle.model}</strong></div>
-            <div class="data-label">Erstzulassung:</div>
-            <div class="data-value">${leadData.vehicle.firstRegistrationYear}</div>
-            <div class="data-label">Kilometerstand:</div>
-            <div class="data-value">${leadData.vehicle.mileageKm.toLocaleString('de-DE')} km</div>
-            <div class="data-label">Zustand:</div>
-            <div class="data-value"><strong style="color: #dc2626;">${conditionLabel}</strong></div>
+        <div style="background: #ffffff; padding: 25px; border-radius: 8px; margin-bottom: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+          <h3 style="margin-top: 0; color: #1f2937; border-bottom: 2px solid #dc2626; padding-bottom: 8px;">🚗 Fahrzeugdaten</h3>
+          <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 10px;">
+            <div style="font-weight: 600; color: #374151;">Marke:</div>
+            <div style="color: #1f2937;"><strong>${leadData.vehicle.brand}</strong></div>
+            <div style="font-weight: 600; color: #374151;">Modell:</div>
+            <div style="color: #1f2937;"><strong>${leadData.vehicle.model}</strong></div>
+            <div style="font-weight: 600; color: #374151;">Erstzulassung:</div>
+            <div style="color: #1f2937;">${leadData.vehicle.firstRegistrationYear}</div>
+            <div style="font-weight: 600; color: #374151;">Kilometerstand:</div>
+            <div style="color: #1f2937;">${leadData.vehicle.mileageKm.toLocaleString('de-DE')} km</div>
+            <div style="font-weight: 600; color: #374151;">Zustand:</div>
+            <div style="color: #1f2937;"><strong style="color: #dc2626;">${conditionLabel}</strong></div>
           </div>
         </div>
 
-        <div class="section">
-          <h3>👤 Kontaktdaten</h3>
-          <div class="data-grid">
-            <div class="data-label">Name:</div>
-            <div class="data-value"><strong>${leadData.contact.name}</strong></div>
-            <div class="data-label">E-Mail:</div>
-            <div class="data-value"><a href="mailto:${leadData.contact.email}">${leadData.contact.email}</a></div>
-            <div class="data-label">Telefon:</div>
-            <div class="data-value"><a href="tel:${leadData.contact.phone}">${leadData.contact.phone}</a></div>
+        <div style="background: #ffffff; padding: 25px; border-radius: 8px; margin-bottom: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+          <h3 style="margin-top: 0; color: #1f2937; border-bottom: 2px solid #dc2626; padding-bottom: 8px;">👤 Kontaktdaten</h3>
+          <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 10px;">
+            <div style="font-weight: 600; color: #374151;">Name:</div>
+            <div style="color: #1f2937;"><strong>${leadData.contact.name}</strong></div>
+            <div style="font-weight: 600; color: #374151;">E-Mail:</div>
+            <div style="color: #1f2937;"><a href="mailto:${leadData.contact.email}" style="color: #3b82f6; text-decoration: none;">${leadData.contact.email}</a></div>
+            <div style="font-weight: 600; color: #374151;">Telefon:</div>
+            <div style="color: #1f2937;"><a href="tel:${leadData.contact.phone}" style="color: #3b82f6; text-decoration: none;">${leadData.contact.phone}</a></div>
           </div>
         </div>
 
-        <div class="contact-actions">
+        <div style="background: #ecfdf5; border: 1px solid #10b981; padding: 20px; border-radius: 8px; margin: 20px 0; text-align: center;">
           <h3 style="margin-top: 0; color: #059669;">🎯 Sofort-Aktionen</h3>
-          <a href="tel:${leadData.contact.phone}" class="contact-button">📞 Anrufen</a>
-          <a href="mailto:${leadData.contact.email}" class="contact-button">✉️ E-Mail schreiben</a>
+          <div>
+            <a href="tel:${leadData.contact.phone}" style="background: #10b981; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; display: inline-block; margin: 5px 10px 5px 0; font-weight: 500;">📞 Anrufen</a>
+            <a href="mailto:${leadData.contact.email}" style="background: #3b82f6; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; display: inline-block; margin: 5px 10px 5px 0; font-weight: 500;">✉️ E-Mail schreiben</a>
+          </div>
         </div>
 
-        <div class="priority">
+        <div style="background: #fef2f2; border: 1px solid #fca5a5; color: #991b1b; padding: 15px; border-radius: 8px; margin: 15px 0; font-weight: 500;">
           <strong>⚡ Bewertungs-Priorität:</strong> 
           ${leadData.vehicle.condition === 'motorschaden' || leadData.vehicle.condition === 'unfallschaden' ? 
             'HOCH - Schadensfahrzeug, schnelle Bewertung wichtig!' : 
             'NORMAL - Reguläre Bearbeitung'}
         </div>
 
-        <div class="section">
-          <h3>📊 Meta-Informationen</h3>
-          <div class="data-grid">
-            <div class="data-label">Zeitstempel:</div>
-            <div class="data-value">${timestamp}</div>
-            <div class="data-label">Quelle:</div>
-            <div class="data-value">${leadData.meta.source}</div>
-            <div class="data-label">IP-Adresse:</div>
-            <div class="data-value">${leadData.meta.ip}</div>
+        <div style="background: #ffffff; padding: 25px; border-radius: 8px; margin-bottom: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+          <h3 style="margin-top: 0; color: #1f2937; border-bottom: 2px solid #dc2626; padding-bottom: 8px;">📊 Meta-Informationen</h3>
+          <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 10px;">
+            <div style="font-weight: 600; color: #374151;">Zeitstempel:</div>
+            <div style="color: #1f2937;">${timestamp}</div>
+            <div style="font-weight: 600; color: #374151;">Quelle:</div>
+            <div style="color: #1f2937;">${leadData.meta.source}</div>
+            <div style="font-weight: 600; color: #374151;">IP-Adresse:</div>
+            <div style="color: #1f2937;">${leadData.meta.ip}</div>
           </div>
         </div>
 
-        <div class="meta-info">
+        <div style="background: #f3f4f6; border: 1px solid #d1d5db; padding: 15px; border-radius: 6px; font-size: 12px; color: #6b7280;">
           <strong>Technische Details:</strong><br>
           User-Agent: ${leadData.meta.userAgent}<br>
           Datenschutz-Zustimmung: ${leadData.meta.consent ? '✅ Erteilt' : '❌ Nicht erteilt'}<br>

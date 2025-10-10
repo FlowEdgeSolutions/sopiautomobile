@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import crypto from 'crypto';
-import { sendMultipleEmails, validateSendGridConfig } from '../../../lib/email-sendgrid';
+import { sendEmail, validateSendGridConfig } from '../../../lib/email-sendgrid';
 import { getCustomerEmailTemplate, getCompanyEmailTemplate } from '../../../lib/email-templates';
 import { insertLead } from '../../../lib/db-mongodb';
 
@@ -255,7 +255,7 @@ export async function POST(request: NextRequest) {
 async function sendEmails(leadData: ProcessedLeadData): Promise<void> {
   console.log('\n📧 === EMAIL SENDING PROCESS STARTED (SendGrid) ===');
   console.log('Lead ID:', leadData.id);
-  console.log('Strategy: Customer confirmation + Company notification via SendGrid');
+  console.log('Strategy: Customer confirmation THEN Company notification via SendGrid (sequential)');
   
   // Umgebungsvariablen prüfen
   console.log('\n🔑 ENVIRONMENT VARIABLES CHECK:');
@@ -275,7 +275,7 @@ async function sendEmails(leadData: ProcessedLeadData): Promise<void> {
     console.log('\n⚙️ EMAIL CONFIGURATION:');
     
     const fromEmail = process.env.FROM_EMAIL || 'noreply@sopiautomobile.de';
-    const companyEmail = process.env.COMPANY_EMAIL || 'Julianmazreku4@outlook.de';
+    const companyEmail = process.env.COMPANY_EMAIL || 'info@sopiautomobile.de';
     
     console.log('Selected FROM_EMAIL:', fromEmail);
     console.log('Selected COMPANY_EMAIL:', companyEmail);
@@ -287,6 +287,28 @@ async function sendEmails(leadData: ProcessedLeadData): Promise<void> {
     console.log('Customer email subject:', customerTemplate.subject);
     console.log('Customer email recipient:', leadData.contact.email);
     
+    // 📧 Erst E-Mail an Kunden senden
+    console.log('\n📤 Sending customer email via SendGrid...');
+    const customerEmailStart = Date.now();
+    
+    const customerResult = await sendEmail({
+      to: leadData.contact.email,
+      from: fromEmail,
+      subject: customerTemplate.subject,
+      html: customerTemplate.html
+    });
+    
+    const customerEmailTime = Date.now() - customerEmailStart;
+    console.log('Customer email completed in:', customerEmailTime + 'ms');
+    
+    if (customerResult.success) {
+      console.log('✅ Customer email sent successfully with Message ID:', customerResult.messageId);
+    } else {
+      console.log('❌ Customer email failed:', customerResult.error);
+      console.warn('⚠️ Customer email sending failed, but lead processing continues');
+      // Bei Fehler beim Kunden-Mail-Versand stoppen wir nicht, sondern fahren fort
+    }
+    
     // 🏢 Unternehmens-Benachrichtigung vorbereiten
     console.log('\n🏢 === COMPANY NOTIFICATION EMAIL PREPARATION ===');
     const companyTemplate = getCompanyEmailTemplate(leadData);
@@ -294,37 +316,19 @@ async function sendEmails(leadData: ProcessedLeadData): Promise<void> {
     console.log('Company email subject:', companyTemplate.subject);
     console.log('Company email recipient:', companyEmail);
     
-    // 📧 E-Mails parallel versenden
-    console.log('\n📤 Sending emails via SendGrid...');
-    const emailStart = Date.now();
+    // 📧 Dann E-Mail an Unternehmen senden
+    console.log('\n📤 Sending company notification email via SendGrid...');
+    const companyEmailStart = Date.now();
     
-    const emailResults = await sendMultipleEmails([
-      {
-        to: leadData.contact.email,
-        from: fromEmail,
-        subject: customerTemplate.subject,
-        html: customerTemplate.html
-      },
-      {
-        to: companyEmail,
-        from: fromEmail,
-        subject: companyTemplate.subject,
-        html: companyTemplate.html
-      }
-    ]);
+    const companyResult = await sendEmail({
+      to: companyEmail,
+      from: fromEmail,
+      subject: companyTemplate.subject,
+      html: companyTemplate.html
+    });
     
-    const emailTime = Date.now() - emailStart;
-    console.log('SendGrid emails completed in:', emailTime + 'ms');
-    
-    // Ergebnisse verarbeiten
-    const [customerResult, companyResult] = emailResults;
-    
-    if (customerResult.success) {
-      console.log('✅ Customer email sent successfully with Message ID:', customerResult.messageId);
-    } else {
-      console.log('❌ Customer email failed:', customerResult.error);
-      console.warn('⚠️ Customer email sending failed, but lead processing continues');
-    }
+    const companyEmailTime = Date.now() - companyEmailStart;
+    console.log('Company email completed in:', companyEmailTime + 'ms');
     
     if (companyResult.success) {
       console.log('✅ Company notification email sent successfully with Message ID:', companyResult.messageId);
