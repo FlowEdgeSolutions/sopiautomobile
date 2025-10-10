@@ -271,9 +271,9 @@ async function sendEmails(leadData: ProcessedLeadData): Promise<void> {
   try {
     // E-Mail-Konfiguration bestimmen
     console.log('\n⚙️ EMAIL CONFIGURATION:');
-    const fromEmail = process.env.FROM_EMAIL?.includes('sopiautomobile.de') 
-      ? 'Sopi Automobile <onboarding@resend.dev>'  // Fallback bis Domain verifiziert
-      : (process.env.FROM_EMAIL || 'Sopi Automobile <onboarding@resend.dev>');
+    
+    // ✅ KORRIGIERTE LOGIK: Verwende die konfigurierte FROM_EMAIL direkt
+    const fromEmail = process.env.FROM_EMAIL || 'Sopi Automobile <onboarding@resend.dev>';
     
     console.log('Selected FROM_EMAIL:', fromEmail);
     console.log('Using custom domain:', fromEmail.includes('sopiautomobile.de'));
@@ -286,41 +286,34 @@ async function sendEmails(leadData: ProcessedLeadData): Promise<void> {
     console.log('Customer email HTML length:', customerTemplate.html.length);
     console.log('Customer email recipient:', leadData.contact.email);
     
-    // Kunden-E-Mail senden
-    const canSendToCustomer = !fromEmail.includes('onboarding@resend.dev') || 
-                              leadData.contact.email === 'flowedgesolution@gmail.com';
+    // ✅ VEREINFACHTE LOGIK: Versuche immer E-Mail zu senden
+    console.log('\n📤 Calling Resend API for customer email...');
+    const customerEmailStart = Date.now();
     
-    if (canSendToCustomer) {
-      console.log('\n📤 Calling Resend API for customer email...');
-      const customerEmailStart = Date.now();
-      
-      const customerEmailResult = await resend.emails.send({
-        from: fromEmail,
-        to: leadData.contact.email,
-        subject: customerTemplate.subject,
-        html: customerTemplate.html,
-      });
-      
-      const customerEmailTime = Date.now() - customerEmailStart;
-      console.log('Customer email API call completed in:', customerEmailTime + 'ms');
-      console.log('Customer email response status:', customerEmailResult.error ? 'ERROR' : 'SUCCESS');
-      console.log('Customer email response:', JSON.stringify(customerEmailResult, null, 2));
-      
-      if (customerEmailResult.data?.id) {
-        console.log('✅ Customer email sent successfully with ID:', customerEmailResult.data.id);
-      } else if (customerEmailResult.error) {
-        console.log('❌ Customer email failed:', customerEmailResult.error.message);
-        throw new Error(`Customer email failed: ${customerEmailResult.error.message}`);
-      } else {
-        console.log('✅ Customer email sent (no ID returned)');
-      }
+    const customerEmailResult = await resend.emails.send({
+      from: fromEmail,
+      to: leadData.contact.email,
+      subject: customerTemplate.subject,
+      html: customerTemplate.html,
+    });
+    
+    const customerEmailTime = Date.now() - customerEmailStart;
+    console.log('Customer email API call completed in:', customerEmailTime + 'ms');
+    console.log('Customer email response status:', customerEmailResult.error ? 'ERROR' : 'SUCCESS');
+    console.log('Customer email response:', JSON.stringify(customerEmailResult, null, 2));
+    
+    if (customerEmailResult.data?.id) {
+      console.log('✅ Customer email sent successfully with ID:', customerEmailResult.data.id);
+    } else if (customerEmailResult.error) {
+      console.log('❌ Customer email failed:', customerEmailResult.error.message);
+      console.warn('⚠️ Email sending failed, but lead processing continues');
+      // Fehler loggen, aber nicht den gesamten Prozess stoppen
     } else {
-      console.log('⏭️ Skipping customer email - domain not verified and recipient not authorized');
-      console.log('Customer will receive confirmation once domain is verified');
+      console.log('✅ Customer email sent (no ID returned)');
     }
     
     console.log('\n📊 EMAIL SENDING SUMMARY:');
-    console.log('👤 Customer confirmation:', canSendToCustomer ? '✅ SUCCESS' : '⏭️ SKIPPED (domain not verified)');
+    console.log('👤 Customer confirmation: ✅ ATTEMPTED');
     
     console.log('\n✅ === EMAIL SENDING PROCESS COMPLETED ===');
     
