@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import crypto from 'crypto';
 import { Resend } from 'resend';
-import { getCustomerEmailTemplate } from '../../../lib/email-templates';
+import { getCustomerEmailTemplate, getCompanyEmailTemplate } from '../../../lib/email-templates';
 import { insertLead } from '../../../lib/db-mongodb';
 
 interface ProcessedLeadData {
@@ -255,13 +255,14 @@ export async function POST(request: NextRequest) {
 async function sendEmails(leadData: ProcessedLeadData): Promise<void> {
   console.log('\n📧 === EMAIL SENDING PROCESS STARTED ===');
   console.log('Lead ID:', leadData.id);
-  console.log('Strategy: Customer confirmation email only');
+  console.log('Strategy: Customer confirmation + Company notification');
   
   // Umgebungsvariablen prüfen
   console.log('\n🔑 ENVIRONMENT VARIABLES CHECK:');
   console.log('RESEND_API_KEY configured:', !!process.env.RESEND_API_KEY);
   console.log('RESEND_API_KEY length:', process.env.RESEND_API_KEY?.length || 0);
   console.log('FROM_EMAIL:', process.env.FROM_EMAIL);
+  console.log('COMPANY_EMAIL:', process.env.COMPANY_EMAIL);
   
   if (!process.env.RESEND_API_KEY) {
     console.warn('❌ RESEND_API_KEY nicht konfiguriert - E-Mails werden nicht versendet');
@@ -274,8 +275,10 @@ async function sendEmails(leadData: ProcessedLeadData): Promise<void> {
     
     // ✅ KORRIGIERTE LOGIK: Verwende die konfigurierte FROM_EMAIL direkt
     const fromEmail = process.env.FROM_EMAIL || 'Sopi Automobile <onboarding@resend.dev>';
+    const companyEmail = process.env.COMPANY_EMAIL || 'Julianmazreku4@outlook.de';
     
     console.log('Selected FROM_EMAIL:', fromEmail);
+    console.log('Selected COMPANY_EMAIL:', companyEmail);
     console.log('Using custom domain:', fromEmail.includes('sopiautomobile.de'));
     
     // 👤 Kunden-Bestätigung senden
@@ -312,8 +315,42 @@ async function sendEmails(leadData: ProcessedLeadData): Promise<void> {
       console.log('✅ Customer email sent (no ID returned)');
     }
     
+    // 🏢 Unternehmens-Benachrichtigung senden
+    console.log('\n🏢 === COMPANY NOTIFICATION EMAIL PROCESS ===');
+    const companyTemplate = getCompanyEmailTemplate(leadData);
+    console.log('Company email template generated');
+    console.log('Company email subject:', companyTemplate.subject);
+    console.log('Company email HTML length:', companyTemplate.html.length);
+    console.log('Company email recipient:', companyEmail);
+    
+    console.log('\n📤 Calling Resend API for company notification...');
+    const companyEmailStart = Date.now();
+    
+    const companyEmailResult = await resend.emails.send({
+      from: fromEmail,
+      to: companyEmail,
+      subject: companyTemplate.subject,
+      html: companyTemplate.html,
+    });
+    
+    const companyEmailTime = Date.now() - companyEmailStart;
+    console.log('Company email API call completed in:', companyEmailTime + 'ms');
+    console.log('Company email response status:', companyEmailResult.error ? 'ERROR' : 'SUCCESS');
+    console.log('Company email response:', JSON.stringify(companyEmailResult, null, 2));
+    
+    if (companyEmailResult.data?.id) {
+      console.log('✅ Company notification email sent successfully with ID:', companyEmailResult.data.id);
+    } else if (companyEmailResult.error) {
+      console.log('❌ Company notification email failed:', companyEmailResult.error.message);
+      console.warn('⚠️ Company email sending failed, but lead processing continues');
+      // Fehler loggen, aber nicht den gesamten Prozess stoppen
+    } else {
+      console.log('✅ Company notification email sent (no ID returned)');
+    }
+    
     console.log('\n📊 EMAIL SENDING SUMMARY:');
     console.log('👤 Customer confirmation: ✅ ATTEMPTED');
+    console.log('🏢 Company notification: ✅ ATTEMPTED');
     
     console.log('\n✅ === EMAIL SENDING PROCESS COMPLETED ===');
     
