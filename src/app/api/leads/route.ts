@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import crypto from 'crypto';
 import { Resend } from 'resend';
-import { getCustomerEmailTemplate, getCompanyEmailTemplate } from '../../../lib/email-templates';
+import { getCustomerEmailTemplate } from '../../../lib/email-templates';
+import { insertLead } from '../../../lib/db';
 
 interface ProcessedLeadData {
   id: string;
@@ -183,7 +184,17 @@ export async function POST(request: NextRequest) {
     
     console.log('Processed lead payload:', JSON.stringify(leadPayload, null, 2));
 
-    // 5. Webhook-Integration (falls konfiguriert)
+    // 5. Lead in SQLite-Datenbank speichern
+    console.log('\n💾 SAVING TO DATABASE...');
+    try {
+      insertLead(leadPayload);
+      console.log('✅ Lead saved to database successfully:', leadId);
+    } catch (dbError) {
+      console.error('❌ Database error:', dbError);
+      // Datenbank-Fehler sollten die Lead-Annahme nicht blockieren
+    }
+
+    // 6. Webhook-Integration (falls konfiguriert)
     console.log('\n🔗 WEBHOOK INTEGRATION CHECK...');
     console.log('WEBHOOK_URL configured:', !!process.env.WEBHOOK_URL);
     if (process.env.WEBHOOK_URL) {
@@ -200,7 +211,7 @@ export async function POST(request: NextRequest) {
       console.log('⏭️ Skipping webhook - not configured');
     }
 
-    // 6. E-Mail-Benachrichtigungen senden
+    // 7. E-Mail-Benachrichtigungen senden
     console.log('\n📧 EMAIL NOTIFICATIONS...');
     console.log('RESEND_API_KEY configured:', !!process.env.RESEND_API_KEY);
     try {
@@ -212,7 +223,7 @@ export async function POST(request: NextRequest) {
       // E-Mail-Fehler sollten die Lead-Annahme nicht blockieren
     }
 
-    // 7. Erfolgsantwort
+    // 8. Erfolgsantwort
     console.log('\n✅ === LEAD PROCESSING COMPLETED SUCCESSFULLY ===');
     console.log('Lead ID:', leadId);
     console.log('Processing time:', new Date().toISOString());
@@ -244,15 +255,13 @@ export async function POST(request: NextRequest) {
 async function sendEmails(leadData: ProcessedLeadData): Promise<void> {
   console.log('\n📧 === EMAIL SENDING PROCESS STARTED ===');
   console.log('Lead ID:', leadData.id);
-  console.log('Strategy: Company email first (critical), then customer email (confirmation)');
+  console.log('Strategy: Customer confirmation email only');
   
   // Umgebungsvariablen prüfen
   console.log('\n🔑 ENVIRONMENT VARIABLES CHECK:');
   console.log('RESEND_API_KEY configured:', !!process.env.RESEND_API_KEY);
   console.log('RESEND_API_KEY length:', process.env.RESEND_API_KEY?.length || 0);
   console.log('FROM_EMAIL:', process.env.FROM_EMAIL);
-  console.log('COMPANY_EMAIL:', process.env.COMPANY_EMAIL);
-  console.log('CC_EMAILS:', process.env.CC_EMAILS);
   
   if (!process.env.RESEND_API_KEY) {
     console.warn('❌ RESEND_API_KEY nicht konfiguriert - E-Mails werden nicht versendet');
@@ -269,70 +278,25 @@ async function sendEmails(leadData: ProcessedLeadData): Promise<void> {
     console.log('Selected FROM_EMAIL:', fromEmail);
     console.log('Using custom domain:', fromEmail.includes('sopiautomobile.de'));
     
-    // 🚨 PRIORITÄT 1: Firmen-Benachrichtigung (KRITISCH)
-    console.log('\n🏢 === COMPANY EMAIL PROCESS (PRIORITY 1) ===');
-    const companyTemplate = getCompanyEmailTemplate(leadData);
-    console.log('Company email template generated');
-    console.log('Company email subject:', companyTemplate.subject);
-    console.log('Company email HTML length:', companyTemplate.html.length);
-    
-    // Empfänger-Liste erstellen
-    const companyRecipients = ['flowedgesolution@gmail.com'];  // Temporär bis Domain verifiziert
-    console.log('Company email recipients:', companyRecipients);
-    
-    console.log('\n📤 Calling Resend API for company email (CRITICAL)...');
-    const companyEmailStart = Date.now();
-    
-    const companyEmail = await resend.emails.send({
-      from: fromEmail,
-      to: companyRecipients,
-      subject: companyTemplate.subject,
-      html: companyTemplate.html,
-    });
-    
-    const companyEmailTime = Date.now() - companyEmailStart;
-    console.log('Company email API call completed in:', companyEmailTime + 'ms');
-    console.log('Company email response status:', companyEmail.error ? 'ERROR' : 'SUCCESS');
-    console.log('Company email response:', JSON.stringify(companyEmail, null, 2));
-    
-    if (companyEmail.data?.id) {
-      console.log('✅ Company email sent successfully with ID:', companyEmail.data.id);
-    } else if (companyEmail.error) {
-      console.log('❌ Company email failed:', companyEmail.error.message);
-      // Firmen-E-Mail Fehler sind KRITISCH
-      throw new Error(`CRITICAL: Company email failed: ${companyEmail.error.message}`);
-    } else {
-      console.log('✅ Company email sent (no ID returned)');
-    }
-
-    // ✨ PRIORITÄT 2: Kunden-Bestätigung (NICE-TO-HAVE)
-    console.log('\n👤 === CUSTOMER EMAIL PROCESS (PRIORITY 2) ===');
+    // 👤 Kunden-Bestätigung senden
+    console.log('\n👤 === CUSTOMER EMAIL PROCESS ===');
     const customerTemplate = getCustomerEmailTemplate(leadData);
     console.log('Customer email template generated');
     console.log('Customer email subject:', customerTemplate.subject);
     console.log('Customer email HTML length:', customerTemplate.html.length);
     console.log('Customer email recipient:', leadData.contact.email);
     
-    // Kunden-E-Mail nur senden wenn möglich (nicht kritisch)
+    // Kunden-E-Mail senden
     const canSendToCustomer = !fromEmail.includes('onboarding@resend.dev') || 
                               leadData.contact.email === 'flowedgesolution@gmail.com';
     
-    let customerEmailResult = null;
-    
     if (canSendToCustomer) {
-      console.log('\n📤 Calling Resend API for customer email (CONFIRMATION)...');
+      console.log('\n📤 Calling Resend API for customer email...');
       const customerEmailStart = Date.now();
       
-      // Beide Empfänger als Haupt-TO-Empfänger hinzufügen
-      const customerToRecipients = [
-        leadData.contact.email,  // Kunde
-        'verkauf@sopiautomobile.de'  // Verkaufs-E-Mail (echte Adresse)
-      ];
-      console.log('Customer email TO recipients:', customerToRecipients);
-      
-      customerEmailResult = await resend.emails.send({
+      const customerEmailResult = await resend.emails.send({
         from: fromEmail,
-        to: customerToRecipients,  // Beide als Haupt-Empfänger
+        to: leadData.contact.email,
         subject: customerTemplate.subject,
         html: customerTemplate.html,
       });
@@ -344,13 +308,11 @@ async function sendEmails(leadData: ProcessedLeadData): Promise<void> {
       
       if (customerEmailResult.data?.id) {
         console.log('✅ Customer email sent successfully with ID:', customerEmailResult.data.id);
-        console.log('Sent to both recipients:', customerToRecipients.join(', '));
       } else if (customerEmailResult.error) {
-        console.log('⚠️ Customer email failed (non-critical):', customerEmailResult.error.message);
-        console.log('Reason: Customer emails are optional until domain is verified');
+        console.log('❌ Customer email failed:', customerEmailResult.error.message);
+        throw new Error(`Customer email failed: ${customerEmailResult.error.message}`);
       } else {
         console.log('✅ Customer email sent (no ID returned)');
-        console.log('Sent to both recipients:', customerToRecipients.join(', '));
       }
     } else {
       console.log('⏭️ Skipping customer email - domain not verified and recipient not authorized');
@@ -358,10 +320,7 @@ async function sendEmails(leadData: ProcessedLeadData): Promise<void> {
     }
     
     console.log('\n📊 EMAIL SENDING SUMMARY:');
-    console.log('🏢 Company notification:', companyEmail.error ? '❌ FAILED' : '✅ SUCCESS');
-    console.log('👤 Customer confirmation:', canSendToCustomer ? 
-      (customerEmailResult?.error ? '⚠️ FAILED (non-critical)' : '✅ SUCCESS') : 
-      '⏭️ SKIPPED (domain not verified)');
+    console.log('👤 Customer confirmation:', canSendToCustomer ? '✅ SUCCESS' : '⏭️ SKIPPED (domain not verified)');
     
     console.log('\n✅ === EMAIL SENDING PROCESS COMPLETED ===');
     

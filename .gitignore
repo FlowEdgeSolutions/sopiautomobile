@@ -20,6 +20,12 @@ dist/
 # Vercel
 .vercel
 
+# SQLite Database
+data/
+*.db
+*.db-shm
+*.db-wal
+
 # IDE
 .vscode/
 .idea/
