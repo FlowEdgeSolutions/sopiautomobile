@@ -98,6 +98,26 @@ const QuickForm: React.FC = () => {
     setFormState({ status: 'loading' });
     
     try {
+      console.log('📤 Form submission started with data:', JSON.stringify({
+        vehicle: {
+          brand: data.brand,
+          model: data.model,
+          firstRegistrationYear: data.year,
+          mileageKm: data.mileage,
+          condition: data.condition,
+        },
+        contact: {
+          name: data.name,
+          email: data.email,
+          phone: data.phone,
+        },
+        meta: {
+          source: 'quick-form-hero',
+          consent: data.consent,
+        },
+        website: data.website,
+      }, null, 2));
+      
       const response = await fetch('/api/leads', {
         method: 'POST',
         headers: {
@@ -125,6 +145,7 @@ const QuickForm: React.FC = () => {
       });
 
       const result = await response.json();
+      console.log('📥 API response:', response.status, result);
 
       if (response.ok && result.success) {
         setFormState({
@@ -134,12 +155,14 @@ const QuickForm: React.FC = () => {
         });
         reset();
       } else {
+        console.error('❌ API error response:', result);
         setFormState({
           status: 'error',
           message: result.error || 'Ein Fehler ist aufgetreten. Bitte versuchen Sie es erneut.',
         });
       }
-    } catch {
+    } catch (error) {
+      console.error('💥 Network error:', error);
       setFormState({
         status: 'error',
         message: 'Netzwerkfehler. Bitte überprüfen Sie Ihre Internetverbindung und versuchen Sie es erneut.',
