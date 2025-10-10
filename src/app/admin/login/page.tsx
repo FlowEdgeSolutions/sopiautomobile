@@ -1,16 +1,20 @@
 'use client';
 
-import React, { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import React, { useState, useEffect } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { motion } from 'framer-motion';
 import { Lock, User, AlertCircle, Loader2, Shield } from 'lucide-react';
 
 const AdminLogin: React.FC = () => {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  
+  // Return URL aus Query-Parameter holen
+  const returnUrl = searchParams.get('returnUrl') || '/admin';
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -27,8 +31,8 @@ const AdminLogin: React.FC = () => {
       const data = await response.json();
 
       if (response.ok && data.success) {
-        // Erfolgreicher Login - Weiterleitung zum Dashboard
-        router.push('/admin');
+        // Erfolgreicher Login - Weiterleitung zum Dashboard oder Return-URL
+        router.push(returnUrl);
         router.refresh();
       } else {
         setError(data.error || 'Anmeldung fehlgeschlagen');

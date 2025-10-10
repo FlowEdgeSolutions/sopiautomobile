@@ -19,6 +19,30 @@ Passwort:     Sopi2024!Secure
 
 ## 🛡️ Sicherheitshinweise
 
+### Server-seitige Authentifizierung
+
+✅ **Next.js Middleware** schützt alle `/admin/*` Routen
+- **Vor** dem Rendern wird die Session geprüft
+- Nicht-authentifizierte Benutzer werden sofort zu `/admin/login` umgeleitet
+- Bereits eingeloggte Benutzer werden von `/admin/login` zu `/admin` weitergeleitet
+- **Kein Flash** von geschütztem Inhalt
+
+### Wie es funktioniert
+
+1. **Benutzer besucht `/admin`**
+   - Middleware prüft Session-Cookie
+   - **OHNE Cookie**: Redirect zu `/admin/login?returnUrl=/admin`
+   - **MIT Cookie**: Seite wird geladen
+
+2. **Benutzer besucht `/admin/login`**
+   - Middleware prüft Session-Cookie
+   - **MIT Cookie**: Redirect zu `/admin` (bereits eingeloggt)
+   - **OHNE Cookie**: Login-Seite wird angezeigt
+
+3. **Nach Login**
+   - Session-Cookie wird gesetzt
+   - Redirect zur ursprünglich angeforderten Seite (returnUrl)
+
 ### Credentials ändern
 
 1. Öffnen Sie die Datei `.env.local`
@@ -81,6 +105,27 @@ Passwort:     Sopi2024!Secure
 - Console-Logs im Terminal prüfen
 
 ## 💻 Technische Details
+
+### Technische Details
+
+#### Authentifizierungs-Architektur
+
+```
+Benutzer-Request → Next.js Middleware → Session-Check → Entscheidung
+                                              |
+                        +---------------------+---------------------+
+                        |                                           |
+                   Session OK                              Session fehlt/ungültig
+                        |                                           |
+                  Seite laden                            Redirect zu /admin/login
+```
+
+#### Middleware ([`src/middleware.ts`](file://c:\Users\KhaledAyub\Music\Sopiautomobile\Sop\nextjs-app\src\middleware.ts))
+
+- **Läuft vor jeder Request** zu `/admin/*`
+- **Server-seitig**: Keine Client-Rendering-Probleme
+- **Automatische Redirects**: Login ↔ Dashboard
+- **Return URL Support**: Nach Login zurück zur ursprünglichen Seite
 
 ### Authentifizierung
 
