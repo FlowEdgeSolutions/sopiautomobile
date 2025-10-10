@@ -1,4 +1,4 @@
-import { MongoClient, Db, Collection, Filter } from 'mongodb';
+import { MongoClient, Db, Filter } from 'mongodb';
 import { attachDatabasePool } from '@vercel/functions';
 import { Resend } from 'resend';
 
@@ -435,4 +435,16 @@ export async function closeConnection(): Promise<void> {
   }
 }
 
-export default { connect, insertLead, getAllLeads, getLeadById, updateLeadStatus, deleteLead, getLeadStats, closeConnection };
+// Export-Objekt für Module-System
+const mongodbModule = { 
+  connect, 
+  insertLead, 
+  getAllLeads, 
+  getLeadById, 
+  updateLeadStatus, 
+  deleteLead, 
+  getLeadStats, 
+  closeConnection 
+};
+
+export default mongodbModule;
