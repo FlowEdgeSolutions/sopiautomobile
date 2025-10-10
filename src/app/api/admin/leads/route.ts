@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getAllLeads, getLeadStats, updateLeadStatus, deleteLead } from '../../../../lib/db';
+import { getAllLeads, getLeadStats, updateLeadStatus, deleteLead } from '../../../../lib/db-mongodb';
 import { validateSession } from '../../../../lib/auth';
 
 // GET - Alle Leads abrufen
@@ -16,8 +16,8 @@ export async function GET() {
     
     console.log('📊 Admin: Fetching all leads...');
     
-    const leads = getAllLeads();
-    const stats = getLeadStats();
+    const leads = await getAllLeads();
+    const stats = await getLeadStats();
     
     console.log(`✅ Admin: Fetched ${leads.length} leads`);
     
@@ -58,7 +58,7 @@ export async function PATCH(request: NextRequest) {
     
     console.log(`📝 Admin: Updating lead ${id} to status ${status}`);
     
-    updateLeadStatus(id, status, notes);
+    await updateLeadStatus(id, status, notes);
     
     console.log(`✅ Admin: Lead ${id} updated successfully`);
     
@@ -98,7 +98,7 @@ export async function DELETE(request: NextRequest) {
     
     console.log(`🗑️ Admin: Deleting lead ${id}`);
     
-    deleteLead(id);
+    await deleteLead(id);
     
     console.log(`✅ Admin: Lead ${id} deleted successfully`);
     

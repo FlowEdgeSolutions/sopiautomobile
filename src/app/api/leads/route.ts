@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import crypto from 'crypto';
 import { Resend } from 'resend';
 import { getCustomerEmailTemplate } from '../../../lib/email-templates';
-import { insertLead } from '../../../lib/db';
+import { insertLead } from '../../../lib/db-mongodb';
 
 interface ProcessedLeadData {
   id: string;
@@ -184,10 +184,10 @@ export async function POST(request: NextRequest) {
     
     console.log('Processed lead payload:', JSON.stringify(leadPayload, null, 2));
 
-    // 5. Lead in SQLite-Datenbank speichern
+    // 5. Lead in MongoDB-Datenbank speichern
     console.log('\n💾 SAVING TO DATABASE...');
     try {
-      insertLead(leadPayload);
+      await insertLead(leadPayload);
       console.log('✅ Lead saved to database successfully:', leadId);
     } catch (dbError) {
       console.error('❌ Database error:', dbError);
