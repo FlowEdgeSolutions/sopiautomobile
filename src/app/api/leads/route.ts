@@ -230,9 +230,9 @@ export async function POST(request: NextRequest) {
     
     const successResponse = {
       success: true,
-      message: 'Ihre Anfrage wurde erfolgreich übermittelt. Wir melden uns binnen 24 Stunden bei Ihnen.',
+      message: 'Ihre Anfrage wurde erfolgreich übermittelt. Wir melden uns binnen 10 Minuten bei Ihnen.',
       leadId,
-      estimatedResponseTime: '24 Stunden'
+      estimatedResponseTime: '10 Minuten'
     };
     
     console.log('Success response:', JSON.stringify(successResponse, null, 2));
@@ -314,32 +314,59 @@ async function sendEmails(leadData: ProcessedLeadData): Promise<void> {
     const companyTemplate = getCompanyEmailTemplate(leadData);
     console.log('Company email template generated');
     console.log('Company email subject:', companyTemplate.subject);
-    console.log('Company email recipient:', companyEmail);
     
-    // 📧 Dann E-Mail an Unternehmen senden
-    console.log('\n📤 Sending company notification email via SendGrid...');
+    // Mehrere Empfänger für Unternehmens-Benachrichtigung
+    const companyEmails = [
+      companyEmail, // info@sopiautomobile.de
+      'julianmazreku4@outlook.de'
+    ];
+    console.log('Company email recipients:', companyEmails);
+    
+    // 📧 E-Mails parallel an alle Unternehmens-Empfänger senden
+    console.log('\n📤 Sending company notification emails via SendGrid (parallel)...');
     const companyEmailStart = Date.now();
     
-    const companyResult = await sendEmail({
-      to: companyEmail,
-      from: fromEmail,
-      subject: companyTemplate.subject,
-      html: companyTemplate.html
-    });
+    const companyEmailPromises = companyEmails.map(email => 
+      sendEmail({
+        to: email,
+        from: fromEmail,
+        subject: companyTemplate.subject,
+        html: companyTemplate.html
+      })
+    );
+    
+    const companyResults = await Promise.allSettled(companyEmailPromises);
     
     const companyEmailTime = Date.now() - companyEmailStart;
-    console.log('Company email completed in:', companyEmailTime + 'ms');
+    console.log('Company emails completed in:', companyEmailTime + 'ms');
     
-    if (companyResult.success) {
-      console.log('✅ Company notification email sent successfully with Message ID:', companyResult.messageId);
-    } else {
-      console.log('❌ Company notification email failed:', companyResult.error);
-      console.warn('⚠️ Company email sending failed, but lead processing continues');
-    }
+    // Ergebnisse auswerten
+    companyResults.forEach((result, index) => {
+      const emailAddress = companyEmails[index];
+      if (result.status === 'fulfilled' && result.value.success) {
+        console.log(`✅ Company notification email sent successfully to ${emailAddress} with Message ID:`, result.value.messageId);
+      } else {
+        const error = result.status === 'fulfilled' ? result.value.error : result.reason;
+        console.log(`❌ Company notification email failed for ${emailAddress}:`, error);
+        console.warn(`⚠️ Company email to ${emailAddress} failed, but lead processing continues`);
+      }
+    });
     
     console.log('\n📊 EMAIL SENDING SUMMARY:');
     console.log('👤 Customer confirmation: ' + (customerResult.success ? '✅ SUCCESS' : '❌ FAILED'));
-    console.log('🏢 Company notification: ' + (companyResult.success ? '✅ SUCCESS' : '❌ FAILED'));
+    
+    // Zusammenfassung für alle Unternehmens-E-Mails
+    const successfulCompanyEmails = companyResults.filter(result => 
+      result.status === 'fulfilled' && result.value.success
+    ).length;
+    const totalCompanyEmails = companyEmails.length;
+    console.log(`🏢 Company notifications: ${successfulCompanyEmails}/${totalCompanyEmails} successful`);
+    
+    companyEmails.forEach((email, index) => {
+      const result = companyResults[index];
+      const status = (result.status === 'fulfilled' && result.value.success) ? '✅' : '❌';
+      console.log(`   ${status} ${email}`);
+    });
     
     console.log('\n✅ === EMAIL SENDING PROCESS COMPLETED ===');
     
