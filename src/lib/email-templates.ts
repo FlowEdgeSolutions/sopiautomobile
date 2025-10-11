@@ -103,22 +103,22 @@ export function getCustomerEmailTemplate(leadData: LeadData): { subject: string;
               <div class="step-item">
                 <span class="step-number">1</span>
                 <div class="step-content">
-                  <div class="step-title">Prüfung Ihrer Angaben</div>
-                  <div class="step-description">Unsere Experten prüfen Ihre Fahrzeugdaten sorgfältig (5 Minuten)</div>
+                  <div class="step-title">Bewertung Ihres Fahrzeugs</div>
+                  <div class="step-description">Unsere Experten bewerten Ihr Fahrzeug sorgfältig (5 Minuten)</div>
                 </div>
               </div>
               <div class="step-item">
                 <span class="step-number">2</span>
                 <div class="step-content">
-                  <div class="step-title">Anruf unseres Experten</div>
-                  <div class="step-description">Persönliche Beratung und Rückfragen (innerhalb 10 Minuten)</div>
+                  <div class="step-title">Individuelles Angebot</div>
+                  <div class="step-description">Sie erhalten Ihr persönliches Kaufangebot (innerhalb 10 Minuten)</div>
                 </div>
               </div>
               <div class="step-item">
                 <span class="step-number">3</span>
                 <div class="step-content">
-                  <div class="step-title">Individuelle Bewertung & faires Angebot</div>
-                  <div class="step-description">Transparente Kalkulation basierend auf aktuellen Marktpreisen</div>
+                  <div class="step-title">Persönliche Beratung & Rückfragen</div>
+                  <div class="step-description">Telefonische Besprechung der Details und Abwicklung</div>
                 </div>
               </div>
               <div class="step-item">
