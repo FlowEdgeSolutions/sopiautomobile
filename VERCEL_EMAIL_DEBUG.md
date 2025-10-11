@@ -72,7 +72,7 @@ Falls Domain-Verification Probleme macht, temporär verwenden:
 SENDGRID_FROM_EMAIL=noreply@sendgrid.net
 ```
 
-## 📊 Vercel Logs überprüfen
+## 📊 Vercel Logs übserprüfen
 
 1. Vercel Dashboard → **Functions** Tab
 2. Klicken Sie auf eine Funktion
