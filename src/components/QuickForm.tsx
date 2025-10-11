@@ -102,8 +102,8 @@ const QuickForm: React.FC = () => {
         vehicle: {
           brand: data.brand,
           model: data.model,
-          firstRegistrationYear: data.year,
-          mileageKm: data.mileage,
+          firstRegistrationYear: parseInt(data.year.toString()),
+          mileageKm: parseInt(data.mileage.toString()),
           condition: data.condition,
         },
         contact: {
@@ -118,7 +118,11 @@ const QuickForm: React.FC = () => {
         website: data.website,
       }, null, 2));
       
-      const response = await fetch('/api/leads', {
+      // Explicit URL to ensure proper routing
+      const apiUrl = `${window.location.origin}/api/leads`;
+      console.log('🎯 API URL:', apiUrl);
+      
+      const response = await fetch(apiUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -127,8 +131,8 @@ const QuickForm: React.FC = () => {
           vehicle: {
             brand: data.brand,
             model: data.model,
-            firstRegistrationYear: data.year,
-            mileageKm: data.mileage,
+            firstRegistrationYear: parseInt(data.year.toString()),
+            mileageKm: parseInt(data.mileage.toString()),
             condition: data.condition,
           },
           contact: {
@@ -146,6 +150,8 @@ const QuickForm: React.FC = () => {
 
       const result = await response.json();
       console.log('📥 API response:', response.status, result);
+      console.log('📥 Response headers:', [...response.headers.entries()]);
+      console.log('📥 Response URL:', response.url);
 
       if (response.ok && result.success) {
         setFormState({
@@ -208,9 +214,9 @@ const QuickForm: React.FC = () => {
               <span className="text-sm font-semibold">Nächste Schritte:</span>
             </div>
             <ul className="mt-2 text-sm text-green-600 space-y-1">
-              <li>• Prüfung Ihrer Angaben (2-4 Stunden)</li>
-              <li>• Anruf unseres Experten (innerhalb 24h)</li>
-              <li>• Individuelle Bewertung & Angebot</li>
+              <li>• Bewertung Ihres Fahrzeugs (5 Minuten)</li>
+              <li>• Individuelles Angebot (innerhalb 10 Minuten)</li>
+              <li>• Persönliche Beratung & Abwicklung</li>
             </ul>
           </div>
 
@@ -299,7 +305,7 @@ const QuickForm: React.FC = () => {
         </div>
         <div className="text-center">
           <Clock className="text-blue-500 mx-auto mb-1" size={20} />
-          <p className="text-xs text-gray-600">24h Antwort</p>
+          <p className="text-xs text-gray-600">10 Min Antwort</p>
         </div>
         <div className="text-center">
           <Star className="text-yellow-500 mx-auto mb-1" size={20} />
@@ -700,7 +706,7 @@ const QuickForm: React.FC = () => {
 
         {/* Trust Footer */}
         <div className="text-center text-xs text-gray-500 space-y-1">
-          <p>🔒 SSL-verschlüsselt • 🚀 Antwort in 24h • 💰 100% kostenlos</p>
+          <p>🔒 SSL-verschlüsselt • 🚀 Antwort in 10 Min • 💰 100% kostenlos</p>
           <p>Über 2.500 zufriedene Kunden in Hattingen und Umgebung</p>
         </div>
       </form>

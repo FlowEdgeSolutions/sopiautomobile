@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-Mail Test - Sopi Automobile</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 600px; margin: 50px auto; padding: 20px; }
+        .container { background: #f9fafb; padding: 30px; border-radius: 10px; }
+        .form-group { margin-bottom: 20px; }
+        label { display: block; margin-bottom: 5px; font-weight: 600; }
+        input, select { width: 100%; padding: 12px; border: 1px solid #d1d5db; border-radius: 6px; font-size: 16px; }
+        button { background: #dc2626; color: white; padding: 14px 28px; border: none; border-radius: 6px; font-size: 16px; font-weight: 600; cursor: pointer; width: 100%; }
+        button:hover { background: #b91c1c; }
+        .result { margin-top: 20px; padding: 15px; border-radius: 6px; display: none; }
+        .success { background: #d1fae5; color: #065f46; border: 1px solid #10b981; }
+        .error { background: #fee2e2; color: #991b1b; border: 1px solid #ef4444; }
+        .logs { background: #f3f4f6; padding: 15px; border-radius: 6px; margin-top: 20px; font-family: monospace; font-size: 14px; white-space: pre-wrap; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🧪 E-Mail Test - Sopi Automobile</h1>
+        <p>Teste die E-Mail-Funktionalität mit echten Formulardaten:</p>
+        
+        <form id="testForm">
+            <div class="form-group">
+                <label for="brand">Fahrzeugmarke:</label>
+                <input type="text" id="brand" name="brand" value="BMW" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="model">Fahrzeugmodell:</label>
+                <input type="text" id="model" name="model" value="3er" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="year">Erstzulassungsjahr:</label>
+                <input type="number" id="year" name="year" value="2018" min="1950" max="2025" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="mileage">Kilometerstand:</label>
+                <input type="number" id="mileage" name="mileage" value="85000" min="0" max="2000000" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="condition">Fahrzeugzustand:</label>
+                <select id="condition" name="condition" required>
+                    <option value="gut">Guter Zustand</option>
+                    <option value="fahrbereit">Fahrbereit mit Mängeln</option>
+                    <option value="motorschaden">Motorschaden</option>
+                    <option value="unfallschaden">Unfallschaden</option>
+                    <option value="getriebeschaden">Getriebeschaden</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" value="Julian Test" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="email">E-Mail-Adresse:</label>
+                <input type="email" id="email" name="email" value="ayubkhaled5@gmail.com" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="phone">Telefonnummer:</label>
+                <input type="tel" id="phone" name="phone" value="+49157569909498" required>
+            </div>
+            
+            <button type="submit" id="submitBtn">🚀 E-Mail-Test starten</button>
+        </form>
+        
+        <div id="result" class="result"></div>
+        <div id="logs" class="logs" style="display: none;"></div>
+    </div>
+
+    <script>
+        document.getElementById('testForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const submitBtn = document.getElementById('submitBtn');
+            const result = document.getElementById('result');
+            const logs = document.getElementById('logs');
+            
+            // UI State
+            submitBtn.disabled = true;
+            submitBtn.textContent = '⏳ Wird gesendet...';
+            result.style.display = 'none';
+            logs.style.display = 'none';
+            
+            try {
+                const formData = {
+                    vehicle: {
+                        brand: document.getElementById('brand').value,
+                        model: document.getElementById('model').value,
+                        firstRegistrationYear: parseInt(document.getElementById('year').value),
+                        mileageKm: parseInt(document.getElementById('mileage').value),
+                        condition: document.getElementById('condition').value
+                    },
+                    contact: {
+                        name: document.getElementById('name').value,
+                        email: document.getElementById('email').value,
+                        phone: document.getElementById('phone').value
+                    },
+                    meta: {
+                        source: 'email-test',
+                        consent: true
+                    }
+                };
+                
+                console.log('Sending lead data:', formData);
+                
+                const response = await fetch('/api/leads', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(formData)
+                });
+                
+                const responseData = await response.json();
+                
+                if (response.ok) {
+                    result.className = 'result success';
+                    result.innerHTML = `
+                        <h3>✅ E-Mail-Test erfolgreich!</h3>
+                        <p><strong>Lead ID:</strong> ${responseData.leadId}</p>
+                        <p><strong>Nachricht:</strong> ${responseData.message}</p>
+                        <p><strong>Geschätzte Antwortzeit:</strong> ${responseData.estimatedResponseTime}</p>
+                        <p>Überprüfe dein E-Mail-Postfach (auch Spam-Ordner)!</p>
+                    `;
+                } else {
+                    result.className = 'result error';
+                    result.innerHTML = `
+                        <h3>❌ E-Mail-Test fehlgeschlagen</h3>
+                        <p><strong>Fehler:</strong> ${responseData.error}</p>
+                    `;
+                }
+                
+                result.style.display = 'block';
+                
+                // Show raw response for debugging
+                logs.textContent = `Response Status: ${response.status}\\n\\nResponse Data:\\n${JSON.stringify(responseData, null, 2)}`;
+                logs.style.display = 'block';
+                
+            } catch (error) {
+                result.className = 'result error';
+                result.innerHTML = `
+                    <h3>❌ Verbindungsfehler</h3>
+                    <p><strong>Fehler:</strong> ${error.message}</p>
+                `;
+                result.style.display = 'block';
+                
+                logs.textContent = `Error: ${error.message}`;
+                logs.style.display = 'block';
+            }
+            
+            // Reset button
+            submitBtn.disabled = false;
+            submitBtn.textContent = '🚀 E-Mail-Test starten';
+        });
+    </script>
+</body>
+</html>

@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import crypto from 'crypto';
-import { sendEmail, validateSendGridConfig } from '../../../lib/email-sendgrid';
-import { getCustomerEmailTemplate, getCompanyEmailTemplate } from '../../../lib/email-templates';
+import { sendAllEmails, type LeadData as EmailLeadData } from '../../../lib/email-service';
 import { insertLead } from '../../../lib/db-mongodb';
 
 interface ProcessedLeadData {
@@ -253,122 +252,29 @@ export async function POST(request: NextRequest) {
 }
 
 async function sendEmails(leadData: ProcessedLeadData): Promise<void> {
-  console.log('\n📧 === EMAIL SENDING PROCESS STARTED (SendGrid) ===');
+  console.log('\n📧 === EMAIL SENDING PROCESS STARTED (New Email Service) ===');
   console.log('Lead ID:', leadData.id);
-  console.log('Strategy: Customer confirmation THEN Company notification via SendGrid (sequential)');
+  console.log('Strategy: Using modern email service with parallel sending');
   
-  // Umgebungsvariablen prüfen
-  console.log('\n🔑 ENVIRONMENT VARIABLES CHECK:');
-  console.log('SENDGRID_API_KEY configured:', !!process.env.SENDGRID_API_KEY);
-  console.log('FROM_EMAIL:', process.env.FROM_EMAIL);
-  console.log('COMPANY_EMAIL:', process.env.COMPANY_EMAIL);
-  
-  // SendGrid-Konfiguration validieren
-  const configValidation = validateSendGridConfig();
-  if (!configValidation.valid) {
-    console.warn('❌ SendGrid nicht korrekt konfiguriert:', configValidation.error);
-    return;
-  }
-
   try {
-    // E-Mail-Konfiguration bestimmen
-    console.log('\n⚙️ EMAIL CONFIGURATION:');
-    
-    const fromEmail = process.env.FROM_EMAIL || 'noreply@sopiautomobile.de';
-    const companyEmail = process.env.COMPANY_EMAIL || 'info@sopiautomobile.de';
-    
-    console.log('Selected FROM_EMAIL:', fromEmail);
-    console.log('Selected COMPANY_EMAIL:', companyEmail);
-    
-    // 👤 Kunden-Bestätigung vorbereiten
-    console.log('\n👤 === CUSTOMER EMAIL PREPARATION ===');
-    const customerTemplate = getCustomerEmailTemplate(leadData);
-    console.log('Customer email template generated');
-    console.log('Customer email subject:', customerTemplate.subject);
-    console.log('Customer email recipient:', leadData.contact.email);
-    
-    // 📧 Erst E-Mail an Kunden senden
-    console.log('\n📤 Sending customer email via SendGrid...');
-    const customerEmailStart = Date.now();
-    
-    const customerResult = await sendEmail({
-      to: leadData.contact.email,
-      from: fromEmail,
-      subject: customerTemplate.subject,
-      html: customerTemplate.html
-    });
-    
-    const customerEmailTime = Date.now() - customerEmailStart;
-    console.log('Customer email completed in:', customerEmailTime + 'ms');
-    
-    if (customerResult.success) {
-      console.log('✅ Customer email sent successfully with Message ID:', customerResult.messageId);
-    } else {
-      console.log('❌ Customer email failed:', customerResult.error);
-      console.warn('⚠️ Customer email sending failed, but lead processing continues');
-      // Bei Fehler beim Kunden-Mail-Versand stoppen wir nicht, sondern fahren fort
-    }
-    
-    // 🏢 Unternehmens-Benachrichtigung vorbereiten
-    console.log('\n🏢 === COMPANY NOTIFICATION EMAIL PREPARATION ===');
-    const companyTemplate = getCompanyEmailTemplate(leadData);
-    console.log('Company email template generated');
-    console.log('Company email subject:', companyTemplate.subject);
-    
-    // Mehrere Empfänger für Unternehmens-Benachrichtigung
-    const companyEmails = [
-      companyEmail, // info@sopiautomobile.de
-      'julianmazreku4@outlook.de'
-    ];
-    console.log('Company email recipients:', companyEmails);
-    
-    // 📧 E-Mails parallel an alle Unternehmens-Empfänger senden
-    console.log('\n📤 Sending company notification emails via SendGrid (parallel)...');
-    const companyEmailStart = Date.now();
-    
-    const companyEmailPromises = companyEmails.map(email => 
-      sendEmail({
-        to: email,
-        from: fromEmail,
-        subject: companyTemplate.subject,
-        html: companyTemplate.html
-      })
-    );
-    
-    const companyResults = await Promise.allSettled(companyEmailPromises);
-    
-    const companyEmailTime = Date.now() - companyEmailStart;
-    console.log('Company emails completed in:', companyEmailTime + 'ms');
-    
-    // Ergebnisse auswerten
-    companyResults.forEach((result, index) => {
-      const emailAddress = companyEmails[index];
-      if (result.status === 'fulfilled' && result.value.success) {
-        console.log(`✅ Company notification email sent successfully to ${emailAddress} with Message ID:`, result.value.messageId);
-      } else {
-        const error = result.status === 'fulfilled' ? result.value.error : result.reason;
-        console.log(`❌ Company notification email failed for ${emailAddress}:`, error);
-        console.warn(`⚠️ Company email to ${emailAddress} failed, but lead processing continues`);
+    // Convert ProcessedLeadData to EmailLeadData format
+    const emailData: EmailLeadData = {
+      id: leadData.id,
+      timestamp: leadData.timestamp,
+      vehicle: leadData.vehicle,
+      contact: leadData.contact,
+      meta: {
+        source: leadData.meta.source,
+        consent: leadData.meta.consent,
+        userAgent: leadData.meta.userAgent,
+        ip: leadData.meta.ip
       }
-    });
+    };
     
-    console.log('\n📊 EMAIL SENDING SUMMARY:');
-    console.log('👤 Customer confirmation: ' + (customerResult.success ? '✅ SUCCESS' : '❌ FAILED'));
+    // Send all emails using the new service
+    await sendAllEmails(emailData);
     
-    // Zusammenfassung für alle Unternehmens-E-Mails
-    const successfulCompanyEmails = companyResults.filter(result => 
-      result.status === 'fulfilled' && result.value.success
-    ).length;
-    const totalCompanyEmails = companyEmails.length;
-    console.log(`🏢 Company notifications: ${successfulCompanyEmails}/${totalCompanyEmails} successful`);
-    
-    companyEmails.forEach((email, index) => {
-      const result = companyResults[index];
-      const status = (result.status === 'fulfilled' && result.value.success) ? '✅' : '❌';
-      console.log(`   ${status} ${email}`);
-    });
-    
-    console.log('\n✅ === EMAIL SENDING PROCESS COMPLETED ===');
+    console.log('✅ === EMAIL SENDING PROCESS COMPLETED ===');
     
   } catch (error) {
     console.error('\n❌ === EMAIL SENDING PROCESS FAILED ===');

@@ -45,7 +45,7 @@ const ProcessAnimation: React.FC = () => {
       id: 3,
       icon: CheckCircle,
       title: "Angebot",
-      description: "Faire Bewertung binnen 24h erhalten",
+      description: "Faires Angebot binnen 10 Min erhalten",
       color: "from-green-400 to-green-600",
       details: [
         "Individuelles Angebot",

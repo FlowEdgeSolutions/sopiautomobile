@@ -1,7 +1,6 @@
 import Database from 'better-sqlite3';
 import path from 'path';
 import fs from 'fs';
-import { Resend } from 'resend';
 
 // Datenbank-Pfad - im Projektverzeichnis speichern
 const dbDir = path.join(process.cwd(), 'data');
@@ -108,6 +107,8 @@ interface LeadRow {
 
 // Lead in die Datenbank einfügen
 export function insertLead(lead: Lead): void {
+  const startTime = Date.now();
+  
   const stmt = db.prepare(`
     INSERT INTO leads (
       id, timestamp,
@@ -142,159 +143,10 @@ export function insertLead(lead: Lead): void {
     lead.status || 'new'
   );
 
-  // 🔔 SEPARATER PROZESS: Benachrichtigung an Verkaufsteam senden
-  // Wird asynchron ausgeführt, unabhängig vom Formular-/Kunden-E-Mail-Prozess
-  sendSalesNotification(lead).catch(error => {
-    console.error('⚠️ Sales notification failed (non-blocking):', error);
-    // Fehler werden geloggt, blockieren aber nicht den Haupt-Prozess
-  });
-}
-
-// 📧 Separater Prozess: Benachrichtigung an Verkaufsteam
-async function sendSalesNotification(lead: Lead): Promise<void> {
-  console.log('\n🔔 === SALES NOTIFICATION PROCESS (INDEPENDENT) ===');
-  console.log('Lead ID:', lead.id);
-  console.log('This is a separate background process, independent from customer email');
+  console.log('✅ Lead saved to database successfully with ID:', lead.id);
+  console.log('⏱️ Database operation completed in:', Date.now() - startTime, 'ms');
   
-  // Resend API Key prüfen
-  if (!process.env.RESEND_API_KEY) {
-    console.warn('⚠️ RESEND_API_KEY not configured - skipping sales notification');
-    return;
-  }
-
-  try {
-    const resend = new Resend(process.env.RESEND_API_KEY);
-    const fromEmail = process.env.FROM_EMAIL || 'Sopi Automobile <onboarding@resend.dev>';
-    
-    console.log('📤 Sending sales notification to: verkauf@sopiautomobile.de');
-    console.log('From:', fromEmail);
-    
-    // E-Mail-Template für Verkaufsteam
-    const salesEmailHtml = `
-      <!DOCTYPE html>
-      <html>
-      <head>
-        <meta charset="utf-8">
-        <style>
-          body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
-          .container { max-width: 600px; margin: 0 auto; padding: 20px; }
-          .header { background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%); color: white; padding: 30px; text-align: center; border-radius: 10px 10px 0 0; }
-          .content { background: #f9f9f9; padding: 30px; border-radius: 0 0 10px 10px; }
-          .lead-card { background: white; padding: 20px; border-radius: 8px; margin: 20px 0; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-          .section { margin: 20px 0; }
-          .section-title { color: #dc2626; font-weight: bold; font-size: 16px; margin-bottom: 10px; border-bottom: 2px solid #dc2626; padding-bottom: 5px; }
-          .info-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #eee; }
-          .label { color: #666; font-weight: 500; }
-          .value { color: #333; font-weight: 600; }
-          .highlight { background: #fef2f2; padding: 15px; border-left: 4px solid #dc2626; margin: 20px 0; border-radius: 4px; }
-          .footer { text-align: center; color: #666; font-size: 12px; margin-top: 30px; padding-top: 20px; border-top: 1px solid #ddd; }
-        </style>
-      </head>
-      <body>
-        <div class="container">
-          <div class="header">
-            <h1 style="margin: 0; font-size: 24px;">🚗 Neuer Lead eingetragen!</h1>
-            <p style="margin: 10px 0 0 0; opacity: 0.9;">Sofortiger Handlungsbedarf - Kunde wartet auf Rückmeldung</p>
-          </div>
-          
-          <div class="content">
-            <div class="highlight">
-              <strong>⏰ Lead-Zeitstempel:</strong> ${new Date(lead.timestamp).toLocaleString('de-DE')}<br>
-              <strong>🆔 Lead-ID:</strong> ${lead.id}
-            </div>
-            
-            <div class="lead-card">
-              <div class="section">
-                <div class="section-title">👤 KONTAKTDATEN</div>
-                <div class="info-row">
-                  <span class="label">Name:</span>
-                  <span class="value">${lead.contact.name}</span>
-                </div>
-                <div class="info-row">
-                  <span class="label">E-Mail:</span>
-                  <span class="value"><a href="mailto:${lead.contact.email}">${lead.contact.email}</a></span>
-                </div>
-                <div class="info-row">
-                  <span class="label">Telefon:</span>
-                  <span class="value"><a href="tel:${lead.contact.phone}">${lead.contact.phone}</a></span>
-                </div>
-              </div>
-              
-              <div class="section">
-                <div class="section-title">🚗 FAHRZEUGDATEN</div>
-                <div class="info-row">
-                  <span class="label">Fahrzeug:</span>
-                  <span class="value">${lead.vehicle.brand} ${lead.vehicle.model}</span>
-                </div>
-                <div class="info-row">
-                  <span class="label">Erstzulassung:</span>
-                  <span class="value">${lead.vehicle.firstRegistrationYear}</span>
-                </div>
-                <div class="info-row">
-                  <span class="label">Kilometerstand:</span>
-                  <span class="value">${lead.vehicle.mileageKm.toLocaleString('de-DE')} km</span>
-                </div>
-                <div class="info-row">
-                  <span class="label">Zustand:</span>
-                  <span class="value">${lead.vehicle.condition}</span>
-                </div>
-              </div>
-              
-              <div class="section">
-                <div class="section-title">📊 META-INFORMATIONEN</div>
-                <div class="info-row">
-                  <span class="label">Quelle:</span>
-                  <span class="value">${lead.meta.source}</span>
-                </div>
-                <div class="info-row">
-                  <span class="label">IP-Adresse:</span>
-                  <span class="value">${lead.meta.ip || 'Nicht erfasst'}</span>
-                </div>
-                <div class="info-row">
-                  <span class="label">Datenschutz:</span>
-                  <span class="value">${lead.meta.consent ? '✅ Zugestimmt' : '❌ Nicht zugestimmt'}</span>
-                </div>
-              </div>
-            </div>
-            
-            <div class="highlight">
-              <strong>⚡ Nächste Schritte:</strong><br>
-              1. Lead im Admin-Dashboard öffnen<br>
-              2. Kunden innerhalb von 24h kontaktieren<br>
-              3. Status auf "Kontaktiert" setzen nach Anruf
-            </div>
-            
-            <div class="footer">
-              <p>Diese E-Mail wurde automatisch generiert, wenn ein neuer Lead in die Datenbank eingetragen wird.</p>
-              <p>© ${new Date().getFullYear()} Sopi Automobile - Lead Management System</p>
-            </div>
-          </div>
-        </div>
-      </body>
-      </html>
-    `;
-    
-    const result = await resend.emails.send({
-      from: fromEmail,
-      to: 'verkauf@sopiautomobile.de',
-      subject: `🚗 Neuer Lead: ${lead.vehicle.brand} ${lead.vehicle.model} - ${lead.contact.name}`,
-      html: salesEmailHtml,
-    });
-    
-    if (result.error) {
-      console.error('❌ Sales notification failed:', result.error.message);
-      throw new Error(result.error.message);
-    }
-    
-    console.log('✅ Sales notification sent successfully');
-    console.log('Email ID:', result.data?.id);
-    console.log('✅ === SALES NOTIFICATION PROCESS COMPLETED ===\n');
-    
-  } catch (error) {
-    console.error('❌ === SALES NOTIFICATION PROCESS FAILED ===');
-    console.error('Error:', error);
-    throw error;
-  }
+  // 📧 E-Mail-Benachrichtigung wurde in src/app/api/leads/route.ts verlagert
 }
 
 // Alle Leads abrufen
