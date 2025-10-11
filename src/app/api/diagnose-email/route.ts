@@ -43,7 +43,7 @@ export async function GET() {
         apiKeyPrefix: envCheck.SENDGRID_API_KEY_PREFIX,
         fromEmail: envCheck.SENDGRID_FROM_EMAIL_VALUE,
       },
-      recommendations: []
+      recommendations: [] as string[]
     };
     
     // Generate recommendations
