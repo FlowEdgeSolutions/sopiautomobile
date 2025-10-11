@@ -622,7 +622,7 @@ export default function Home() {
                   <div className="flex items-center mb-4">
                     <div className="bg-gray-100 rounded-full px-3 py-1 shadow-sm">
                       <div className="flex items-center space-x-2">
-                        <div className="w-4 h-4 bg-gradient-to-r from-blue-500 via-red-500 via-yellow-500 to-green-500 rounded-sm flex items-center justify-center">
+                        <div className="w-4 h-4 bg-gradient-to-r from-blue-500 via-red-500 to-green-500 rounded-sm flex items-center justify-center">
                           <span className="text-white text-xs font-bold">G</span>
                         </div>
                         <span className="text-xs font-medium text-gray-600">Google</span>
