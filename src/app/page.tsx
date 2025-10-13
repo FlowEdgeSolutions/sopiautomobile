@@ -33,7 +33,7 @@ export default function Home() {
   const features = [
     {
       icon: Clock,
-      title: "10 Min Antwort",
+      title: "15-30 Min Antwort",
       description: "Schnelle Rückmeldung binnen einem Tag",
       color: "from-blue-500 to-blue-600"
     },
@@ -707,7 +707,7 @@ export default function Home() {
                 Wie schnell erhalte ich ein Angebot?
               </h3>
               <p className="text-gray-700 leading-relaxed">
-                Nach dem Ausfüllen unseres 30-Sekunden-Formulars erhalten Sie innerhalb von 10 Minuten 
+                Nach dem Ausfüllen unseres 30-Sekunden-Formulars erhalten Sie innerhalb von 15-30 Minuten 
                 ein unverbindliches Angebot. Bei dringenden Anfragen können wir auch schneller reagieren.
               </p>
             </motion.div>

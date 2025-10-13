@@ -76,7 +76,7 @@ export function getCustomerEmailTemplate(leadData: LeadData): { subject: string;
         <div class="content">
           <h2>Vielen Dank für Ihre Anfrage, ${leadData.contact.name}!</h2>
           
-          <p>Wir haben Ihre Anfrage zum Verkauf Ihres Fahrzeugs erfolgreich erhalten und werden uns <strong>binnen 10 Minuten</strong> bei Ihnen melden.</p>
+          <p>Wir haben Ihre Anfrage zum Verkauf Ihres Fahrzeugs erfolgreich erhalten und werden uns <strong>binnen 15-30 Minuten</strong> bei Ihnen melden.</p>
 
           <div class="vehicle-summary">
             <h3 style="margin-top: 0; color: #dc2626;">📋 Zusammenfassung Ihrer Angaben</h3>
@@ -111,7 +111,7 @@ export function getCustomerEmailTemplate(leadData: LeadData): { subject: string;
                 <span class="step-number">2</span>
                 <div class="step-content">
                   <div class="step-title">Individuelles Angebot</div>
-                  <div class="step-description">Sie erhalten Ihr persönliches Kaufangebot (innerhalb 10 Minuten)</div>
+                  <div class="step-description">Sie erhalten Ihr persönliches Kaufangebot (innerhalb 15-30 Minuten)</div>
                 </div>
               </div>
               <div class="step-item">
@@ -191,7 +191,7 @@ export function getCompanyEmailTemplate(leadData: LeadData): { subject: string; 
         </div>
 
         <div style="background: #fef3c7; border: 1px solid #f59e0b; color: #92400e; padding: 15px; border-radius: 8px; margin-bottom: 25px; font-weight: 500;">
-          ⏰ <strong>Sofortige Bearbeitung erforderlich!</strong> Kunde erwartet Rückmeldung binnen 10 Minuten.
+          ⏰ <strong>Sofortige Bearbeitung erforderlich!</strong> Kunde erwartet Rückmeldung binnen 15-30 Minuten.
         </div>
 
         <div style="background: #ffffff; padding: 25px; border-radius: 8px; margin-bottom: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">

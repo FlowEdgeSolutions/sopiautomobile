@@ -56,7 +56,7 @@ export async function POST() {
       timestamp: new Date().toISOString(),
       details: {
         customerEmail: testLead.contact.email,
-        companyEmails: ['info@sopiautomobile.de', 'julianmazreku4@outlook.de'],
+        companyEmails: [process.env.COMPANY_EMAIL || 'julianmazreku4@outlook.de'],
         fromEmail: process.env.SENDGRID_FROM_EMAIL,
       }
     });

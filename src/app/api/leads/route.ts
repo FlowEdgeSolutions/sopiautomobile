@@ -229,9 +229,9 @@ export async function POST(request: NextRequest) {
     
     const successResponse = {
       success: true,
-      message: 'Ihre Anfrage wurde erfolgreich übermittelt. Wir melden uns binnen 10 Minuten bei Ihnen.',
+      message: 'Ihre Anfrage wurde erfolgreich übermittelt. Wir melden uns binnen 15-30 Minuten bei Ihnen.',
       leadId,
-      estimatedResponseTime: '10 Minuten'
+      estimatedResponseTime: '15-30 Minuten'
     };
     
     console.log('Success response:', JSON.stringify(successResponse, null, 2));

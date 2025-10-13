@@ -215,7 +215,7 @@ const QuickForm: React.FC = () => {
             </div>
             <ul className="mt-2 text-sm text-green-600 space-y-1">
               <li>• Bewertung Ihres Fahrzeugs (5 Minuten)</li>
-              <li>• Individuelles Angebot (innerhalb 10 Minuten)</li>
+              <li>• Individuelles Angebot (innerhalb 15-30 Minuten)</li>
               <li>• Persönliche Beratung & Abwicklung</li>
             </ul>
           </div>
@@ -305,7 +305,7 @@ const QuickForm: React.FC = () => {
         </div>
         <div className="text-center">
           <Clock className="text-blue-500 mx-auto mb-1" size={20} />
-          <p className="text-xs text-gray-600">10 Min Antwort</p>
+          <p className="text-xs text-gray-600">15-30 Min Antwort</p>
         </div>
         <div className="text-center">
           <Star className="text-yellow-500 mx-auto mb-1" size={20} />
@@ -706,7 +706,7 @@ const QuickForm: React.FC = () => {
 
         {/* Trust Footer */}
         <div className="text-center text-xs text-gray-500 space-y-1">
-          <p>🔒 SSL-verschlüsselt • 🚀 Antwort in 10 Min • 💰 100% kostenlos</p>
+          <p>🔒 SSL-verschlüsselt • 🚀 Antwort in 15-30 Min • 💰 100% kostenlos</p>
           <p>Über 2.500 zufriedene Kunden in Hattingen und Umgebung</p>
         </div>
       </form>

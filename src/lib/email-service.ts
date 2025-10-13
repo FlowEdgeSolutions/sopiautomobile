@@ -138,30 +138,27 @@ export async function sendCustomerConfirmation(leadData: LeadData): Promise<void
   console.log('✅ === CUSTOMER EMAIL PROCESS COMPLETED ===\n');
 }
 
-// Send company notification emails (to both addresses)
+// Send company notification email (single address only)
 export async function sendCompanyNotifications(leadData: LeadData): Promise<void> {
   const emailTemplate = getCompanyEmailTemplate(leadData);
   
-  // Send to both company email addresses simultaneously
-  const companyEmails = [
-    'info@sopiautomobile.de',
-    'julianmazreku4@outlook.de'
-  ];
+  // Send only to the configured company email
+  const companyEmail = process.env.COMPANY_EMAIL || 'julianmazreku4@outlook.de';
   
   const config: EmailConfig = {
     from: process.env.SENDGRID_FROM_EMAIL!,
-    to: companyEmails,
+    to: [companyEmail],
     subject: emailTemplate.subject,
     html: emailTemplate.html,
   };
   
-  console.log('\n🏢 === COMPANY NOTIFICATION EMAILS ===');
+  console.log('\n🏢 === COMPANY NOTIFICATION EMAIL ===');
   console.log('Lead ID:', leadData.id);
-  console.log('Sending to:', companyEmails.join(', '));
+  console.log('Sending to:', companyEmail);
   
   await sendEmail(config);
   
-  console.log('✅ Company notification emails sent successfully');
+  console.log('✅ Company notification email sent successfully');
   console.log('✅ === COMPANY EMAIL PROCESS COMPLETED ===\n');
 }
 
