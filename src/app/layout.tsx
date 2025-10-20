@@ -290,6 +290,26 @@ export default function RootLayout({
         {/* Preconnect für kritische Ressourcen */}
         <link rel="preconnect" href="https://fonts.googleapis.com" crossOrigin="anonymous" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        
+        {/* OneSignal Web Push SDK */}
+        <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.OneSignalDeferred = window.OneSignalDeferred || [];
+              OneSignalDeferred.push(async function(OneSignal) {
+                await OneSignal.init({
+                  appId: "40bb09b3-816d-4b0a-bb7e-697f52a2b615",
+                  safari_web_id: "web.onesignal.auto.4bf63793-66f2-4d83-98c9-d7c9e724d029",
+                  notifyButton: {
+                    enable: false,
+                  },
+                  allowLocalhostAsSecureOrigin: true,
+                });
+              });
+            `
+          }}
+        />
       </head>
       <body className={`${inter.variable} font-sans antialiased bg-white text-gray-900`}>
         {children}

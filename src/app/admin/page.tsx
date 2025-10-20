@@ -8,6 +8,7 @@ import {
   CheckCircle, Clock, Trash2, RefreshCw, TrendingUp,
   Filter, Search, Download, LogOut
 } from 'lucide-react';
+import PushTestButton from '@/components/PushTestButton';
 
 interface Lead {
   id: string;
@@ -288,6 +289,14 @@ const AdminDashboard: React.FC = () => {
             </motion.div>
           </div>
         )}
+
+        {/* Push-Benachrichtigungen Test */}
+        <div className="bg-white rounded-xl shadow-lg p-4 sm:p-6 mb-6">
+          <h2 className="text-lg sm:text-xl font-bold text-gray-900 mb-4">
+            🔔 Push-Benachrichtigungen testen
+          </h2>
+          <PushTestButton />
+        </div>
 
         {/* Filters */}
         <div className="bg-white rounded-xl shadow-lg p-4 sm:p-6 mb-6">

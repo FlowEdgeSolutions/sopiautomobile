@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import crypto from 'crypto';
 import { sendAllEmails, type LeadData as EmailLeadData } from '../../../lib/email-service';
 import { insertLead } from '../../../lib/db-mongodb';
+import { sendPushNotifications } from '../../../lib/push-notification';
 
 interface ProcessedLeadData {
   id: string;
@@ -222,7 +223,25 @@ export async function POST(request: NextRequest) {
       // E-Mail-Fehler sollten die Lead-Annahme nicht blockieren
     }
 
-    // 8. Erfolgsantwort
+    // 8. Push-Benachrichtigungen senden (iPhone/Android)
+    console.log('\n🔔 PUSH NOTIFICATIONS...');
+    try {
+      console.log('Starting push notification process...');
+      await sendPushNotifications({
+        leadId: leadPayload.id,
+        customerName: leadPayload.contact.name,
+        vehicleBrand: leadPayload.vehicle.brand,
+        vehicleModel: leadPayload.vehicle.model,
+        phone: leadPayload.contact.phone,
+        timestamp: leadPayload.timestamp
+      });
+      console.log('✅ Push notifications sent successfully:', leadId);
+    } catch (pushError) {
+      console.error('❌ Push notification error:', pushError);
+      // Push-Fehler sollten die Lead-Annahme nicht blockieren
+    }
+
+    // 9. Erfolgsantwort
     console.log('\n✅ === LEAD PROCESSING COMPLETED SUCCESSFULLY ===');
     console.log('Lead ID:', leadId);
     console.log('Processing time:', new Date().toISOString());
